@@ -1,0 +1,126 @@
+1. Users Table (General Table for All Users)
+id (UUID, Primary Key)
+full_name (String, 255)
+email (String, Unique)
+phone_number (String, Unique)
+user_type (Enum: 'Doctor', 'Patient', 'Admin')
+password_hash (String, Hashed)
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+
+2. Doctors Table
+id (UUID, Primary Key)
+user_id (Foreign Key → Users)
+hospital_id (Foreign Key → Hospitals)
+specialization (String, e.g., Obstetrician, Gynecologist)
+license_number (String, Unique)
+experience_years (Integer)
+available_hours (JSON, e.g., { "Mon": "9AM-5PM", "Tue": "10AM-4PM" })
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+3. Patients Table
+id (UUID, Primary Key)
+user_id (Foreign Key → Users)
+hospital_id (Foreign Key → Hospitals, nullable for transfers)
+current_doctor_id (Foreign Key → Doctors, nullable)
+status (Enum: 'Pregnant', 'Postpartum')
+due_date (Date, nullable if postpartum)
+delivery_date (Date, nullable)
+transfer_status (Boolean, if patient is temporarily in another hospital)
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+
+4. Appointments Table
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+doctor_id (Foreign Key → Doctors)
+hospital_id (Foreign Key → Hospitals)
+appointment_date (Datetime)
+status (Enum: 'Scheduled', 'Completed', 'Cancelled')
+reminder_sent (Boolean, default False)
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+
+5. Prescriptions Table
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+doctor_id (Foreign Key → Doctors)
+hospital_id (Foreign Key → Hospitals)
+medication_name (String, 255)
+dosage (String, e.g., "2 tablets daily for 7 days")
+instructions (Text)
+prescription_date (Timestamp)
+pharmacy_fulfilled (Boolean, default False)
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+6. Child Immunization Table
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+child_name (String, 255)
+child_dob (Date)
+immunization_stage (Enum: 'At Birth', '6 Weeks', '10 Weeks', '14 Weeks', '6 Months', etc.)
+status (Enum: 'Pending', 'Completed')
+hospital_id (Foreign Key → Hospitals)
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+7. Hospitals Table
+id (UUID, Primary Key)
+name (String, 255)
+location (String, Address)
+contact_number (String)
+email (String)
+capacity (Integer, Maximum patient capacity)
+available_services (JSON, e.g., { "Maternity": True, "Pediatrics": True })
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+8. Patient Transfers Table
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+from_hospital_id (Foreign Key → Hospitals)
+to_hospital_id (Foreign Key → Hospitals)
+transfer_reason (Text)
+transfer_date (Timestamp)
+return_date (Timestamp, nullable)
+status (Enum: 'Ongoing', 'Completed')
+created_at (Timestamp)
+updated_at (Timestamp)
+
+
+9. Emergency Locator Table
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+current_location (JSON, { "lat": 0.123, "lng": 32.456 })
+nearby_hospitals (JSON, e.g., [{ "hospital_id": "UUID", "distance_km": 2.3 }])
+timestamp (Timestamp)
+
+
+10. Notifications Table
+id (UUID, Primary Key)
+user_id (Foreign Key → Users)
+message (Text)
+type (Enum: 'Appointment Reminder', 'Transfer Alert', 'Emergency Alert')
+status (Enum: 'Unread', 'Read')
+created_at (Timestamp)
+
+
+11. Shared Patients Table (For Doctors Sharing a Patient)
+id (UUID, Primary Key)
+patient_id (Foreign Key → Patients)
+doctor_id (Foreign Key → Doctors)
+shared_by_doctor_id (Foreign Key → Doctors, to track who shared)
+created_at (Timestamp)
+updated_at (Timestamp)

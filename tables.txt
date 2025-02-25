@@ -124,3 +124,5 @@ doctor_id (Foreign Key → Doctors)
 shared_by_doctor_id (Foreign Key → Doctors, to track who shared)
 created_at (Timestamp)
 updated_at (Timestamp)
+
+

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maternal Healthcare</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063172.png">
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
@@ -42,26 +44,29 @@
                 <h1 class="text-xl font-semibold">Maternal Healthcare</h1>
             </div>
 
-            <!-- Navigation Links (visible on large screens) -->
-            <div class="hidden lg:flex space-x-6">
-                <a href="#" class="hover:text-green-200">Home</a>
-                <a href="#" class="hover:text-green-200">Dashboard</a>
-                <a href="#" class="hover:text-green-200">My Prescriptions</a>
-            </div>
+            <!-- Navigation Links and Profile Dropdown -->
+            <div class="flex items-center space-x-6">
+                <!-- Navigation Links (visible on large screens) -->
+                <div class="hidden lg:flex space-x-6">
+                    <a href="#" class="hover:text-green-200">Home</a>
+                    <a href="#" class="hover:text-green-200">Dashboard</a>
+                    <a href="#" class="hover:text-green-200">My Prescriptions</a>
+                </div>
 
-            <!-- Profile Dropdown -->
-            <div class="relative ml-auto"> <!-- ml-auto pushes the profile to the far right -->
-                <button id="profile-dropdown" class="flex items-center focus:outline-none">
-                    <i class="bi bi-person-circle text-2xl"></i>
-                </button>
-                <!-- Dropdown Menu -->
-                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Update Profile</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Emergency</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Change Password</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Login</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Signup</a>
-                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Logout</a>
+                <!-- Profile Dropdown (visible on all screens) -->
+                <div class="relative">
+                    <button id="profile-dropdown" class="flex items-center focus:outline-none">
+                        <i class="bi bi-person-circle text-2xl"></i>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Update Profile</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Emergency</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Change Password</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Login</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Signup</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>

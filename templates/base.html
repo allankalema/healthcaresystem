@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maternal Healthcare</title>
+    <title>MomCare</title>
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063172.png">
     <!-- Tailwind CSS CDN -->
@@ -26,11 +26,31 @@
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
+
+        /* Custom HotPink Shade (#FF69B4) */
+        .bg-hotpink {
+            background-color: #FF69B4;
+        }
+        .hover\:bg-hotpink-light:hover {
+            background-color: #ff8cc1; /* Lighter shade for hover */
+        }
+        .text-hotpink {
+            color: #FF69B4;
+        }
+        .hover\:text-hotpink-light:hover {
+            color: #ff8cc1; /* Lighter shade for hover */
+        }
+        .bg-hotpink-light {
+            background-color: #ff8cc1; /* Lighter shade for messages */
+        }
+        .text-hotpink-dark {
+            color: #cc548f; /* Darker shade for text */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- App Bar -->
-    <nav class="bg-green-600 p-4 text-white shadow-lg">
+    <nav class="bg-hotpink p-4 text-white shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Title and Hamburger Button (for small screens) -->
             <div class="flex items-center space-x-4">
@@ -41,16 +61,16 @@
                     </svg>
                 </button>
                 <!-- Title -->
-                <h1 class="text-xl font-semibold">Maternal Healthcare</h1>
+                <h1 class="text-xl font-semibold">MomCare</h1>
             </div>
 
             <!-- Navigation Links and Profile Dropdown -->
             <div class="flex items-center space-x-6">
                 <!-- Navigation Links (visible on large screens) -->
                 <div class="hidden lg:flex space-x-6">
-                    <a href="#" class="hover:text-green-200">Home</a>
-                    <a href="#" class="hover:text-green-200">Dashboard</a>
-                    <a href="#" class="hover:text-green-200">My Prescriptions</a>
+                    <a href="#" class="hover:text-hotpink-light">Home</a>
+                    <a href="#" class="hover:text-hotpink-light">Dashboard</a>
+                    <a href="#" class="hover:text-hotpink-light">My Prescriptions</a>
                 </div>
 
                 <!-- Profile Dropdown (visible on all screens) -->
@@ -60,12 +80,12 @@
                     </button>
                     <!-- Dropdown Menu -->
                     <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Update Profile</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Emergency</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Change Password</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Login</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Signup</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Logout</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Update Profile</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Emergency</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Change Password</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Login</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Signup</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Logout</a>
                     </div>
                 </div>
             </div>
@@ -73,18 +93,18 @@
     </nav>
 
     <!-- Sidebar (for small screens) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-green-600 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden"> <!-- lg:hidden hides sidebar on large screens -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-hotpink text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden"> <!-- lg:hidden hides sidebar on large screens -->
         <div class="p-4">
             <h2 class="text-xl font-semibold">Menu</h2>
             <ul class="mt-4 space-y-2">
-                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">Home</a></li>
-                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">Dashboard</a></li>
-                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">My Prescriptions</a></li>
+                <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Home</a></li>
+                <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Dashboard</a></li>
+                <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">My Prescriptions</a></li>
             </ul>
         </div>
         <!-- Copyright -->
         <div class="absolute bottom-0 p-4 text-sm">
-            &copy; 2025 Maternal Healthcare. All rights reserved.
+            &copy; 2025 MomCare. All rights reserved.
         </div>
     </div>
 
@@ -97,7 +117,7 @@
         <div id="messages" class="fixed top-20 right-4 space-y-2 z-50">
             {% if messages %}
                 {% for message in messages %}
-                    <div class="fade-in p-4 rounded-lg shadow-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} flex justify-between items-center">
+                    <div class="fade-in p-4 rounded-lg shadow-lg {% if message.tags == 'success' %}bg-hotpink-light text-hotpink-dark{% else %}bg-red-100 text-red-800{% endif %} flex justify-between items-center">
                         <span>{{ message }}</span>
                         <button onclick="this.parentElement.remove()" class="ml-4 focus:outline-none">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

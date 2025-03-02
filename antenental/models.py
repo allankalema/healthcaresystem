@@ -3,10 +3,6 @@ from accounts.models import User
 from django.utils.timezone import now
 
 class AntenatalCard(models.Model):
-    """
-    This model represents the main antenatal card record created once per pregnancy.
-    It contains personal details, pregnancy history, medical history, and social information.
-    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # Links to the registered patient
     health_unit = models.CharField(max_length=255)  # Health facility name
     reg_no = models.CharField(max_length=100, unique=True)  # Unique registration number
@@ -26,18 +22,15 @@ class AntenatalCard(models.Model):
         max_length=20, choices=[('Single', 'Single'), ('Married', 'Married')]
     )
 
-    # Next of Kin
     next_of_kin_name = models.CharField(max_length=255)  
     next_of_kin_phone = models.CharField(max_length=15)  
     next_of_kin_relationship = models.CharField(max_length=100)  
     next_of_kin_address = models.TextField()  
 
-    # Pregnancy History
     gravida = models.IntegerField()  # Number of pregnancies
     para = models.IntegerField()  # Number of deliveries after 28 weeks
     abortions = models.IntegerField()  # Number of pregnancy losses before 28 weeks
 
-    # Present Pregnancy
     presenting_complaints = models.TextField(null=True, blank=True)  
     first_day_of_lnmp = models.DateField()  # Last Normal Menstrual Period
     edd = models.DateField()  # Estimated Due Date
@@ -46,9 +39,8 @@ class AntenatalCard(models.Model):
     hospitalization = models.BooleanField(default=False)  
     hospitalization_reason = models.TextField(null=True, blank=True)  
 
-    # Created At Timestamp
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Auto-updates when modified
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Antenatal Card for {self.name} ({self.reg_no})"
@@ -56,18 +48,14 @@ class AntenatalCard(models.Model):
 # ----------------------- SEPARATE TABLES FOR TABULAR DATA -----------------------
 
 class PreviousObstetricHistory(models.Model):
-    """
-    Stores the details of previous pregnancies, linked to the antenatal card.
-    Multiple records can be added over time.
-    """
     antenatal_card = models.ForeignKey(AntenatalCard, on_delete=models.CASCADE, related_name="previous_obstetric_history")
-    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Who entered the record
+    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     pregnancy_year = models.IntegerField()
     abortions_below_12_weeks = models.IntegerField()
     abortions_above_12_weeks = models.IntegerField()
     premature_births = models.IntegerField()
     full_term_deliveries = models.IntegerField()
-    delivery_type = models.CharField(max_length=255)  # e.g. Normal, C-section
+    delivery_type = models.CharField(max_length=255)
     place_of_delivery = models.CharField(max_length=255)
     third_stage_complications = models.TextField(null=True, blank=True)
     puerperium = models.TextField(null=True, blank=True)
@@ -78,20 +66,16 @@ class PreviousObstetricHistory(models.Model):
     immunization_status = models.CharField(max_length=255)
     baby_health_condition = models.TextField(null=True, blank=True)
     
-    created_at = models.DateTimeField(default=now)  # Timestamp when entry was made
+    created_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Previous Pregnancy Record ({self.pregnancy_year}) for {self.antenatal_card.name}"
 
 
 class AntenatalProgressExamination(models.Model):
-    """
-    Stores antenatal progress examination data per visit.
-    A patient may have multiple examination records.
-    """
     antenatal_card = models.ForeignKey(AntenatalCard, on_delete=models.CASCADE, related_name="progress_examinations")
-    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Who entered the record
-    visit_date = models.DateField(default=now)  # Date of the visit
+    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    visit_date = models.DateField(default=now)
     fundal_height = models.FloatField()
     presentation = models.CharField(max_length=255)
     fetal_heart_rate = models.IntegerField()
@@ -100,26 +84,52 @@ class AntenatalProgressExamination(models.Model):
     iron_folic_acid_pills = models.IntegerField(null=True, blank=True)
     complaints_and_remarks = models.TextField(null=True, blank=True)
 
-    created_at = models.DateTimeField(default=now)  # Timestamp when entry was made
+    created_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Antenatal Progress for {self.antenatal_card.name} on {self.visit_date}"
 
 
 class UltrasoundReport(models.Model):
-    """
-    Stores ultrasound reports per visit.
-    A patient may have multiple ultrasound reports during pregnancy.
-    """
     antenatal_card = models.ForeignKey(AntenatalCard, on_delete=models.CASCADE, related_name="ultrasound_reports")
-    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Who entered the record
+    recorded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     ultrasound_date = models.DateField(default=now)
     gestational_age = models.IntegerField(null=True, blank=True)
     placenta_details = models.TextField(null=True, blank=True)
     amniotic_fluid = models.TextField(null=True, blank=True)
     complications = models.TextField(null=True, blank=True)
 
-    created_at = models.DateTimeField(default=now)  # Timestamp when entry was made
+    created_at = models.DateTimeField(default=now)
 
     def __str__(self):
         return f"Ultrasound Report for {self.antenatal_card.name} on {self.ultrasound_date}"
+
+
+class Prescription(models.Model):
+    patient = models.ForeignKey(User, related_name='prescriptions', on_delete=models.CASCADE)  # Links to the registered patient
+    doctor = models.ForeignKey(User, related_name='prescribed_by', on_delete=models.CASCADE)  # Links to the doctor who prescribed
+    disease_condition = models.CharField(max_length=255)  # Disease or condition the patient is being treated for
+    prescription_date = models.DateField(default=now)  # Date the prescription was made
+    follow_up_date = models.DateField()  # Latest date when the patient should have this checked
+    extra_information = models.TextField(null=True, blank=True)  # Any additional information about the prescription
+    cleared = models.BooleanField(default=False)  # Whether the prescription has been cleared or not
+    cleared_date = models.DateTimeField(null=True, blank=True)  # Date when the prescription was cleared
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Prescription for {self.patient.username} prescribed by {self.doctor.username} for {self.disease_condition}"
+
+class Medication(models.Model):
+    """
+    Model to handle the medications within a prescription.
+    Links to a Prescription and stores dosage, medication name, and prescription date.
+    """
+    prescription = models.ForeignKey(Prescription, related_name='medications', on_delete=models.CASCADE)
+    medication_name = models.CharField(max_length=255)  # Medication prescribed
+    dosage = models.TextField()  # Dosage instructions
+    prescription_date = models.DateField(default=now)  # Date the medication was prescribed
+
+    def __str__(self):
+        return f"{self.medication_name} prescribed on {self.prescription_date}"

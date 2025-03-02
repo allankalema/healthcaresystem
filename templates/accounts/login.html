@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full lg:w-11/12 xl:w-10/12 2xl:w-9/12 h-screen lg:h-auto lg:min-h-[700px] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Login Form -->
+        <div class="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+            <h2 class="text-3xl font-bold text-hotpink-dark mb-6">Login</h2>
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                <!-- Username Field -->
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" name="username" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+                </div>
+                <!-- Password Field -->
+                <div class="relative">
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+                    <!-- Eye Icon to Toggle Password Visibility -->
+                    <button type="button" onclick="togglePasswordVisibility()"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-7">
+                        <i id="eye-icon" class="bi bi-eye-slash text-gray-500"></i>
+                    </button>
+                </div>
+                <!-- Forgot Password Link -->
+                <div class="text-right">
+                    <a href="#" class="text-sm text-hotpink hover:text-hotpink-light">Forgot Password?</a>
+                </div>
+                <!-- Login Button -->
+                <div>
+                    <button type="submit"
+                            class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                        Login
+                    </button>
+                </div>
+                <!-- Sign Up Link -->
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">Don't have an account? <a href="#" class="text-hotpink hover:text-hotpink-light">Sign Up</a></p>
+                </div>
+            </form>
+        </div>
+
+        <!-- Image (Visible on Large Screens) -->
+        <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('{{ MEDIA_URL }}images/pregnantwomannursed.png');">
+        </div>
+    </div>
+</main>
+
+<!-- JavaScript for Toggle Password Visibility -->
+<script>
+    function togglePasswordVisibility() {
+        const passwordField = document.getElementById('password');
+        const eyeIcon = document.getElementById('eye-icon');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            eyeIcon.classList.remove('bi-eye-slash');
+            eyeIcon.classList.add('bi-eye');
+        } else {
+            passwordField.type = 'password';
+            eyeIcon.classList.remove('bi-eye');
+            eyeIcon.classList.add('bi-eye-slash');
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maternal Healthcare</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Custom animations */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- App Bar -->
+    <nav class="bg-green-600 p-4 text-white shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Title and Hamburger Button (for small screens) -->
+            <div class="flex items-center space-x-4">
+                <!-- Hamburger Button (visible on small screens) -->
+                <button id="hamburger" class="lg:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+                <!-- Title -->
+                <h1 class="text-xl font-semibold">Maternal Healthcare</h1>
+            </div>
+
+            <!-- Navigation Links (visible on large screens) -->
+            <div class="hidden lg:flex space-x-6">
+                <a href="#" class="hover:text-green-200">Home</a>
+                <a href="#" class="hover:text-green-200">Dashboard</a>
+                <a href="#" class="hover:text-green-200">My Prescriptions</a>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div class="relative ml-auto"> <!-- ml-auto pushes the profile to the far right -->
+                <button id="profile-dropdown" class="flex items-center focus:outline-none">
+                    <i class="bi bi-person-circle text-2xl"></i>
+                </button>
+                <!-- Dropdown Menu -->
+                <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Update Profile</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Emergency</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Change Password</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Login</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Signup</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-green-100">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar (for small screens) -->
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-green-600 text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden"> <!-- lg:hidden hides sidebar on large screens -->
+        <div class="p-4">
+            <h2 class="text-xl font-semibold">Menu</h2>
+            <ul class="mt-4 space-y-2">
+                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">Home</a></li>
+                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">Dashboard</a></li>
+                <li><a href="#" class="block hover:bg-green-700 p-2 rounded">My Prescriptions</a></li>
+            </ul>
+        </div>
+        <!-- Copyright -->
+        <div class="absolute bottom-0 p-4 text-sm">
+            &copy; 2025 Maternal Healthcare. All rights reserved.
+        </div>
+    </div>
+
+    <!-- Overlay (for closing sidebar and dropdown) -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30 lg:hidden"></div> <!-- lg:hidden hides overlay on large screens -->
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-4">
+        <!-- Messages (Success and Error) -->
+        <div id="messages" class="fixed top-20 right-4 space-y-2 z-50">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="fade-in p-4 rounded-lg shadow-lg {% if message.tags == 'success' %}bg-green-100 text-green-800{% else %}bg-red-100 text-red-800{% endif %} flex justify-between items-center">
+                        <span>{{ message }}</span>
+                        <button onclick="this.parentElement.remove()" class="ml-4 focus:outline-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Content Block -->
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // Toggle Sidebar
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        });
+
+        // Close Sidebar and Dropdown on Overlay Click
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.getElementById('dropdown-menu').classList.add('hidden');
+        });
+
+        // Toggle Profile Dropdown
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        profileDropdown.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent the click from bubbling up
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Close Dropdown when clicking outside
+        document.addEventListener('click', () => {
+            dropdownMenu.classList.add('hidden');
+        });
+
+        // Auto-remove messages after 5 seconds
+        setTimeout(() => {
+            const messages = document.getElementById('messages');
+            if (messages) {
+                messages.innerHTML = '';
+            }
+        }, 5000);
+    </script>
+</body>
+</html>

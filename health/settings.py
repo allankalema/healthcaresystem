@@ -52,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -99,3 +100,15 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# # Static files (CSS, JavaScript, Images)
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',  # Add this line to specify the static files directory
+# ]
+
+
+# Media files (Uploaded files)
+MEDIA_URL = '/media/'  # URL prefix for media files
+MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored

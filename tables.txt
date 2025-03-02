@@ -1,9 +1,21 @@
-so this system is a medical system that will help in tracking pregannet mothers  antenatal care routine
-it should be usabel byt the doctors hospitals and the mothers 
-so I need a base.html and In the  base I need an that is responsive to the  big and small screen on big screens we have  it at the top as an app bar with a health pregnant green color    it should have the following on it (home, dashboard, my prescriptions, and the profile icone that will be a drop down having the following options update profile, emergency, change password, login, signup, logout, )
-and wen the  screen gets the app bar will stay with only the  profile drop down in the corner but the  on the left we will have a hamburger button that wen pressed it will get a slider that slides in from the left to half  the page and will have the other buttons 
-the app bar should have the  tittle Matternal healthcare on it on big screen it should've on the left the other button left aligned and on small  screens it should be in the middle coexisting with the humbuerger btuttton and the  profile that wud have  stayed  the slider should be the same  color as the  app bar and we need to implement the fuctionlait where the slider once brought up and u tap anywhere outside the screen it goes back (same with the  profile drop down,, in the side slider at its bottom u can put the  copyright and all that )
-we are using the tailwind CSS and HTML thisbase of for a  django project do make sure all buttons are #  but written in a django manner structure 
-and lately  the colors u use make sure they are health related and they look nice and   a bit of animations would be nice
-below the app bar you need to provide a  dive that will handle both success and error messages  where they will animately pop over anything that will be written there they last for 5 seconds and they disappear and even they have a  cancel icon which wen pressen can disappear wen the time ain't yet .. both success and error messages will use ther (we shall use light green and light red to  design the error div)
- help me set that up thank you 
+now since the  base is done i need to set abt the abts page that  a person will reach on and tell them abt the system 
+Ihave the following  images I have collected found in media and named basing on wat is in the image so u will base in the names to distribute the   images on the about bage 
+it should look nice and good attractive for a person to appreciate
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----          3/2/2025  12:19 PM         873999 doctorpatientlaughing.png
+-a----          3/2/2025  12:20 PM         214219 googlepin.png
+-a----          3/2/2025  12:07 PM         571659 image.png
+-a----          3/2/2025  12:17 PM         723018 pregnantwomannursed.png
+-a----          3/2/2025  12:09 PM        2797044 pregnant_woman.png
+-a----          3/2/2025  12:16 PM         418688 womanoncheckup.png
+ and  this  system is used to track the antnetal care of the pregnant mothers where everything will be digitised, the mother can be able to be updated on the  different appointments and the doctors are able to know   and  track their patients 
+it will use the GPS system to  track and pin locate thehealthcare centers around the patient so that the patient can receive urgent care wen needed and lately  we r looking for future vaccination system  tracking and flow 
+ this is the pdf for the antenatal card that am to  digitize so if u have any information on it that is relevant you can  pick 
+ and lastly u should put the buttons of get started that u will put #  on them for now 
+ attracting mothers who have never used used the system to  come in and  register 
+below we should notify them that the health care centers and doctor are available  and use this too
+ help me make this home page  to benice and smooth 
+ animated features where possible and all that

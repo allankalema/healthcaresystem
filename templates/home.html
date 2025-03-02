@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container mx-auto px-4 py-8">
+    <!-- Section 1: Introduction -->
+    <section class="mb-12 fade-in">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h2 class="text-3xl font-bold text-green-800 mb-4">About Our System</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Our Maternal Healthcare system is designed to digitize and streamline antenatal care for pregnant mothers. 
+                    With this system, mothers can easily track their appointments, receive updates, and stay informed about their 
+                    health progress. Doctors and healthcare providers can efficiently monitor their patients, ensuring timely 
+                    and effective care.
+                </p>
+                <p class="text-gray-700 leading-relaxed mt-4">
+                    We also integrate GPS technology to help mothers locate nearby healthcare centers for urgent care. 
+                    In the future, we aim to include vaccination tracking and other advanced features to further enhance 
+                    maternal and child health.
+                </p>
+            </div>
+            <div class="scale-in">
+                <img src="{{ MEDIA_URL }}images/pregnant_woman.png" alt="Pregnant Woman" class="rounded-lg shadow-lg">
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Features -->
+    <section class="mb-12 fade-in">
+        <h2 class="text-3xl font-bold text-green-800 mb-8 text-center">Key Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1: Appointment Tracking -->
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <img src="{{ MEDIA_URL }}images/doctorpatientlaughing.png" alt="Appointment Tracking" class="w-24 h-24 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">Appointment Tracking</h3>
+                <p class="text-gray-700">Mothers can easily track their antenatal appointments and receive reminders.</p>
+            </div>
+            <!-- Feature 2: GPS Integration -->
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <img src="{{ MEDIA_URL }}images/googlepin.png" alt="GPS Integration" class="w-24 h-24 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">GPS Integration</h3>
+                <p class="text-gray-700">Locate nearby healthcare centers for urgent care using GPS technology.</p>
+            </div>
+            <!-- Feature 3: Doctor-Patient Communication -->
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <img src="{{ MEDIA_URL }}images/womanoncheckup.png" alt="Doctor-Patient Communication" class="w-24 h-24 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-green-800 mb-2">Doctor-Patient Communication</h3>
+                <p class="text-gray-700">Doctors can monitor and communicate with their patients effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Call to Action -->
+    <section class="mb-12 fade-in">
+        <div class="bg-green-600 text-white p-8 rounded-lg shadow-lg text-center">
+            <h2 class="text-3xl font-bold mb-4">Join Us Today!</h2>
+            <p class="text-lg mb-6">Register now to experience seamless antenatal care and stay connected with your healthcare provider.</p>
+            <a href="#" class="bg-white text-green-600 px-6 py-3 rounded-full font-semibold hover:bg-green-100 transition duration-300">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Section 4: Healthcare Centers -->
+    <section class="fade-in">
+        <h2 class="text-3xl font-bold text-green-800 mb-8 text-center">Healthcare Centers & Doctors Available</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+                <img src="{{ MEDIA_URL }}images/pregnantwomannursed.png" alt="Healthcare Centers" class="rounded-lg shadow-lg">
+            </div>
+            <div>
+                <p class="text-gray-700 leading-relaxed">
+                    Our system connects you with a network of trusted healthcare centers and experienced doctors. 
+                    Whether you need routine checkups or urgent care, we’ve got you covered. 
+                    Your health and the health of your baby are our top priorities.
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

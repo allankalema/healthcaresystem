@@ -6,6 +6,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
+    path('antenental/', include('antenental.urls')),
 ]
 
 # Serve media files during development

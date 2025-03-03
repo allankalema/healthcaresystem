@@ -175,18 +175,19 @@
 
         /* Adjust calendar header for small screens */
         .fc-header-toolbar {
-            flex-direction: column;
-            align-items: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .fc-header-toolbar .fc-toolbar-chunk {
             margin-bottom: 0.5rem;
         }
 
-        /* Hide "dayGridMonth" and "timeGridDay" buttons on small screens */
-        .fc-header-toolbar .fc-dayGridMonth-button,
-        .fc-header-toolbar .fc-timeGridDay-button {
-            display: none;
+        /* Make buttons smaller on small screens */
+        .fc-header-toolbar .fc-button {
+            font-size: 12px;
+            padding: 0.25rem 0.5rem;
         }
 
         /* Adjust week view for small screens */

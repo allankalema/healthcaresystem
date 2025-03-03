@@ -66,12 +66,15 @@
 
             <!-- Navigation Links and Profile Dropdown -->
             <div class="flex items-center space-x-6">
-                <!-- Navigation Links (visible on large screens) -->
+                <!-- Navigation Links -->
                 <div class="hidden lg:flex space-x-6">
                     <a href="#" class="hover:text-hotpink-light">Home</a>
-                    <a href="#" class="hover:text-hotpink-light">Dashboard</a>
-                    <a href="#" class="hover:text-hotpink-light">My Prescriptions</a>
+                    {% if user.is_authenticated %}
+                        <a href="#" class="hover:text-hotpink-light">Dashboard</a>
+                        <a href="#" class="hover:text-hotpink-light">My Prescriptions</a>
+                    {% endif %}
                 </div>
+
 
                 <!-- Profile Dropdown (visible on all screens) -->
                 <div class="relative">
@@ -80,33 +83,37 @@
                     </button>
                     <!-- Dropdown Menu -->
                     <div id="dropdown-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                        <a href="{% url 'profile_update' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Update Profile</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'profile_update' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Update Profile</a>
+                            <a href="{% url 'change_password' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Change Password</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Logout</a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Login</a>
+                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Signup</a>
+                        {% endif %}
                         <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Emergency</a>
-                        <a href="{% url 'change_password' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Change Password</a>
-                        <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Login</a>
-                        <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Signup</a>
-                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Logout</a>
                     </div>
                 </div>
+
             </div>
         </div>
     </nav>
 
     <!-- Sidebar (for small screens) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-hotpink text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden"> <!-- lg:hidden hides sidebar on large screens -->
-        <div class="p-4">
-            <h2 class="text-xl font-semibold">Menu</h2>
-            <ul class="mt-4 space-y-2">
-                <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Home</a></li>
+<div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-hotpink text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden">
+    <div class="p-4">
+        <h2 class="text-xl font-semibold">Menu</h2>
+        <ul class="mt-4 space-y-2">
+            <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Home</a></li>
+            {% if user.is_authenticated %}
                 <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Dashboard</a></li>
                 <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">My Prescriptions</a></li>
-            </ul>
-        </div>
-        <!-- Copyright -->
-        <div class="absolute bottom-0 p-4 text-sm">
-            &copy; 2025 MomCare. All rights reserved.
-        </div>
+            {% endif %}
+            <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Emergency</a></li>
+        </ul>
     </div>
+</div>
+
 
     <!-- Overlay (for closing sidebar and dropdown) -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-30 lg:hidden"></div> <!-- lg:hidden hides overlay on large screens -->

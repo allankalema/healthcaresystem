@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import AntenatalCard, PreviousObstetricHistory, AntenatalProgressExamination, UltrasoundReport, Prescription, Medication
+from .models import (
+    AntenatalCard, PreviousObstetricHistory, 
+    AntenatalProgressExamination, UltrasoundReport, 
+    Prescription, Medication
+)
 
 # --------------------- INLINE MODELS ---------------------
 class PreviousObstetricHistoryInline(admin.TabularInline):
@@ -32,9 +36,9 @@ class MedicationInline(admin.TabularInline):
 
 @admin.register(AntenatalCard)
 class AntenatalCardAdmin(admin.ModelAdmin):
-    list_display = ('name', 'reg_no', 'health_unit', 'phone_no', 'age', 'district', 'created_at')
+    list_display = ('name', 'reg_no', 'health_unit', 'phone_no', 'age', 'district', 'next_visit', 'created_at')
     search_fields = ('name', 'reg_no', 'phone_no', 'nin')
-    list_filter = ('district', 'age', 'marital_status')
+    list_filter = ('district', 'age', 'marital_status', 'next_visit')
     inlines = [PreviousObstetricHistoryInline, AntenatalProgressExaminationInline, UltrasoundReportInline]
 
 

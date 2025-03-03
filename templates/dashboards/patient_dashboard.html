@@ -93,6 +93,85 @@
                 <p class="text-gray-700">No location details found. Please update your profile.</p>
             {% endif %}
         </div>
+
+        <!-- Calendar Section -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Next Visits</h3>
+            <div id="calendar"></div>
+        </div>
     </div>
 </main>
+
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<!-- Bootstrap Tooltip (for hover effect) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- Calendar Initialization Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const calendarEl = document.getElementById('calendar');
+
+        // Initialize FullCalendar
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',  // Default view
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: {{ next_visits|safe }},  // Pass next visit dates as events
+            eventDidMount: function (info) {
+                // Add hover effect to show the antenatal card name
+                const tooltip = new bootstrap.Tooltip(info.el, {
+                    title: info.event.title,
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });
+            },
+            eventContent: function (info) {
+                // Customize event content
+                return { html: `<div class="fc-event-title">${info.event.title}</div>` };
+            },
+            eventClick: function (info) {
+                // Handle event click (optional)
+                alert('Visit for: ' + info.event.title);
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+<!-- Calendar Styling -->
+<style>
+    #calendar {
+        max-width: 100%;
+        margin: 0 auto;
+        height: 500px; /* Adjust height as needed */
+    }
+
+    .fc-event {
+        background-color: #ff69b4; /* Hot pink color */
+        border: none;
+        cursor: pointer;
+    }
+
+    .fc-event:hover {
+        background-color: #ff1493; /* Darker pink on hover */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #calendar {
+            height: 400px; /* Smaller height for mobile screens */
+        }
+    }
+</style>
 {% endblock %}

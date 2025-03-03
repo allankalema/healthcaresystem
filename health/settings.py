@@ -128,3 +128,9 @@ EMAIL_HOST_PASSWORD = 'txnk yntb ptas fwuy'  # It's better to use environment va
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_URL = '/login/'  # Change this to the actual login URL name if needed
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

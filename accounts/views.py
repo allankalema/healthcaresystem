@@ -275,28 +275,28 @@ def doctor_profile_update(request):
 @login_required
 @patient
 def patient_dashboard(request):
-    # Fetch the logged-in user
     user = request.user
 
-    # Ensure the user is a patient
-    if not user.is_patient:
-        return redirect('home')  # Redirect non-patients to the home page
-
-    # Fetch patient profile and location
     patient = Patient.objects.filter(user=user).first()
     location = Location.objects.filter(user=user).first()
-
-    # Fetch antenatal card
     antenatal_card = AntenatalCard.objects.filter(user=user).first()
-
-    # Fetch prescriptions
     prescriptions = Prescription.objects.filter(patient=user).order_by('-prescription_date')
+
+    # Fetch next visit dates for the user's antenatal cards
+    next_visits = []
+    if antenatal_card and antenatal_card.next_visit:
+        next_visits.append({
+            'title': antenatal_card.name,
+            'start': antenatal_card.next_visit.isoformat(),
+            'allDay': True,
+        })
 
     context = {
         'patient': patient,
         'location': location,
         'antenatal_card': antenatal_card,
         'prescriptions': prescriptions,
+        'next_visits': next_visits,  # Pass next visits to the template
     }
 
     return render(request, 'dashboards/patient_dashboard.html', context)

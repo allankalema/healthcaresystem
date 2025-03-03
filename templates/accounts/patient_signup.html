@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block content %}
-<main class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full lg:w-11/12 xl:w-10/12 2xl:w-9/12 h-screen lg:h-auto lg:min-h-[700px] flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl h-auto flex flex-col lg:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
         <!-- Signup Form -->
-        <div class="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center overflow-y-auto">
-            <h2 class="text-3xl font-bold text-hotpink-dark mb-6">Patient Signup</h2>
+        <div class="w-full lg:w-1/2 p-6 sm:p-8 lg:p-12 flex flex-col justify-center overflow-y-auto">
+            <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-6 text-center lg:text-left">Patient Signup</h2>
 
             <!-- Display Error Messages -->
             {% if messages %}
@@ -17,71 +17,65 @@
                 {% endfor %}
             {% endif %}
 
-            <form method="post" class="space-y-6">
+            <form method="post" class="space-y-5">
                 {% csrf_token %}
-                <!-- Username Field -->
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" id="username" name="username" required
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your username">
+                <!-- Form Fields -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input type="text" id="username" name="username" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter username">
+                    </div>
+                    <div>
+                        <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input type="text" id="first_name" name="first_name" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="First name">
+                    </div>
+                    <div>
+                        <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Last name">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter email">
+                    </div>
                 </div>
-                <!-- First Name Field -->
-                <div>
-                    <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-                    <input type="text" id="first_name" name="first_name" required
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your first name">
-                </div>
-                <!-- Last Name Field -->
-                <div>
-                    <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" required
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your last name">
-                </div>
-                <!-- Email Field -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" required
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your email">
-                </div>
+
                 <!-- Password Fields -->
                 <div class="relative">
                     <label for="password1" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password1" name="password1" required
                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your password">
-                    <button type="button" onclick="togglePasswordVisibility('password1')"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-7">
-                        <i id="eye-icon-password1" class="bi bi-eye-slash text-gray-500"></i>
-                    </button>
+                           placeholder="Enter password">
                 </div>
                 <div class="relative">
                     <label for="password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                     <input type="password" id="password2" name="password2" required
                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Confirm your password">
-                    <button type="button" onclick="togglePasswordVisibility('password2')"
-                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 mt-7">
-                        <i id="eye-icon-password2" class="bi bi-eye-slash text-gray-500"></i>
-                    </button>
+                           placeholder="Confirm password">
                 </div>
-                <!-- Date of Birth Field -->
-                <div>
-                    <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-                    <input type="date" id="date_of_birth" name="date_of_birth"
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+
+                <!-- Other Fields -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input type="date" id="date_of_birth" name="date_of_birth"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+                    </div>
+                    <div>
+                        <label for="nin" class="block text-sm font-medium text-gray-700">NIN</label>
+                        <input type="text" id="nin" name="nin"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter NIN">
+                    </div>
                 </div>
-                <!-- NIN Field -->
-                <div>
-                    <label for="nin" class="block text-sm font-medium text-gray-700">National Identification Number (NIN)</label>
-                    <input type="text" id="nin" name="nin"
-                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
-                           placeholder="Enter your NIN">
-                </div>
-                <!-- Marital Status Field -->
+
                 <div>
                     <label for="marital_status" class="block text-sm font-medium text-gray-700">Marital Status</label>
                     <select id="marital_status" name="marital_status"
@@ -90,6 +84,7 @@
                         <option value="Married">Married</option>
                     </select>
                 </div>
+
                 <!-- Submit Button -->
                 <div>
                     <button type="submit"
@@ -101,7 +96,8 @@
         </div>
 
         <!-- Image (Visible on Large Screens) -->
-        <div class="hidden lg:block lg:w-1/2 bg-cover bg-center" style="background-image: url('{{ MEDIA_URL }}images/pregnant_woman.png');">
+        <div class="hidden lg:block lg:w-1/2 bg-cover bg-center"
+             style="background-image: url('{{ MEDIA_URL }}images/pregnant_woman.png');">
         </div>
     </div>
 </main>
@@ -110,16 +106,10 @@
 <script>
     function togglePasswordVisibility(fieldId) {
         const passwordField = document.getElementById(fieldId);
-        const eyeIcon = document.getElementById(`eye-icon-${fieldId}`);
-
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            eyeIcon.classList.remove('bi-eye-slash');
-            eyeIcon.classList.add('bi-eye');
         } else {
             passwordField.type = 'password';
-            eyeIcon.classList.remove('bi-eye');
-            eyeIcon.classList.add('bi-eye-slash');
         }
     }
 </script>

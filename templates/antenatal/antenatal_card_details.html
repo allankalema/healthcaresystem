@@ -5,103 +5,136 @@
 <main class="mt-16 sm:mt-20 min-h-screen p-4 sm:p-6 bg-gray-100">
     <div class="container mx-auto">
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-4">Antenatal Card Details</h2>
-            
+            <!-- Ministry of Health Symbol -->
+            <div class="flex justify-center mb-6">
+                <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+            </div>
+
+            <!-- Card Header -->
+            <div class="text-center mb-6">
+                <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark">Antenatal Card</h2>
+                <p class="text-gray-600">Ministry of Health</p>
+            </div>
+
             <!-- Basic Information -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Basic Information</h3>
-                <p class="text-gray-700"><strong>Health Unit:</strong> {{ antenatal_card.health_unit }}</p>
-                <p class="text-gray-700"><strong>Registration Number:</strong> {{ antenatal_card.reg_no }}</p>
-                <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.name }}</p>
-                <p class="text-gray-700"><strong>NIN:</strong> {{ antenatal_card.nin }}</p>
-                <p class="text-gray-700"><strong>Phone Number:</strong> {{ antenatal_card.phone_no }}</p>
-                <p class="text-gray-700"><strong>Age:</strong> {{ antenatal_card.age }}</p>
-                <p class="text-gray-700"><strong>Village:</strong> {{ antenatal_card.village }}</p>
-                <p class="text-gray-700"><strong>Parish:</strong> {{ antenatal_card.parish }}</p>
-                <p class="text-gray-700"><strong>Sub County:</strong> {{ antenatal_card.sub_county }}</p>
-                <p class="text-gray-700"><strong>District:</strong> {{ antenatal_card.district }}</p>
-                <p class="text-gray-700"><strong>Occupation:</strong> {{ antenatal_card.occupation }}</p>
-                <p class="text-gray-700"><strong>Religion:</strong> {{ antenatal_card.religion }}</p>
-                <p class="text-gray-700"><strong>Education Level:</strong> {{ antenatal_card.education_level }}</p>
-                <p class="text-gray-700"><strong>Tribe:</strong> {{ antenatal_card.tribe }}</p>
-                <p class="text-gray-700"><strong>Marital Status:</strong> {{ antenatal_card.marital_status }}</p>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Basic Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700"><strong>Health Unit:</strong> {{ antenatal_card.health_unit }}</p>
+                        <p class="text-gray-700"><strong>Registration Number:</strong> {{ antenatal_card.reg_no }}</p>
+                        <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.name }}</p>
+                        <p class="text-gray-700"><strong>NIN:</strong> {{ antenatal_card.nin }}</p>
+                        <p class="text-gray-700"><strong>Phone Number:</strong> {{ antenatal_card.phone_no }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>Age:</strong> {{ antenatal_card.age }}</p>
+                        <p class="text-gray-700"><strong>Village:</strong> {{ antenatal_card.village }}</p>
+                        <p class="text-gray-700"><strong>Parish:</strong> {{ antenatal_card.parish }}</p>
+                        <p class="text-gray-700"><strong>Sub County:</strong> {{ antenatal_card.sub_county }}</p>
+                        <p class="text-gray-700"><strong>District:</strong> {{ antenatal_card.district }}</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Next of Kin Information -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Next of Kin Information</h3>
-                <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.next_of_kin_name }}</p>
-                <p class="text-gray-700"><strong>Phone:</strong> {{ antenatal_card.next_of_kin_phone }}</p>
-                <p class="text-gray-700"><strong>Relationship:</strong> {{ antenatal_card.next_of_kin_relationship }}</p>
-                <p class="text-gray-700"><strong>Address:</strong> {{ antenatal_card.next_of_kin_address }}</p>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Next of Kin Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.next_of_kin_name }}</p>
+                        <p class="text-gray-700"><strong>Phone:</strong> {{ antenatal_card.next_of_kin_phone }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>Relationship:</strong> {{ antenatal_card.next_of_kin_relationship }}</p>
+                        <p class="text-gray-700"><strong>Address:</strong> {{ antenatal_card.next_of_kin_address }}</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Obstetric History -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Obstetric History</h3>
-                <p class="text-gray-700"><strong>Gravida:</strong> {{ antenatal_card.gravida }}</p>
-                <p class="text-gray-700"><strong>Para:</strong> {{ antenatal_card.para }}</p>
-                <p class="text-gray-700"><strong>Abortions:</strong> {{ antenatal_card.abortions }}</p>
-                <p class="text-gray-700"><strong>Presenting Complaints:</strong> {{ antenatal_card.presenting_complaints }}</p>
-                <p class="text-gray-700"><strong>First Day of LNMP:</strong> {{ antenatal_card.first_day_of_lnmp }}</p>
-                <p class="text-gray-700"><strong>EDD:</strong> {{ antenatal_card.edd }}</p>
-                <p class="text-gray-700"><strong>Weeks of Amenorrhea:</strong> {{ antenatal_card.weeks_of_amenorrhea }}</p>
-                <p class="text-gray-700"><strong>Complications of Pregnancy:</strong> {{ antenatal_card.complications_of_pregnancy }}</p>
-                <p class="text-gray-700"><strong>Hospitalization:</strong> {{ antenatal_card.hospitalization }}</p>
-                <p class="text-gray-700"><strong>Hospitalization Reason:</strong> {{ antenatal_card.hospitalization_reason }}</p>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Obstetric History</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700"><strong>Gravida:</strong> {{ antenatal_card.gravida }}</p>
+                        <p class="text-gray-700"><strong>Para:</strong> {{ antenatal_card.para }}</p>
+                        <p class="text-gray-700"><strong>Abortions:</strong> {{ antenatal_card.abortions }}</p>
+                        <p class="text-gray-700"><strong>Presenting Complaints:</strong> {{ antenatal_card.presenting_complaints }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>First Day of LNMP:</strong> {{ antenatal_card.first_day_of_lnmp }}</p>
+                        <p class="text-gray-700"><strong>EDD:</strong> {{ antenatal_card.edd }}</p>
+                        <p class="text-gray-700"><strong>Weeks of Amenorrhea:</strong> {{ antenatal_card.weeks_of_amenorrhea }}</p>
+                        <p class="text-gray-700"><strong>Complications of Pregnancy:</strong> {{ antenatal_card.complications_of_pregnancy }}</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Previous Obstetric History -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Previous Obstetric History</h3>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Previous Obstetric History</h3>
                 {% for history in antenatal_card.previous_obstetric_history.all %}
                     <div class="p-4 border border-gray-200 rounded-lg mb-4">
-                        <p class="text-gray-700"><strong>Pregnancy Year:</strong> {{ history.pregnancy_year }}</p>
-                        <p class="text-gray-700"><strong>Abortions Below 12 Weeks:</strong> {{ history.abortions_below_12_weeks }}</p>
-                        <p class="text-gray-700"><strong>Abortions Above 12 Weeks:</strong> {{ history.abortions_above_12_weeks }}</p>
-                        <p class="text-gray-700"><strong>Premature Births:</strong> {{ history.premature_births }}</p>
-                        <p class="text-gray-700"><strong>Full Term Deliveries:</strong> {{ history.full_term_deliveries }}</p>
-                        <p class="text-gray-700"><strong>Delivery Type:</strong> {{ history.delivery_type }}</p>
-                        <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery }}</p>
-                        <p class="text-gray-700"><strong>Third Stage Complications:</strong> {{ history.third_stage_complications }}</p>
-                        <p class="text-gray-700"><strong>Puerperium:</strong> {{ history.puerperium }}</p>
-                        <p class="text-gray-700"><strong>Baby Alive:</strong> {{ history.baby_alive }}</p>
-                        <p class="text-gray-700"><strong>Stillbirth or NND:</strong> {{ history.stillbirth_or_nnd }}</p>
-                        <p class="text-gray-700"><strong>Baby Sex:</strong> {{ history.baby_sex }}</p>
-                        <p class="text-gray-700"><strong>Birth Weight:</strong> {{ history.birth_weight }}</p>
-                        <p class="text-gray-700"><strong>Immunization Status:</strong> {{ history.immunization_status }}</p>
-                        <p class="text-gray-700"><strong>Baby Health Condition:</strong> {{ history.baby_health_condition }}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-700"><strong>Pregnancy Year:</strong> {{ history.pregnancy_year }}</p>
+                                <p class="text-gray-700"><strong>Abortions Below 12 Weeks:</strong> {{ history.abortions_below_12_weeks }}</p>
+                                <p class="text-gray-700"><strong>Abortions Above 12 Weeks:</strong> {{ history.abortions_above_12_weeks }}</p>
+                                <p class="text-gray-700"><strong>Premature Births:</strong> {{ history.premature_births }}</p>
+                                <p class="text-gray-700"><strong>Full Term Deliveries:</strong> {{ history.full_term_deliveries }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-700"><strong>Delivery Type:</strong> {{ history.delivery_type }}</p>
+                                <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery }}</p>
+                                <p class="text-gray-700"><strong>Third Stage Complications:</strong> {{ history.third_stage_complications }}</p>
+                                <p class="text-gray-700"><strong>Puerperium:</strong> {{ history.puerperium }}</p>
+                                <p class="text-gray-700"><strong>Baby Alive:</strong> {{ history.baby_alive }}</p>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
 
             <!-- Antenatal Progress Examinations -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Antenatal Progress Examinations</h3>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Antenatal Progress Examinations</h3>
                 {% for exam in antenatal_card.progress_examinations.all %}
                     <div class="p-4 border border-gray-200 rounded-lg mb-4">
-                        <p class="text-gray-700"><strong>Visit Date:</strong> {{ exam.visit_date }}</p>
-                        <p class="text-gray-700"><strong>Fundal Height:</strong> {{ exam.fundal_height }}</p>
-                        <p class="text-gray-700"><strong>Presentation:</strong> {{ exam.presentation }}</p>
-                        <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ exam.fetal_heart_rate }}</p>
-                        <p class="text-gray-700"><strong>Varicose or Oedema:</strong> {{ exam.varicose_or_oedema }}</p>
-                        <p class="text-gray-700"><strong>Urine Test Results:</strong> {{ exam.urine_test_results }}</p>
-                        <p class="text-gray-700"><strong>Iron Folic Acid Pills:</strong> {{ exam.iron_folic_acid_pills }}</p>
-                        <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ exam.complaints_and_remarks }}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-700"><strong>Visit Date:</strong> {{ exam.visit_date }}</p>
+                                <p class="text-gray-700"><strong>Fundal Height:</strong> {{ exam.fundal_height }}</p>
+                                <p class="text-gray-700"><strong>Presentation:</strong> {{ exam.presentation }}</p>
+                                <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ exam.fetal_heart_rate }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-700"><strong>Varicose or Oedema:</strong> {{ exam.varicose_or_oedema }}</p>
+                                <p class="text-gray-700"><strong>Urine Test Results:</strong> {{ exam.urine_test_results }}</p>
+                                <p class="text-gray-700"><strong>Iron Folic Acid Pills:</strong> {{ exam.iron_folic_acid_pills }}</p>
+                                <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ exam.complaints_and_remarks }}</p>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>
 
             <!-- Ultrasound Reports -->
             <div class="mb-6">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Ultrasound Reports</h3>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4 border-b-2 border-hotpink-dark">Ultrasound Reports</h3>
                 {% for report in antenatal_card.ultrasound_reports.all %}
                     <div class="p-4 border border-gray-200 rounded-lg mb-4">
-                        <p class="text-gray-700"><strong>Ultrasound Date:</strong> {{ report.ultrasound_date }}</p>
-                        <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age }}</p>
-                        <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details }}</p>
-                        <p class="text-gray-700"><strong>Amniotic Fluid:</strong> {{ report.amniotic_fluid }}</p>
-                        <p class="text-gray-700"><strong>Complications:</strong> {{ report.complications }}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-gray-700"><strong>Ultrasound Date:</strong> {{ report.ultrasound_date }}</p>
+                                <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age }}</p>
+                                <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details }}</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-700"><strong>Amniotic Fluid:</strong> {{ report.amniotic_fluid }}</p>
+                                <p class="text-gray-700"><strong>Complications:</strong> {{ report.complications }}</p>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

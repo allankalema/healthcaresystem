@@ -112,10 +112,17 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
+<!-- Pass next_visits data to JavaScript -->
+{{ next_visits|json_script:"next-visits-data" }}
+
 <!-- Calendar Initialization Script -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const calendarEl = document.getElementById('calendar');
+
+        // Retrieve the data from the JSON script tag
+        const nextVisits = JSON.parse(document.getElementById('next-visits-data').textContent);
+        console.log('Next Visits Data:', nextVisits);  // Debugging: Check if data is correct
 
         // Initialize FullCalendar
         const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -125,8 +132,9 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            events: {{ next_visits|safe }},  // Pass next visit dates as events
+            events: nextVisits,  // Use the static data
             eventDidMount: function (info) {
+                console.log('Event Mounted:', info.event);  // Debugging: Check if event is mounted
                 // Add hover effect to show the antenatal card name
                 const tooltip = new bootstrap.Tooltip(info.el, {
                     title: info.event.title,

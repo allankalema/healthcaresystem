@@ -1,4 +1,7 @@
 from django.contrib.auth import authenticate, login
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -292,11 +295,11 @@ def patient_dashboard(request):
         })
 
     context = {
-        'patient': patient,
-        'location': location,
-        'antenatal_card': antenatal_card,
-        'prescriptions': prescriptions,
-        'next_visits': next_visits,  # Pass next visits to the template
-    }
+    'patient': patient,
+    'location': location,
+    'antenatal_card': antenatal_card,
+    'prescriptions': prescriptions,
+    'next_visits': json.dumps(next_visits, cls=DjangoJSONEncoder),  # Serialize to JSON
+}
 
     return render(request, 'dashboards/patient_dashboard.html', context)

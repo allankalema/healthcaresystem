@@ -37,7 +37,10 @@ class AntenatalCard(models.Model):
     weeks_of_amenorrhea = models.IntegerField()  # Number of weeks since last period
     complications_of_pregnancy = models.TextField(null=True, blank=True)  
     hospitalization = models.BooleanField(default=False)  
-    hospitalization_reason = models.TextField(null=True, blank=True)  
+    hospitalization_reason = models.TextField(null=True, blank=True)
+    
+    next_visit = models.DateTimeField(null=True, blank=True)  # Date and time of the next visit
+  
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

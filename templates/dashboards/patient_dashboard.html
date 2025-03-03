@@ -172,6 +172,27 @@
         #calendar {
             height: 400px; /* Smaller height for mobile screens */
         }
+
+        /* Adjust calendar header for small screens */
+        .fc-header-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .fc-header-toolbar .fc-toolbar-chunk {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hide "dayGridMonth" and "timeGridDay" buttons on small screens */
+        .fc-header-toolbar .fc-dayGridMonth-button,
+        .fc-header-toolbar .fc-timeGridDay-button {
+            display: none;
+        }
+
+        /* Adjust week view for small screens */
+        .fc-timeGridWeek-view .fc-timegrid-slots {
+            font-size: 12px; /* Smaller font size for week view */
+        }
     }
 </style>
 {% endblock %}

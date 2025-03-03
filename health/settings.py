@@ -114,3 +114,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files (Uploaded files)
 MEDIA_URL = '/media/'  # URL prefix for media files
 MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored
+
+
+# SMTP Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'MomCare.ug@gmail.com'
+EMAIL_HOST_PASSWORD = 'txnk yntb ptas fwuy'  # It's better to use environment variables for security
+
+# Default from email (optional)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_URL = '/login/'  # Change this to the actual login URL name if needed

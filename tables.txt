@@ -1,21 +1,210 @@
-now since the  base is done i need to set abt the abts page that  a person will reach on and tell them abt the system 
-Ihave the following  images I have collected found in media and named basing on wat is in the image so u will base in the names to distribute the   images on the about bage 
-it should look nice and good attractive for a person to appreciate
+this is my forms update it to match wats required but remove the age  fields we done need it 
+and i need the p[age design better] to remove the  form.ap and the firleds to be editabel properly 
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.core.exceptions import ValidationError
+from .models import User,Location, Patient
 
 
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----          3/2/2025  12:19 PM         873999 doctorpatientlaughing.png
--a----          3/2/2025  12:20 PM         214219 googlepin.png
--a----          3/2/2025  12:07 PM         571659 image.png
--a----          3/2/2025  12:17 PM         723018 pregnantwomannursed.png
--a----          3/2/2025  12:09 PM        2797044 pregnant_woman.png
--a----          3/2/2025  12:16 PM         418688 womanoncheckup.png
- and  this  system is used to track the antnetal care of the pregnant mothers where everything will be digitised, the mother can be able to be updated on the  different appointments and the doctors are able to know   and  track their patients 
-it will use the GPS system to  track and pin locate thehealthcare centers around the patient so that the patient can receive urgent care wen needed and lately  we r looking for future vaccination system  tracking and flow 
- this is the pdf for the antenatal card that am to  digitize so if u have any information on it that is relevant you can  pick 
- and lastly u should put the buttons of get started that u will put #  on them for now 
- attracting mothers who have never used used the system to  come in and  register 
-below we should notify them that the health care centers and doctor are available  and use this too
- help me make this home page  to benice and smooth 
- animated features where possible and all that
+class SignupForm(UserCreationForm):
+    first_name = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your first name'})
+    )
+    last_name = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your last name'})
+    )
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-input', 'placeholder': 'Enter your email'})
+    )
+    date_of_birth = forms.DateField(
+        widget=forms.DateInput(attrs={'class': 'form-input', 'type': 'date'})
+    )  # <-- Missing closing parenthesis added here
+    nin = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your NIN'})
+    )
+    marital_status = forms.ChoiceField(
+        choices=[('Single', 'Single'), ('Married', 'Married')],
+        widget=forms.Select(attrs={'class': 'form-input'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'date_of_birth', 'nin', 'marital_status']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already in use.")
+        return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username is already taken.")
+        return username
+
+
+class LocationForm(forms.ModelForm):
+    class Meta:
+        model = Location
+        fields = ['village', 'parish', 'sub_county', 'district', 'address']
+        widgets = {
+            'village': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your village'}),
+            'parish': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your parish'}),
+            'sub_county': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your sub-county'}),
+            'district': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your district'}),
+            'address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter your address'}),
+        }
+
+class PatientForm(forms.ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['home_address', 'number_of_children', 'date_of_last_period', 'occupation']
+        widgets = {
+            'home_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter your home address'}),
+            'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
+            'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+            'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your occupation'}),
+        }
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': 'Enter your old password'}),
+        label="Old Password"
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': 'Enter new password'}),
+        label="New Password"
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-input', 'placeholder': 'Confirm new password'}),
+        label="Confirm New Password"
+    )
+
+    class Meta:
+        fields = ['old_password', 'new_password1', 'new_password2']
+
+    class UserUpdateForm(forms.ModelForm):
+        class Meta:
+            model = User
+            fields = ['username', 'first_name', 'last_name', 'email', 'date_of_birth', 'nin', 'marital_status', 'contact']
+            widgets = {
+                'username': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter username'}),
+                'first_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter first name'}),
+                'last_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter last name'}),
+                'email': forms.EmailInput(attrs={'class': 'form-input', 'placeholder': 'Enter email'}),
+                'date_of_birth': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+                'nin': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter NIN'}),
+                'marital_status': forms.Select(attrs={'class': 'form-input'}),
+                'contact': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter contact number'}),
+            }
+
+    class LocationUpdateForm(forms.ModelForm):
+        class Meta:
+            model = Location
+            fields = ['village', 'parish', 'sub_county', 'district', 'address']
+            widgets = {
+                'village': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter village'}),
+                'parish': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter parish'}),
+                'sub_county': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter sub-county'}),
+                'district': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter district'}),
+                'address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter address'}),
+            }
+
+    class PatientUpdateForm(forms.ModelForm):
+        class Meta:
+            model = Patient
+            fields = ['age', 'home_address', 'number_of_children', 'date_of_last_period', 'occupation']
+            widgets = {
+                'age': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter age'}),
+                'home_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter home address'}),
+                'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
+                'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+                'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter occupation'}),
+            }
+
+            <!-- templates/accounts/profile_update.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-6 text-center">Update Profile</h2>
+
+        <!-- Display Error Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- User Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">User Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in user_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-sm text-red-600">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Location Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in location_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-sm text-red-600">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Patient Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Patient Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in patient_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-sm text-red-600">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                    Update Profile
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

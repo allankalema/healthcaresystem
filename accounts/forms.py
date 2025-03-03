@@ -113,13 +113,14 @@ class LocationUpdateForm(forms.ModelForm):
                 'address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter address'}),
             }
 
+# forms.py
 class PatientUpdateForm(forms.ModelForm):
-        class Meta:
-            model = Patient
-            fields = ['age', 'home_address', 'number_of_children', 'date_of_last_period', 'occupation']
-            widgets = {
-                'home_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter home address'}),
-                'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
-                'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
-                'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter occupation'}),
-            }
+    class Meta:
+        model = Patient
+        fields = ['home_address', 'number_of_children', 'date_of_last_period', 'occupation']
+        widgets = {
+            'home_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter your home address'}),
+            'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
+            'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+            'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your occupation'}),
+        }

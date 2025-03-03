@@ -23,12 +23,11 @@ def login_view(request):
     return render(request, "accounts/login.html")
 
 
-def patient_signup(request):
+def signup(request):
     if request.method == 'POST':
         form = PatientSignupForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_patient = True  # Set the user as a patient
             user.save()
             messages.success(request, 'Account created successfully! Please proceed to the next step.')
             return redirect('home')  # Redirect to home or the next phase
@@ -42,7 +41,7 @@ def patient_signup(request):
 
     return render(request, 'accounts/patient_signup.html', {'form': form})
 
-    
+
 def enter_code(request):
     return render(request, 'accounts/enter_code.html') 
 

@@ -234,3 +234,37 @@ def profile_update(request):
         'location_form': location_form,
         'patient_form': patient_form,
     })
+
+
+
+@login_required
+def doctor_profile_update(request):
+    user = request.user
+    location, _ = Location.objects.get_or_create(user=user)
+    doctor, _ = Doctor.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        location_form = LocationUpdateForm(request.POST, instance=location)
+        doctor_form = DoctorUpdateForm(request.POST, instance=doctor)
+
+        if location_form.is_valid() and doctor_form.is_valid():
+            location_form.save()
+            doctor_form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('home')
+        else:
+            # Display form errors
+            for field, errors in location_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Location - {field}: {error}")
+            for field, errors in doctor_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Doctor - {field}: {error}")
+    else:
+        location_form = LocationUpdateForm(instance=location)
+        doctor_form = DoctorUpdateForm(instance=doctor)
+
+    return render(request, 'accounts/doctor_profile_update.html', {
+        'location_form': location_form,
+        'doctor_form': doctor_form,
+    })

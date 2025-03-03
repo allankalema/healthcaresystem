@@ -139,3 +139,18 @@ class DoctorForm(forms.ModelForm):
             'education_level': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter education level'}),
             'rank_title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter rank/title'}),
         }
+
+class DoctorUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['work_address', 'certificate_number', 'contact_number', 'health_facility', 'medical_field', 'experience_years', 'education_level', 'rank_title']
+        widgets = {
+            'work_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter work address'}),
+            'certificate_number': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter certificate number'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter contact number'}),
+            'health_facility': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter health facility'}),
+            'medical_field': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter medical field'}),
+            'experience_years': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter years of experience'}),
+            'education_level': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter education level'}),
+            'rank_title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter rank/title'}),
+        }

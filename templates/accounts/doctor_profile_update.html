@@ -1,0 +1,176 @@
+<!-- templates/accounts/doctor_profile_update.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-6 text-center">Update Doctor Profile</h2>
+
+        <!-- Display Success and Error Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 text-sm {% if message.tags %}{{ message.tags }}{% else %}bg-blue-100 text-blue-700{% endif %} rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Location Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Village -->
+                    <div>
+                        <label for="village" class="block text-sm font-medium text-gray-700">Village</label>
+                        <input type="text" id="village" name="village" value="{{ location_form.instance.village }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter village">
+                        {% if location_form.village.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.village.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Parish -->
+                    <div>
+                        <label for="parish" class="block text-sm font-medium text-gray-700">Parish</label>
+                        <input type="text" id="parish" name="parish" value="{{ location_form.instance.parish }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter parish">
+                        {% if location_form.parish.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.parish.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Sub County -->
+                    <div>
+                        <label for="sub_county" class="block text-sm font-medium text-gray-700">Sub County</label>
+                        <input type="text" id="sub_county" name="sub_county" value="{{ location_form.instance.sub_county }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter sub-county">
+                        {% if location_form.sub_county.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.sub_county.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- District -->
+                    <div>
+                        <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                        <input type="text" id="district" name="district" value="{{ location_form.instance.district }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter district">
+                        {% if location_form.district.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.district.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Address -->
+                    <div class="sm:col-span-2">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <textarea id="address" name="address" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                                  placeholder="Enter address">{{ location_form.instance.address }}</textarea>
+                        {% if location_form.address.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.address.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doctor Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Doctor Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Work Address -->
+                    <div class="sm:col-span-2">
+                        <label for="work_address" class="block text-sm font-medium text-gray-700">Work Address</label>
+                        <textarea id="work_address" name="work_address" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                                  placeholder="Enter work address">{{ doctor_form.instance.work_address }}</textarea>
+                        {% if doctor_form.work_address.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.work_address.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Certificate Number -->
+                    <div>
+                        <label for="certificate_number" class="block text-sm font-medium text-gray-700">Certificate Number</label>
+                        <input type="text" id="certificate_number" name="certificate_number" value="{{ doctor_form.instance.certificate_number }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter certificate number">
+                        {% if doctor_form.certificate_number.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.certificate_number.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Contact Number -->
+                    <div>
+                        <label for="contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
+                        <input type="text" id="contact_number" name="contact_number" value="{{ doctor_form.instance.contact_number }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter contact number">
+                        {% if doctor_form.contact_number.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.contact_number.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Health Facility -->
+                    <div>
+                        <label for="health_facility" class="block text-sm font-medium text-gray-700">Health Facility</label>
+                        <input type="text" id="health_facility" name="health_facility" value="{{ doctor_form.instance.health_facility }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter health facility">
+                        {% if doctor_form.health_facility.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.health_facility.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Medical Field -->
+                    <div>
+                        <label for="medical_field" class="block text-sm font-medium text-gray-700">Medical Field</label>
+                        <input type="text" id="medical_field" name="medical_field" value="{{ doctor_form.instance.medical_field }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter medical field">
+                        {% if doctor_form.medical_field.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.medical_field.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Experience Years -->
+                    <div>
+                        <label for="experience_years" class="block text-sm font-medium text-gray-700">Experience Years</label>
+                        <input type="number" id="experience_years" name="experience_years" value="{{ doctor_form.instance.experience_years }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter years of experience">
+                        {% if doctor_form.experience_years.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.experience_years.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Education Level -->
+                    <div>
+                        <label for="education_level" class="block text-sm font-medium text-gray-700">Education Level</label>
+                        <input type="text" id="education_level" name="education_level" value="{{ doctor_form.instance.education_level }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter education level">
+                        {% if doctor_form.education_level.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.education_level.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Rank Title -->
+                    <div>
+                        <label for="rank_title" class="block text-sm font-medium text-gray-700">Rank/Title</label>
+                        <input type="text" id="rank_title" name="rank_title" value="{{ doctor_form.instance.rank_title }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter rank/title">
+                        {% if doctor_form.rank_title.errors %}
+                            <div class="text-sm text-red-600">{{ doctor_form.rank_title.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                    Update Profile
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen p-4 sm:p-6 bg-gray-100">
+    <div class="container mx-auto">
+        <!-- Welcome Message -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-4">Welcome, {{ patient.user.first_name }}!</h2>
+            <p class="text-gray-700">Here’s your personalized dashboard for managing your pregnancy journey.</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Make Appointment Button -->
+            <a href="#" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
+                <i class="bi bi-calendar-plus text-2xl mr-2"></i>
+                <span class="text-lg font-semibold">Make Appointment</span>
+            </a>
+            <!-- View Prescriptions -->
+            <a href="#prescriptions" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
+                <i class="bi bi-prescription2 text-2xl mr-2"></i>
+                <span class="text-lg font-semibold">View Prescriptions</span>
+            </a>
+            <!-- Antenatal Card -->
+            <a href="#antenatal-card" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
+                <i class="bi bi-file-earmark-medical text-2xl mr-2"></i>
+                <span class="text-lg font-semibold">Antenatal Card</span>
+            </a>
+            <!-- Emergency -->
+            <a href="#" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
+                <i class="bi bi-exclamation-triangle text-2xl mr-2"></i>
+                <span class="text-lg font-semibold">Emergency</span>
+            </a>
+        </div>
+
+        <!-- Antenatal Card Section -->
+        <div id="antenatal-card" class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Antenatal Card</h3>
+            {% if antenatal_card %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700"><strong>Health Unit:</strong> {{ antenatal_card.health_unit }}</p>
+                        <p class="text-gray-700"><strong>Registration Number:</strong> {{ antenatal_card.reg_no }}</p>
+                        <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.name }}</p>
+                        <p class="text-gray-700"><strong>Phone Number:</strong> {{ antenatal_card.phone_no }}</p>
+                        <p class="text-gray-700"><strong>Age:</strong> {{ antenatal_card.age }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>Village:</strong> {{ antenatal_card.village }}</p>
+                        <p class="text-gray-700"><strong>Parish:</strong> {{ antenatal_card.parish }}</p>
+                        <p class="text-gray-700"><strong>Sub County:</strong> {{ antenatal_card.sub_county }}</p>
+                        <p class="text-gray-700"><strong>District:</strong> {{ antenatal_card.district }}</p>
+                        <p class="text-gray-700"><strong>Occupation:</strong> {{ antenatal_card.occupation }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-gray-700">No antenatal card found. Please contact your healthcare provider.</p>
+            {% endif %}
+        </div>
+
+        <!-- Prescriptions Section -->
+        <div id="prescriptions" class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Prescriptions</h3>
+            {% if prescriptions %}
+                <div class="space-y-4">
+                    {% for prescription in prescriptions %}
+                        <div class="p-4 border border-gray-200 rounded-lg">
+                            <p class="text-gray-700"><strong>Disease/Condition:</strong> {{ prescription.disease_condition }}</p>
+                            <p class="text-gray-700"><strong>Prescription Date:</strong> {{ prescription.prescription_date }}</p>
+                            <p class="text-gray-700"><strong>Follow-up Date:</strong> {{ prescription.follow_up_date }}</p>
+                            <p class="text-gray-700"><strong>Status:</strong> {% if prescription.cleared %}Cleared{% else %}Active{% endif %}</p>
+                            <a href="#" class="text-hotpink hover:text-hotpink-light">View Details</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No prescriptions found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Location Section -->
+        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
+            {% if location %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-gray-700"><strong>Village:</strong> {{ location.village }}</p>
+                        <p class="text-gray-700"><strong>Parish:</strong> {{ location.parish }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-700"><strong>Sub County:</strong> {{ location.sub_county }}</p>
+                        <p class="text-gray-700"><strong>District:</strong> {{ location.district }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-gray-700">No location details found. Please update your profile.</p>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}

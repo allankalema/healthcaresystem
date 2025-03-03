@@ -7,6 +7,7 @@ from .forms import *
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .decorators import *
+from antenental.models import AntenatalCard, Prescription
 
 
 def forbidden_view(request):
@@ -268,3 +269,34 @@ def doctor_profile_update(request):
         'location_form': location_form,
         'doctor_form': doctor_form,
     })
+
+
+
+@login_required
+@patient
+def patient_dashboard(request):
+    # Fetch the logged-in user
+    user = request.user
+
+    # Ensure the user is a patient
+    if not user.is_patient:
+        return redirect('home')  # Redirect non-patients to the home page
+
+    # Fetch patient profile and location
+    patient = Patient.objects.filter(user=user).first()
+    location = Location.objects.filter(user=user).first()
+
+    # Fetch antenatal card
+    antenatal_card = AntenatalCard.objects.filter(user=user).first()
+
+    # Fetch prescriptions
+    prescriptions = Prescription.objects.filter(patient=user).order_by('-prescription_date')
+
+    context = {
+        'patient': patient,
+        'location': location,
+        'antenatal_card': antenatal_card,
+        'prescriptions': prescriptions,
+    }
+
+    return render(request, 'dashboards/patient_dashboard.html', context)

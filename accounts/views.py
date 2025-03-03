@@ -4,6 +4,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .forms import *
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 
 
@@ -111,3 +112,15 @@ def change_password(request):
         form = CustomPasswordChangeForm(request.user)
 
     return render(request, 'accounts/change_password.html', {'form': form})
+
+
+@login_required
+def user_logout(request):
+    # Log the user out
+    logout(request)
+    
+    # Add a success message
+    messages.success(request, 'You have successfully logged out.')
+    
+    # Redirect to the login page
+    return redirect('login')

@@ -6,6 +6,12 @@ from django.contrib import messages
 from .forms import *
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from .decorators import *
+
+
+def forbidden_view(request):
+    """View for handling forbidden access attempts."""
+    return render(request, '403.html', status=403)
 
 
 def base(request):

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="text-center bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-hotpink">403 - Forbidden</h1>
+        <p class="text-gray-600 mt-4 text-lg">Oops! You do not have permission to access this page.</p>
+        <a href="{% url 'home' %}" class="mt-6 inline-block bg-hotpink text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition">
+            Return to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

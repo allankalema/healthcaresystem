@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -91,3 +93,21 @@ def forgot_password(request):
 
 def reset_password(request):
     return render(request, 'accounts/reset_password.html') 
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()  # Change the password
+            update_session_auth_hash(request, form.user)  # Keep the user logged in after password change
+            messages.success(request, 'Your password has been updated successfully!')
+            return redirect('home')  # Redirect to home after success
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = CustomPasswordChangeForm(request.user)
+
+    return render(request, 'accounts/change_password.html', {'form': form})

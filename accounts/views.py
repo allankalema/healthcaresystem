@@ -51,6 +51,25 @@ def signup(request):
 
     return render(request, 'accounts/signup.html', {'form': form})
 
+
+def doctor_signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            login(request, user)
+            messages.success(request, 'Account created successfully! Please proceed to the next step.')
+            return redirect('doctor_additional_details', user_id=user.id)  # Redirect to additional details page
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = SignupForm()
+
+    return render(request, 'accounts/signup.html', {'form': form})
+
 @login_required
 def additional_details(request, user_id):
     user = User.objects.get(id=user_id)
@@ -90,6 +109,51 @@ def additional_details(request, user_id):
         'location_form': location_form,
         'patient_form': patient_form,
     })
+
+
+
+
+
+@login_required
+def doctor_additional_details(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        location_form = LocationForm(request.POST)
+        doctor_form = DoctorForm(request.POST)
+        if location_form.is_valid() and doctor_form.is_valid():
+            # Save location
+            location = location_form.save(commit=False)
+            location.user = user
+            location.save()
+
+            # Save doctor details
+            doctor = doctor_form.save(commit=False)
+            doctor.user = user
+            doctor.save()
+
+            # Update user role to doctor
+            user.is_doctor = True
+            user.save()
+
+            messages.success(request, 'Additional details saved successfully!')
+            return redirect('home')
+        else:
+            # Display form errors
+            for field, errors in location_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Location - {field}: {error}")
+            for field, errors in doctor_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Doctor - {field}: {error}")
+    else:
+        location_form = LocationForm()
+        doctor_form = DoctorForm()
+
+    return render(request, 'accounts/doctor_additional_details.html', {
+        'location_form': location_form,
+        'doctor_form': doctor_form,
+    })
+
 
 
 def enter_code(request):

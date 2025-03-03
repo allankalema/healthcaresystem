@@ -13,7 +13,9 @@ urlpatterns = [
     path('reset_password/',  reset_password, name ='reset_password' ),
 
     path('signup/', signup, name='signup'),
+    path('doctor-signup/', doctor_signup, name='doctor_signup'),
     path('additional-details/<int:user_id>/', additional_details, name='additional_details'),
+    path('doctor_additional_details/<int:user_id>/', doctor_additional_details, name='doctor_additional_details'),
     path('change-password/', change_password, name='change_password'),
     path('logout/', user_logout, name='logout'),
     path('profile_update/', profile_update, name='profile_update'),

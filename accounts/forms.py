@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.exceptions import ValidationError
-from .models import User,Location, Patient
+from .models import User,Location, Patient, Doctor
 
 
 class SignupForm(UserCreationForm):
@@ -123,4 +123,19 @@ class PatientUpdateForm(forms.ModelForm):
             'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
             'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
             'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter your occupation'}),
+        }
+
+class DoctorForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = ['work_address', 'certificate_number', 'contact_number', 'health_facility', 'medical_field', 'experience_years', 'education_level', 'rank_title']
+        widgets = {
+            'work_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter work address'}),
+            'certificate_number': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter certificate number'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter contact number'}),
+            'health_facility': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter health facility'}),
+            'medical_field': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter medical field'}),
+            'experience_years': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter years of experience'}),
+            'education_level': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter education level'}),
+            'rank_title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter rank/title'}),
         }

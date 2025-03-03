@@ -124,3 +124,43 @@ def user_logout(request):
     
     # Redirect to the login page
     return redirect('login')
+
+
+@login_required
+def profile_update(request):
+    user = request.user
+    location, _ = Location.objects.get_or_create(user=user)
+    patient, _ = Patient.objects.get_or_create(user=user)
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=user)
+        location_form = LocationUpdateForm(request.POST, instance=location)
+        patient_form = PatientUpdateForm(request.POST, instance=patient)
+
+        if user_form.is_valid() and location_form.is_valid() and patient_form.is_valid():
+            user_form.save()
+            location_form.save()
+            patient_form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('home')
+        else:
+            # Display form errors
+            for field, errors in user_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"User - {field}: {error}")
+            for field, errors in location_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Location - {field}: {error}")
+            for field, errors in patient_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Patient - {field}: {error}")
+    else:
+        user_form = UserUpdateForm(instance=user)
+        location_form = LocationUpdateForm(instance=location)
+        patient_form = PatientUpdateForm(instance=patient)
+
+    return render(request, 'accounts/profile_update.html', {
+        'user_form': user_form,
+        'location_form': location_form,
+        'patient_form': patient_form,
+    })

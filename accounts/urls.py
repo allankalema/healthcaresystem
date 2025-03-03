@@ -14,6 +14,7 @@ urlpatterns = [
     path('additional-details/<int:user_id>/', additional_details, name='additional_details'),
     path('change-password/', change_password, name='change_password'),
     path('logout/', user_logout, name='logout'),
+    path('profile_update/', profile_update, name='profile_update'),
     
     
     

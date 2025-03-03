@@ -85,3 +85,41 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
     class Meta:
         fields = ['old_password', 'new_password1', 'new_password2']
+
+class UserUpdateForm(forms.ModelForm):
+        class Meta:
+            model = User
+            fields = ['username', 'first_name', 'last_name', 'email', 'date_of_birth', 'nin', 'marital_status', 'contact']
+            widgets = {
+                'username': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter username'}),
+                'first_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter first name'}),
+                'last_name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter last name'}),
+                'email': forms.EmailInput(attrs={'class': 'form-input', 'placeholder': 'Enter email'}),
+                'date_of_birth': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+                'nin': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter NIN'}),
+                'marital_status': forms.Select(attrs={'class': 'form-input'}),
+                'contact': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter contact number'}),
+            }
+
+class LocationUpdateForm(forms.ModelForm):
+        class Meta:
+            model = Location
+            fields = ['village', 'parish', 'sub_county', 'district', 'address']
+            widgets = {
+                'village': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter village'}),
+                'parish': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter parish'}),
+                'sub_county': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter sub-county'}),
+                'district': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter district'}),
+                'address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter address'}),
+            }
+
+class PatientUpdateForm(forms.ModelForm):
+        class Meta:
+            model = Patient
+            fields = ['age', 'home_address', 'number_of_children', 'date_of_last_period', 'occupation']
+            widgets = {
+                'home_address': forms.Textarea(attrs={'class': 'form-input', 'placeholder': 'Enter home address'}),
+                'number_of_children': forms.NumberInput(attrs={'class': 'form-input', 'placeholder': 'Enter number of children'}),
+                'date_of_last_period': forms.DateInput(attrs={'class': 'form-input', 'type': 'date'}),
+                'occupation': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter occupation'}),
+            }

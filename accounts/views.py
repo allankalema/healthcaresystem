@@ -1,7 +1,8 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import PatientSignupForm
+from .forms import *
+from django.contrib.auth.decorators import login_required
 
 
 def base(request):
@@ -25,21 +26,61 @@ def login_view(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = PatientSignupForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
+            login(request, user)
             messages.success(request, 'Account created successfully! Please proceed to the next step.')
-            return redirect('home')  # Redirect to home or the next phase
+            return redirect('additional_details', user_id=user.id)  # Redirect to additional details page
         else:
-            # Display form errors
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
     else:
-        form = PatientSignupForm()
+        form = SignupForm()
 
-    return render(request, 'accounts/patient_signup.html', {'form': form})
+    return render(request, 'accounts/signup.html', {'form': form})
+
+@login_required
+def additional_details(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        location_form = LocationForm(request.POST)
+        patient_form = PatientForm(request.POST)
+        if location_form.is_valid() and patient_form.is_valid():
+            # Save location
+            location = location_form.save(commit=False)
+            location.user = user
+            location.save()
+
+            # Save patient details
+            patient = patient_form.save(commit=False)
+            patient.user = user
+            patient.save()
+
+            # Update user role to patient
+            user.is_patient = True
+            user.save()
+
+            messages.success(request, 'Additional details saved successfully!')
+            return redirect('home')
+        else:
+            # Display form errors
+            for field, errors in location_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Location - {field}: {error}")
+            for field, errors in patient_form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Patient - {field}: {error}")
+    else:
+        location_form = LocationForm()
+        patient_form = PatientForm()
+
+    return render(request, 'accounts/additional_details.html', {
+        'location_form': location_form,
+        'patient_form': patient_form,
+    })
 
 
 def enter_code(request):

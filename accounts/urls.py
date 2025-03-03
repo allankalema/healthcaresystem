@@ -10,7 +10,8 @@ urlpatterns = [
     path('forgot_password/',  forgot_password, name ='forgot_password' ),
     path('reset_password/',  reset_password, name ='reset_password' ),
 
-    path('signup/patient/', signup, name='signup'),
+    path('signup/', signup, name='signup'),
+    path('additional-details/<int:user_id>/', additional_details, name='additional_details'),
     
     
     

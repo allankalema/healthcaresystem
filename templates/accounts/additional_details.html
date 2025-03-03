@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl h-auto flex flex-col bg-white rounded-lg shadow-lg overflow-hidden p-6 sm:p-8 lg:p-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-6 text-center">Additional Details</h2>
+
+        <!-- Display Error Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <!-- Location Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Village -->
+                    <div>
+                        <label for="village" class="block text-sm font-medium text-gray-700">Village</label>
+                        <input type="text" id="village" name="village" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter village">
+                        {% if location_form.village.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.village.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Parish -->
+                    <div>
+                        <label for="parish" class="block text-sm font-medium text-gray-700">Parish</label>
+                        <input type="text" id="parish" name="parish" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter parish">
+                        {% if location_form.parish.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.parish.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Sub County -->
+                    <div>
+                        <label for="sub_county" class="block text-sm font-medium text-gray-700">Sub County</label>
+                        <input type="text" id="sub_county" name="sub_county" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter sub-county">
+                        {% if location_form.sub_county.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.sub_county.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- District -->
+                    <div>
+                        <label for="district" class="block text-sm font-medium text-gray-700">District</label>
+                        <input type="text" id="district" name="district" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter district">
+                        {% if location_form.district.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.district.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Address -->
+                    <div class="sm:col-span-2">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                        <textarea id="address" name="address" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                                  placeholder="Enter address"></textarea>
+                        {% if location_form.address.errors %}
+                            <div class="text-sm text-red-600">{{ location_form.address.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Details -->
+            <div>
+                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Patient Details</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Age -->
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
+                        <input type="number" id="age" name="age" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter age">
+                        {% if patient_form.age.errors %}
+                            <div class="text-sm text-red-600">{{ patient_form.age.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Home Address -->
+                    <div>
+                        <label for="home_address" class="block text-sm font-medium text-gray-700">Home Address</label>
+                        <textarea id="home_address" name="home_address" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                                  placeholder="Enter home address"></textarea>
+                        {% if patient_form.home_address.errors %}
+                            <div class="text-sm text-red-600">{{ patient_form.home_address.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Number of Children -->
+                    <div>
+                        <label for="number_of_children" class="block text-sm font-medium text-gray-700">Number of Children</label>
+                        <input type="number" id="number_of_children" name="number_of_children" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter number of children">
+                        {% if patient_form.number_of_children.errors %}
+                            <div class="text-sm text-red-600">{{ patient_form.number_of_children.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Date of Last Period -->
+                    <div>
+                        <label for="date_of_last_period" class="block text-sm font-medium text-gray-700">Date of Last Period</label>
+                        <input type="date" id="date_of_last_period" name="date_of_last_period" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+                        {% if patient_form.date_of_last_period.errors %}
+                            <div class="text-sm text-red-600">{{ patient_form.date_of_last_period.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <!-- Occupation -->
+                    <div>
+                        <label for="occupation" class="block text-sm font-medium text-gray-700">Occupation</label>
+                        <input type="text" id="occupation" name="occupation" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink"
+                               placeholder="Enter occupation">
+                        {% if patient_form.occupation.errors %}
+                            <div class="text-sm text-red-600">{{ patient_form.occupation.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                    Save Details
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+{% load custom_filters %}
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
@@ -10,6 +12,18 @@
         </div>
 
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Details: {{ antenatal_card.name }}</h2>
+
+        <!-- Mode Toggle -->
+        <div class="mb-6 flex justify-center space-x-4">
+            <label class="inline-flex items-center">
+                <input type="radio" name="mode" value="view" checked class="form-radio text-green-600" onchange="toggleEditMode(false)">
+                <span class="ml-2">View Mode</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="mode" value="edit" class="form-radio text-green-600" onchange="toggleEditMode(true)">
+                <span class="ml-2">Edit Mode</span>
+            </label>
+        </div>
 
         <!-- Next Visit -->
         <div class="mb-6 p-4 bg-green-50 rounded-lg shadow-sm">
@@ -24,6 +38,19 @@
                 {% csrf_token %}
                 <input type="hidden" name="update_antenatal_card" value="true">
                 <!-- Add fields for AntenatalCard here -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="health_unit" class="block text-sm font-medium text-gray-700">Health Unit</label>
+                        <input type="text" id="health_unit" name="health_unit" value="{{ antenatal_card.health_unit }}" disabled
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="reg_no" class="block text-sm font-medium text-gray-700">Registration Number</label>
+                        <input type="text" id="reg_no" name="reg_no" value="{{ antenatal_card.reg_no }}" disabled
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <!-- Add more fields here -->
+                </div>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
                     Update Antenatal Card
                 </button>
@@ -36,7 +63,14 @@
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_previous_obstetric_history" value="true">
-                {{ previous_obstetric_history_form.as_p }}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in previous_obstetric_history_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                        </div>
+                    {% endfor %}
+                </div>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
                     Add History
                 </button>
@@ -56,7 +90,14 @@
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_antenatal_progress" value="true">
-                {{ antenatal_progress_form.as_p }}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in antenatal_progress_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                        </div>
+                    {% endfor %}
+                </div>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
                     Add Progress
                 </button>
@@ -76,7 +117,14 @@
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_ultrasound_report" value="true">
-                {{ ultrasound_report_form.as_p }}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {% for field in ultrasound_report_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                        </div>
+                    {% endfor %}
+                </div>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
                     Add Report
                 </button>
@@ -91,4 +139,19 @@
         </div>
     </div>
 </main>
+
+<!-- JavaScript to Toggle Edit Mode -->
+<script>
+    function toggleEditMode(enable) {
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            if (input.name !== 'mode') { // Exclude the mode radio buttons
+                input.disabled = !enable;
+            }
+        });
+    }
+
+    // Initialize in View Mode
+    toggleEditMode(false);
+</script>
 {% endblock %}

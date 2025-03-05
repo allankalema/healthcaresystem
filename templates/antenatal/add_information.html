@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
@@ -32,14 +33,28 @@
                 {% csrf_token %}
                 <input type="hidden" name="update_antenatal_card" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Gravida -->
                     <div>
                         <label for="gravida" class="block text-sm font-medium text-gray-700">Gravida</label>
                         <input type="number" id="gravida" name="gravida" value="{{ antenatal_card.gravida|default_if_none:'' }}"
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
+                    <!-- Para -->
                     <div>
                         <label for="para" class="block text-sm font-medium text-gray-700">Para</label>
                         <input type="number" id="para" name="para" value="{{ antenatal_card.para|default_if_none:'' }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <!-- Abortions -->
+                    <div>
+                        <label for="abortions" class="block text-sm font-medium text-gray-700">Abortions</label>
+                        <input type="number" id="abortions" name="abortions" value="{{ antenatal_card.abortions|default_if_none:'' }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <!-- Next Visit (Always Visible) -->
+                    <div>
+                        <label for="next_visit" class="block text-sm font-medium text-gray-700">Next Visit</label>
+                        <input type="datetime-local" id="next_visit" name="next_visit" value="{{ antenatal_card.next_visit|date:'Y-m-d\TH:i'|default_if_none:'' }}"
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <!-- Add more fields here -->
@@ -60,10 +75,20 @@
                 <input type="hidden" name="add_previous_obstetric_history" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in previous_obstetric_history_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="mt-1">
+                                        {{ field|add_class:"form-checkbox h-5 w-5 text-green-600 rounded border-gray-300 focus:ring-green-600" }}
+                                    </div>
+                                {% elif field.field.widget.input_type == 'select' %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% else %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class="flex justify-end">
@@ -82,10 +107,20 @@
                 <input type="hidden" name="add_antenatal_progress" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in antenatal_progress_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="mt-1">
+                                        {{ field|add_class:"form-checkbox h-5 w-5 text-green-600 rounded border-gray-300 focus:ring-green-600" }}
+                                    </div>
+                                {% elif field.field.widget.input_type == 'select' %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% else %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class="flex justify-end">
@@ -104,10 +139,20 @@
                 <input type="hidden" name="add_ultrasound_report" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in ultrasound_report_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                            <div>
+                                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                                {% if field.field.widget.input_type == 'checkbox' %}
+                                    <div class="mt-1">
+                                        {{ field|add_class:"form-checkbox h-5 w-5 text-green-600 rounded border-gray-300 focus:ring-green-600" }}
+                                    </div>
+                                {% elif field.field.widget.input_type == 'select' %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% else %}
+                                    {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class="flex justify-end">

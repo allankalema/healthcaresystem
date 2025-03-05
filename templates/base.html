@@ -74,7 +74,7 @@
                         <a href="{% url 'patient_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
                         <a href="#" class="hover:text-hotpink-light">My Prescriptions</a>
                     {% elif user.is_doctor %}
-                    <a href="#" class="hover:text-hotpink-light">Dashboard</a>
+                    <a href="{% url 'doctor_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
                     {% elif user.is_hospital %}
                     <a href="#" class="hover:text-hotpink-light">Dashboard</a>
                     {% endif %}
@@ -117,7 +117,8 @@
                 {% if user.is_authenticated %}
                 {% if user.is_patient %}
                     <li><a href="{% url 'patient_dashboard' %}" class="block hover:bg-hotpink-light p-2 rounded">Dashboard</a></li>
-                    <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">My Prescriptions</a></li>
+                {% elif user.is_doctor %}
+                    <a href="{% url 'doctor_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
                 {% endif %}
                 {% endif %}
                 <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Emergency</a></li>

@@ -21,6 +21,7 @@ urlpatterns = [
     path('profile_update/', profile_update, name='profile_update'),
     path('doctor_profile_update/', doctor_profile_update, name='doctor_profile_update'),
     path('patient_dashboard/', patient_dashboard, name='patient_dashboard'),
+     path('doctor_dashboard/', doctor_dashboard, name='doctor_dashboard'),
     
     
     

@@ -1,11 +1,10 @@
-<!-- templates/accounts/doctor_profile_update.html -->
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-6 text-center">Update Doctor Profile</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-6 text-center">Update Doctor Profile</h2>
 
         <!-- Display Success and Error Messages -->
         {% if messages %}
@@ -21,7 +20,7 @@
             
             <!-- Location Details -->
             <div>
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
+                <h3 class="text-xl font-semibold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-4">Location Details</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Village -->
                     <div>
@@ -78,7 +77,7 @@
 
             <!-- Doctor Details -->
             <div>
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Doctor Details</h3>
+                <h3 class="text-xl font-semibold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-4">Doctor Details</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <!-- Work Address -->
                     <div class="sm:col-span-2">
@@ -166,7 +165,7 @@
             <!-- Submit Button -->
             <div>
                 <button type="submit"
-                        class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                        class="w-full {% if user.is_authenticated and user.is_doctor %}bg-green-600{% else %}bg-hotpink{% endif %} text-white px-4 py-2 rounded-lg font-semibold hover:{% if user.is_authenticated and user.is_doctor %}bg-green-700{% else %}bg-hotpink-light{% endif %} transition duration-300">
                     Update Profile
                 </button>
             </div>

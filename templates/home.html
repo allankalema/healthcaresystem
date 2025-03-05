@@ -7,7 +7,7 @@
     <section class="mb-12 fade-in">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
-                <h2 class="text-3xl font-bold text-hotpink-dark mb-4">About Our System</h2>
+                <h2 class="text-3xl font-bold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-4">About Our System</h2>
                 <p class="text-gray-700 leading-relaxed">
                     MomCare is designed to digitize and streamline antenatal care for pregnant mothers. 
                     With this system, mothers can easily track their appointments, receive updates, and stay informed about their 
@@ -28,24 +28,24 @@
 
     <!-- Section 2: Features -->
     <section class="mb-12 fade-in">
-        <h2 class="text-3xl font-bold text-hotpink-dark mb-8 text-center">Key Features</h2>
+        <h2 class="text-3xl font-bold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-8 text-center">Key Features</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Feature 1: Appointment Tracking -->
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <img src="{{ MEDIA_URL }}images/doctorpatientlaughing.png" alt="Appointment Tracking" class="w-24 h-24 mx-auto mb-4">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Appointment Tracking</h3>
+                <h3 class="text-xl font-semibold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-2">Appointment Tracking</h3>
                 <p class="text-gray-700">Mothers can easily track their antenatal appointments and receive reminders.</p>
             </div>
             <!-- Feature 2: GPS Integration -->
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <img src="{{ MEDIA_URL }}images/googlepin.png" alt="GPS Integration" class="w-24 h-24 mx-auto mb-4">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">GPS Integration</h3>
+                <h3 class="text-xl font-semibold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-2">GPS Integration</h3>
                 <p class="text-gray-700">Locate nearby healthcare centers for urgent care using GPS technology.</p>
             </div>
             <!-- Feature 3: Doctor-Patient Communication -->
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
                 <img src="{{ MEDIA_URL }}images/womanoncheckup.png" alt="Doctor-Patient Communication" class="w-24 h-24 mx-auto mb-4">
-                <h3 class="text-xl font-semibold text-hotpink-dark mb-2">Doctor-Patient Communication</h3>
+                <h3 class="text-xl font-semibold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-2">Doctor-Patient Communication</h3>
                 <p class="text-gray-700">Doctors can monitor and communicate with their patients effectively.</p>
             </div>
         </div>
@@ -53,16 +53,18 @@
 
     <!-- Section 3: Call to Action -->
     <section class="mb-12 fade-in">
-        <div class="bg-hotpink text-white p-8 rounded-lg shadow-lg text-center">
+        <div class="{% if user.is_authenticated and user.is_doctor %}bg-green-600{% else %}bg-hotpink{% endif %} text-white p-8 rounded-lg shadow-lg text-center">
             <h2 class="text-3xl font-bold mb-4">Join Us Today!</h2>
             <p class="text-lg mb-6">Register now to experience seamless antenatal care and stay connected with your healthcare provider.</p>
-            <a href="{% url 'doctor_signup' %}" class="bg-white text-hotpink px-6 py-3 rounded-full font-semibold hover:bg-hotpink-light transition duration-300">Get Started</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'doctor_signup' %}" class="bg-white {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink{% endif %} px-6 py-3 rounded-full font-semibold hover:bg-hotpink-light transition duration-300">Get Started</a>
+            {% endif %}
         </div>
     </section>
 
     <!-- Section 4: Healthcare Centers -->
     <section class="fade-in">
-        <h2 class="text-3xl font-bold text-hotpink-dark mb-8 text-center">Healthcare Centers & Doctors Available</h2>
+        <h2 class="text-3xl font-bold {% if user.is_authenticated and user.is_doctor %}text-green-600{% else %}text-hotpink-dark{% endif %} mb-8 text-center">Healthcare Centers & Doctors Available</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <img src="{{ MEDIA_URL }}images/pregnantwomannursed.png" alt="Healthcare Centers" class="rounded-lg shadow-lg">

@@ -46,11 +46,31 @@
         .text-hotpink-dark {
             color: #cc548f; /* Darker shade for text */
         }
+
+        /* Health Green Shade (#4CAF50) */
+        .bg-health-green {
+            background-color: #4CAF50;
+        }
+        .hover\:bg-health-green-light:hover {
+            background-color: #66bb6a; /* Lighter shade for hover */
+        }
+        .text-health-green {
+            color: #4CAF50;
+        }
+        .hover\:text-health-green-light:hover {
+            color: #66bb6a; /* Lighter shade for hover */
+        }
+        .bg-health-green-light {
+            background-color: #66bb6a; /* Lighter shade for messages */
+        }
+        .text-health-green-dark {
+            color: #388e3c; /* Darker shade for text */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- App Bar -->
-    <nav class="bg-hotpink p-4 text-white shadow-lg">
+    <nav class="{% if user.is_doctor %}bg-health-green{% else %}bg-hotpink{% endif %} p-4 text-white shadow-lg">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Title and Hamburger Button (for small screens) -->
             <div class="flex items-center space-x-4">
@@ -68,15 +88,15 @@
             <div class="flex items-center space-x-6">
                 <!-- Navigation Links -->
                 <div class="hidden lg:flex space-x-6">
-                    <a href="{% url 'home' %}" class="hover:text-hotpink-light">Home</a>
+                    <a href="{% url 'home' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Home</a>
                     {% if user.is_authenticated %}
                     {% if user.is_patient %}
-                        <a href="{% url 'patient_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
-                        <a href="#" class="hover:text-hotpink-light">My Prescriptions</a>
+                        <a href="{% url 'patient_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
+                        <a href="#" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">My Prescriptions</a>
                     {% elif user.is_doctor %}
-                    <a href="{% url 'doctor_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
+                        <a href="{% url 'doctor_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                     {% elif user.is_hospital %}
-                    <a href="#" class="hover:text-hotpink-light">Dashboard</a>
+                        <a href="#" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                     {% endif %}
                     {% endif %}
                 </div>
@@ -91,17 +111,17 @@
                         {% if user.is_authenticated %}
                             <!-- Dynamic Profile Update Link -->
                             {% if user.is_patient %}
-                                <a href="{% url 'profile_update' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Update Profile</a>
+                                <a href="{% url 'profile_update' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Update Profile</a>
                             {% elif user.is_doctor %}
-                                <a href="{% url 'doctor_profile_update' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Update Profile</a>
+                                <a href="{% url 'doctor_profile_update' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Update Profile</a>
                             {% endif %}
-                            <a href="{% url 'change_password' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Change Password</a>
-                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Logout</a>
+                            <a href="{% url 'change_password' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Change Password</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Logout</a>
                         {% else %}
-                            <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Login</a>
-                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Signup</a>
+                            <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Login</a>
+                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Signup</a>
                         {% endif %}
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-hotpink-light">Emergency</a>
+                        <a href="#" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Emergency</a>
                     </div>
                 </div>
             </div>
@@ -109,19 +129,19 @@
     </nav>
 
     <!-- Sidebar (for small screens) -->
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-hotpink text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden">
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-64 {% if user.is_doctor %}bg-health-green{% else %}bg-hotpink{% endif %} text-white transform -translate-x-full transition-transform duration-300 ease-in-out z-40 lg:hidden">
         <div class="p-4">
             <h2 class="text-xl font-semibold">Menu</h2>
             <ul class="mt-4 space-y-2">
-                <li><a href="{% url 'home' %}" class="block hover:bg-hotpink-light p-2 rounded">Home</a></li>
+                <li><a href="{% url 'home' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Home</a></li>
                 {% if user.is_authenticated %}
                 {% if user.is_patient %}
-                    <li><a href="{% url 'patient_dashboard' %}" class="block hover:bg-hotpink-light p-2 rounded">Dashboard</a></li>
+                    <li><a href="{% url 'patient_dashboard' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Dashboard</a></li>
                 {% elif user.is_doctor %}
-                    <a href="{% url 'doctor_dashboard' %}" class="hover:text-hotpink-light">Dashboard</a>
+                    <a href="{% url 'doctor_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                 {% endif %}
                 {% endif %}
-                <li><a href="#" class="block hover:bg-hotpink-light p-2 rounded">Emergency</a></li>
+                <li><a href="#" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Emergency</a></li>
             </ul>
         </div>
     </div>
@@ -135,7 +155,7 @@
         <div id="messages" class="fixed top-20 right-4 space-y-2 z-50">
             {% if messages %}
                 {% for message in messages %}
-                    <div class="fade-in p-4 rounded-lg shadow-lg {% if message.tags == 'success' %}bg-hotpink-light text-hotpink-dark{% else %}bg-red-100 text-red-800{% endif %} flex justify-between items-center">
+                    <div class="fade-in p-4 rounded-lg shadow-lg {% if message.tags == 'success' %}{% if user.is_doctor %}bg-health-green-light text-health-green-dark{% else %}bg-hotpink-light text-hotpink-dark{% endif %}{% else %}bg-red-100 text-red-800{% endif %} flex justify-between items-center">
                         <span>{{ message }}</span>
                         <button onclick="this.parentElement.remove()" class="ml-4 focus:outline-none">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

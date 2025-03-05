@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Add Information to Card: {{ antenatal_card.name }}</h2>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="relative p-4 mb-4 bg-green-50 text-green-700 rounded-lg shadow-sm flex justify-between items-center">
+                <span>{{ message }}</span>
+                <button onclick="this.parentElement.remove()" class="ml-4 text-green-700 hover:text-green-900">
+                    &times;
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Update Antenatal Card -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Update Antenatal Card</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="update_antenatal_card" value="true">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div>
+                        <label for="gravida" class="block text-sm font-medium text-gray-700">Gravida</label>
+                        <input type="number" id="gravida" name="gravida" value="{{ antenatal_card.gravida|default_if_none:'' }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="para" class="block text-sm font-medium text-gray-700">Para</label>
+                        <input type="number" id="para" name="para" value="{{ antenatal_card.para|default_if_none:'' }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <!-- Add more fields here -->
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Update Card
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add Previous Obstetric History -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Previous Obstetric History</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_previous_obstetric_history" value="true">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for field in previous_obstetric_history_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add History
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add Antenatal Progress Examination -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Antenatal Progress Examination</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_antenatal_progress" value="true">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for field in antenatal_progress_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add Progress
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add Ultrasound Report -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Ultrasound Report</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_ultrasound_report" value="true">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for field in ultrasound_report_form %}
+                        <div>
+                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add Report
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Done Button -->
+        <div class="flex justify-end mt-8">
+            <a href="{% url 'doctor_dashboard' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Done
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

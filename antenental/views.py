@@ -163,3 +163,89 @@ def patient_details(request, patient_id):
         'progress_examinations': progress_examinations,
         'ultrasound_reports': ultrasound_reports,
     })
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.core.mail import send_mail
+from .models import AntenatalCard, PreviousObstetricHistory, AntenatalProgressExamination, UltrasoundReport
+from .forms import PreviousObstetricHistoryForm, AntenatalProgressExaminationForm, UltrasoundReportForm
+
+def add_information(request, patient_id):
+    # Fetch the AntenatalCard instance for the patient
+    antenatal_card = get_object_or_404(AntenatalCard, id=patient_id)
+
+    if request.method == 'POST':
+        # Update AntenatalCard fields
+        if 'update_antenatal_card' in request.POST:
+            antenatal_card.gravida = request.POST.get('gravida', antenatal_card.gravida)
+            antenatal_card.para = request.POST.get('para', antenatal_card.para)
+            antenatal_card.abortions = request.POST.get('abortions', antenatal_card.abortions)
+            antenatal_card.presenting_complaints = request.POST.get('presenting_complaints', antenatal_card.presenting_complaints)
+            antenatal_card.first_day_of_lnmp = request.POST.get('first_day_of_lnmp', antenatal_card.first_day_of_lnmp)
+            antenatal_card.edd = request.POST.get('edd', antenatal_card.edd)
+            antenatal_card.weeks_of_amenorrhea = request.POST.get('weeks_of_amenorrhea', antenatal_card.weeks_of_amenorrhea)
+            antenatal_card.complications_of_pregnancy = request.POST.get('complications_of_pregnancy', antenatal_card.complications_of_pregnancy)
+            antenatal_card.hospitalization = request.POST.get('hospitalization') == 'on'
+            antenatal_card.hospitalization_reason = request.POST.get('hospitalization_reason', antenatal_card.hospitalization_reason)
+            antenatal_card.next_visit = request.POST.get('next_visit', antenatal_card.next_visit)
+            antenatal_card.save()
+            messages.success(request, 'Antenatal card updated successfully.')
+
+            # Send email after updating the card
+            send_mail(
+                'Updated Visit Details',
+                f'Your next visit is scheduled for {antenatal_card.next_visit}. Please check your calendar for details.',
+                'no-reply@example.com',
+                [antenatal_card.user.email],
+                fail_silently=False,
+            )
+
+        # Add new PreviousObstetricHistory
+        elif 'add_previous_obstetric_history' in request.POST:
+            form = PreviousObstetricHistoryForm(request.POST)
+            if form.is_valid():
+                history = form.save(commit=False)
+                history.antenatal_card = antenatal_card
+                history.recorded_by = request.user
+                history.save()
+                messages.success(request, 'Previous obstetric history added successfully.')
+
+        # Add new AntenatalProgressExamination
+        elif 'add_antenatal_progress' in request.POST:
+            form = AntenatalProgressExaminationForm(request.POST)
+            if form.is_valid():
+                progress = form.save(commit=False)
+                progress.antenatal_card = antenatal_card
+                progress.recorded_by = request.user
+                progress.save()
+                messages.success(request, 'Antenatal progress examination added successfully.')
+
+        # Add new UltrasoundReport
+        elif 'add_ultrasound_report' in request.POST:
+            form = UltrasoundReportForm(request.POST)
+            if form.is_valid():
+                report = form.save(commit=False)
+                report.antenatal_card = antenatal_card
+                report.recorded_by = request.user
+                report.save()
+                messages.success(request, 'Ultrasound report added successfully.')
+
+        # Redirect to the same page after saving
+        return redirect('add_information', patient_id=patient_id)
+
+    # Fetch related data
+    previous_histories = PreviousObstetricHistory.objects.filter(antenatal_card=antenatal_card)
+    progress_examinations = AntenatalProgressExamination.objects.filter(antenatal_card=antenatal_card)
+    ultrasound_reports = UltrasoundReport.objects.filter(antenatal_card=antenatal_card)
+
+    # Render the template
+    return render(request, 'antenatal/add_information.html', {
+        'antenatal_card': antenatal_card,
+        'previous_histories': previous_histories,
+        'progress_examinations': progress_examinations,
+        'ultrasound_reports': ultrasound_reports,
+        'previous_obstetric_history_form': PreviousObstetricHistoryForm(),
+        'antenatal_progress_form': AntenatalProgressExaminationForm(),
+        'ultrasound_report_form': UltrasoundReportForm(),
+    })

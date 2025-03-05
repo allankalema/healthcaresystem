@@ -131,10 +131,11 @@
             {% endif %}
         </div>
 
-        <!-- Add Information Section -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Add Information to the Card</h3>
-            <p class="text-gray-700">This section will allow you to add new information to the card. (Functionality coming soon!)</p>
+            <a href="{% url 'add_information' antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Add Information
+            </a>
         </div>
     </div>
 </main>

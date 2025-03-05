@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from django.utils.timezone import now
 from django.db.models import Q
-from .models import AntenatalCard
+from .models import *
 from.forms import *
 from accounts.models import * # Import your User model
 
@@ -145,87 +145,11 @@ def doctor_patients(request):
     })
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.core.mail import send_mail
-from .models import AntenatalCard, PreviousObstetricHistory, AntenatalProgressExamination, UltrasoundReport
-from .forms import PreviousObstetricHistoryForm, AntenatalProgressExaminationForm, UltrasoundReportForm
+
 
 def patient_details(request, patient_id):
     # Fetch the AntenatalCard instance for the patient
-    antenatal_card = get_object_or_404(AntenatalCard, id=patient_id, Doctor=request.user)
-
-    # Handle form submissions
-    if request.method == 'POST':
-        # Update AntenatalCard fields
-        if 'update_antenatal_card' in request.POST:
-            antenatal_card.health_unit = request.POST.get('health_unit')
-            antenatal_card.reg_no = request.POST.get('reg_no')
-            antenatal_card.age = request.POST.get('age')
-            antenatal_card.religion = request.POST.get('religion')
-            antenatal_card.education_level = request.POST.get('education_level')
-            antenatal_card.tribe = request.POST.get('tribe')
-            antenatal_card.next_of_kin_name = request.POST.get('next_of_kin_name')
-            antenatal_card.next_of_kin_phone = request.POST.get('next_of_kin_phone')
-            antenatal_card.next_of_kin_relationship = request.POST.get('next_of_kin_relationship')
-            antenatal_card.next_of_kin_address = request.POST.get('next_of_kin_address')
-            antenatal_card.gravida = request.POST.get('gravida')
-            antenatal_card.para = request.POST.get('para')
-            antenatal_card.abortions = request.POST.get('abortions')
-            antenatal_card.presenting_complaints = request.POST.get('presenting_complaints')
-            antenatal_card.first_day_of_lnmp = request.POST.get('first_day_of_lnmp')
-            antenatal_card.edd = request.POST.get('edd')
-            antenatal_card.weeks_of_amenorrhea = request.POST.get('weeks_of_amenorrhea')
-            antenatal_card.complications_of_pregnancy = request.POST.get('complications_of_pregnancy')
-            antenatal_card.hospitalization = request.POST.get('hospitalization') == 'on'
-            antenatal_card.hospitalization_reason = request.POST.get('hospitalization_reason')
-            antenatal_card.next_visit = request.POST.get('next_visit')
-            antenatal_card.save()
-
-            # Send email to the patient
-            send_mail(
-                'Updated Visit Details',
-                f'Your next visit is scheduled for {antenatal_card.next_visit}. Please check your calendar for details.',
-                'no-reply@example.com',
-                [antenatal_card.user.email],
-                fail_silently=False,
-            )
-
-            messages.success(request, 'Patient details updated successfully.')
-            return redirect('patient_details', patient_id=patient_id)
-
-        # Add new PreviousObstetricHistory
-        elif 'add_previous_obstetric_history' in request.POST:
-            form = PreviousObstetricHistoryForm(request.POST)
-            if form.is_valid():
-                history = form.save(commit=False)
-                history.antenatal_card = antenatal_card
-                history.recorded_by = request.user
-                history.save()
-                messages.success(request, 'Previous obstetric history added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
-
-        # Add new AntenatalProgressExamination
-        elif 'add_antenatal_progress' in request.POST:
-            form = AntenatalProgressExaminationForm(request.POST)
-            if form.is_valid():
-                progress = form.save(commit=False)
-                progress.antenatal_card = antenatal_card
-                progress.recorded_by = request.user
-                progress.save()
-                messages.success(request, 'Antenatal progress examination added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
-
-        # Add new UltrasoundReport
-        elif 'add_ultrasound_report' in request.POST:
-            form = UltrasoundReportForm(request.POST)
-            if form.is_valid():
-                report = form.save(commit=False)
-                report.antenatal_card = antenatal_card
-                report.recorded_by = request.user
-                report.save()
-                messages.success(request, 'Ultrasound report added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
+    antenatal_card = get_object_or_404(AntenatalCard, id=patient_id)
 
     # Fetch related data
     previous_histories = PreviousObstetricHistory.objects.filter(antenatal_card=antenatal_card)
@@ -238,7 +162,4 @@ def patient_details(request, patient_id):
         'previous_histories': previous_histories,
         'progress_examinations': progress_examinations,
         'ultrasound_reports': ultrasound_reports,
-        'previous_obstetric_history_form': PreviousObstetricHistoryForm(),
-        'antenatal_progress_form': AntenatalProgressExaminationForm(),
-        'ultrasound_report_form': UltrasoundReportForm(),
     })

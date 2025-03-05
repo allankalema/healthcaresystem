@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-{% load custom_filters %}
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <!-- Ministry of Health Emblem -->
         <div class="flex justify-center mb-6">
             <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
@@ -13,145 +11,131 @@
 
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Details: {{ antenatal_card.name }}</h2>
 
-        <!-- Mode Toggle -->
-        <div class="mb-6 flex justify-center space-x-4">
-            <label class="inline-flex items-center">
-                <input type="radio" name="mode" value="view" checked class="form-radio text-green-600" onchange="toggleEditMode(false)">
-                <span class="ml-2">View Mode</span>
-            </label>
-            <label class="inline-flex items-center">
-                <input type="radio" name="mode" value="edit" class="form-radio text-green-600" onchange="toggleEditMode(true)">
-                <span class="ml-2">Edit Mode</span>
-            </label>
-        </div>
-
-        <!-- Next Visit -->
-        <div class="mb-6 p-4 bg-green-50 rounded-lg shadow-sm">
-            <h3 class="text-xl font-semibold text-green-600 mb-2">Next Visit</h3>
-            <p class="text-gray-700">{{ antenatal_card.next_visit|date:"F j, Y, g:i a" }}</p>
-        </div>
-
-        <!-- Antenatal Card Details -->
+        <!-- Patient Information -->
         <div class="mb-6">
-            <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Card Details</h3>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                <input type="hidden" name="update_antenatal_card" value="true">
-                <!-- Add fields for AntenatalCard here -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="health_unit" class="block text-sm font-medium text-gray-700">Health Unit</label>
-                        <input type="text" id="health_unit" name="health_unit" value="{{ antenatal_card.health_unit }}" disabled
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="reg_no" class="block text-sm font-medium text-gray-700">Registration Number</label>
-                        <input type="text" id="reg_no" name="reg_no" value="{{ antenatal_card.reg_no }}" disabled
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <!-- Add more fields here -->
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.name|default:"No data" }}</p>
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Update Antenatal Card
-                </button>
-            </form>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">NIN</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.nin|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.phone_no|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Village</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.village|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Parish</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.parish|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">District</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.district|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Occupation</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.occupation|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Marital Status</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.marital_status|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Next of Kin</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_name|default:"No data" }} ({{ antenatal_card.next_of_kin_relationship|default:"No data" }})</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Details -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Card Details</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Health Unit</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.health_unit|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Registration Number</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.reg_no|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Next Visit</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_visit|date:"F j, Y, g:i a"|default:"No data" }}</p>
+                </div>
+            </div>
         </div>
 
         <!-- Previous Obstetric History -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Previous Obstetric History</h3>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                <input type="hidden" name="add_previous_obstetric_history" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {% for field in previous_obstetric_history_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+            {% if previous_histories %}
+                <div class="space-y-4">
+                    {% for history in previous_histories %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Pregnancy Year:</strong> {{ history.pregnancy_year|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Delivery Type:</strong> {{ history.delivery_type|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Baby Sex:</strong> {{ history.baby_sex|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Birth Weight:</strong> {{ history.birth_weight|default:"No data" }}</p>
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add History
-                </button>
-            </form>
-            <div class="mt-4 space-y-2">
-                {% for history in previous_histories %}
-                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
-                        <p class="text-gray-700">{{ history }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% else %}
+                <p class="text-gray-700">No previous obstetric history found.</p>
+            {% endif %}
         </div>
 
         <!-- Antenatal Progress Examinations -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Progress Examinations</h3>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                <input type="hidden" name="add_antenatal_progress" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {% for field in antenatal_progress_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+            {% if progress_examinations %}
+                <div class="space-y-4">
+                    {% for progress in progress_examinations %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Visit Date:</strong> {{ progress.visit_date|date:"F j, Y"|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Fundal Height:</strong> {{ progress.fundal_height|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ progress.fetal_heart_rate|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ progress.complaints_and_remarks|default:"No data" }}</p>
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add Progress
-                </button>
-            </form>
-            <div class="mt-4 space-y-2">
-                {% for progress in progress_examinations %}
-                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
-                        <p class="text-gray-700">{{ progress }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% else %}
+                <p class="text-gray-700">No antenatal progress examinations found.</p>
+            {% endif %}
         </div>
 
         <!-- Ultrasound Reports -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Ultrasound Reports</h3>
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-                <input type="hidden" name="add_ultrasound_report" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {% for field in ultrasound_report_form %}
-                        <div>
-                            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
-                            {{ field|add_class:"mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600" }}
+            {% if ultrasound_reports %}
+                <div class="space-y-4">
+                    {% for report in ultrasound_reports %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Ultrasound Date:</strong> {{ report.ultrasound_date|date:"F j, Y"|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Complications:</strong> {{ report.complications|default:"No data" }}</p>
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add Report
-                </button>
-            </form>
-            <div class="mt-4 space-y-2">
-                {% for report in ultrasound_reports %}
-                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
-                        <p class="text-gray-700">{{ report }}</p>
-                    </div>
-                {% endfor %}
-            </div>
+            {% else %}
+                <p class="text-gray-700">No ultrasound reports found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Add Information Section -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Information to the Card</h3>
+            <p class="text-gray-700">This section will allow you to add new information to the card. (Functionality coming soon!)</p>
         </div>
     </div>
 </main>
-
-<!-- JavaScript to Toggle Edit Mode -->
-<script>
-    function toggleEditMode(enable) {
-        const inputs = document.querySelectorAll('input, textarea, select');
-        inputs.forEach(input => {
-            if (input.name !== 'mode') { // Exclude the mode radio buttons
-                input.disabled = !enable;
-            }
-        });
-    }
-
-    // Initialize in View Mode
-    toggleEditMode(false);
-</script>
 {% endblock %}

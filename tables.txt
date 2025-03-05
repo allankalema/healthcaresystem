@@ -1,57 +1,30 @@
-this is my app dir
-Length Name
-----                 -------------         ------ ----
-d-----          3/5/2025  11:02 PM                migrations
-d-----          3/6/2025  12:27 AM                templatetags
--a----          3/3/2025  11:47 PM           2133 admin.py
--a----          3/2/2025  10:18 PM            158 apps.py
--a----          3/6/2025  12:04 AM            698 forms.py
--a----          3/5/2025  11:02 PM           7937 models.py
--a----          3/2/2025  10:18 PM             63 tests.py
--a----          3/6/2025  12:06 AM            648 urls.py
--a----          3/6/2025  12:04 AM          12022 views.py
--a----          3/2/2025  10:18 PM              0 __init__.py
+u left out the following information on the  form,
+ the 
+Antenatal Progress Examinations
+ and this section 
+Next of Kin Information
+Name: None
 
+Phone: None
 
-PS D:\Notes\Work\Healthcare\healthcaresystem\antenental>
-and this is my template tags
+Relationship: None
 
-    Directory: D:\Notes\Work\Healthcare\healthcaresystem\antenental\templatetags
+Address: None
+ and this information 
+and in the  basic info the  phone number 
+we need all these in my  page for them to be filled  and lets remove the edit mode and view mode for now 
+let  it be straight up edit mode 
 
-
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----          3/6/2025  12:22 AM            176 custom_filters.py
-
- but I still have this error 
-TemplateSyntaxError at /antenental/patient-details/1/
-'custom_filters' is not a registered tag library. Must be one of:
-admin_list
-admin_modify
-admin_urls
-cache
-i18n
-l10n
-log
-static
-tz
-Request Method:	GET
-Request URL:	http://127.0.0.1:8000/antenental/patient-details/1/
-Django Version:	5.1.6
-Exception Type:	TemplateSyntaxError
-Exception Value:	
-'custom_filters' is not a registered tag library. Must be one of:
-admin_list
-admin_mo
- for this template 
+and for each table it should be able to fetch the information fo that instance f auser saved in it  and that Is shown first  above it before  the fields to ad more is put at the bottme of it 
+ this will aid in both review nd update of the data 
+the messages u put in the form should have an x so that I can delete them and diddspaear after 10 seconds  so  help me out make this coe true and return the updated code 
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% load custom_filters %}
+
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <!-- Ministry of Health Emblem -->
         <div class="flex justify-center mb-6">
             <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
@@ -71,20 +44,56 @@ admin_mo
             </label>
         </div>
 
-        <!-- Next Visit -->
-        <div class="mb-6 p-4 bg-green-50 rounded-lg shadow-sm">
-            <h3 class="text-xl font-semibold text-green-600 mb-2">Next Visit</h3>
-            <p class="text-gray-700">{{ antenatal_card.next_visit|date:"F j, Y, g:i a" }}</p>
+        <!-- Uneditable Patient Information -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.name }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">NIN</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.nin }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.phone_no }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Village</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.village }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Parish</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.parish }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">District</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.district }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Occupation</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.occupation }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Marital Status</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.marital_status }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Next of Kin</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_name }} ({{ antenatal_card.next_of_kin_relationship }})</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Antenatal Card Details -->
+        <!-- Editable Antenatal Card Details -->
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Card Details</h3>
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="update_antenatal_card" value="true">
-                <!-- Add fields for AntenatalCard here -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     <div>
                         <label for="health_unit" class="block text-sm font-medium text-gray-700">Health Unit</label>
                         <input type="text" id="health_unit" name="health_unit" value="{{ antenatal_card.health_unit }}" disabled
@@ -95,11 +104,18 @@ admin_mo
                         <input type="text" id="reg_no" name="reg_no" value="{{ antenatal_card.reg_no }}" disabled
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
-                    <!-- Add more fields here -->
+                    <div>
+                        <label for="next_visit" class="block text-sm font-medium text-gray-700">Next Visit</label>
+                        <input type="datetime-local" id="next_visit" name="next_visit" value="{{ antenatal_card.next_visit|date:'Y-m-d\TH:i' }}"
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <!-- Add more editable fields here -->
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Update Antenatal Card
-                </button>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Update Antenatal Card
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -109,7 +125,7 @@ admin_mo
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_previous_obstetric_history" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in previous_obstetric_history_form %}
                         <div>
                             <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
@@ -117,9 +133,11 @@ admin_mo
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add History
-                </button>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add History
+                    </button>
+                </div>
             </form>
             <div class="mt-4 space-y-2">
                 {% for history in previous_histories %}
@@ -136,7 +154,7 @@ admin_mo
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_antenatal_progress" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in antenatal_progress_form %}
                         <div>
                             <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
@@ -144,9 +162,11 @@ admin_mo
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add Progress
-                </button>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add Progress
+                    </button>
+                </div>
             </form>
             <div class="mt-4 space-y-2">
                 {% for progress in progress_examinations %}
@@ -163,7 +183,7 @@ admin_mo
             <form method="post" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="add_ultrasound_report" value="true">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in ultrasound_report_form %}
                         <div>
                             <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
@@ -171,9 +191,11 @@ admin_mo
                         </div>
                     {% endfor %}
                 </div>
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Add Report
-                </button>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                        Add Report
+                    </button>
+                </div>
             </form>
             <div class="mt-4 space-y-2">
                 {% for report in ultrasound_reports %}
@@ -201,99 +223,4 @@ admin_mo
     toggleEditMode(false);
 </script>
 {% endblock %}
- and this view
-def patient_details(request, patient_id):
-    # Fetch the AntenatalCard instance for the patient
-    antenatal_card = get_object_or_404(AntenatalCard, id=patient_id, Doctor=request.user)
-
-    # Handle form submissions
-    if request.method == 'POST':
-        # Update AntenatalCard fields
-        if 'update_antenatal_card' in request.POST:
-            antenatal_card.health_unit = request.POST.get('health_unit')
-            antenatal_card.reg_no = request.POST.get('reg_no')
-            antenatal_card.age = request.POST.get('age')
-            antenatal_card.religion = request.POST.get('religion')
-            antenatal_card.education_level = request.POST.get('education_level')
-            antenatal_card.tribe = request.POST.get('tribe')
-            antenatal_card.next_of_kin_name = request.POST.get('next_of_kin_name')
-            antenatal_card.next_of_kin_phone = request.POST.get('next_of_kin_phone')
-            antenatal_card.next_of_kin_relationship = request.POST.get('next_of_kin_relationship')
-            antenatal_card.next_of_kin_address = request.POST.get('next_of_kin_address')
-            antenatal_card.gravida = request.POST.get('gravida')
-            antenatal_card.para = request.POST.get('para')
-            antenatal_card.abortions = request.POST.get('abortions')
-            antenatal_card.presenting_complaints = request.POST.get('presenting_complaints')
-            antenatal_card.first_day_of_lnmp = request.POST.get('first_day_of_lnmp')
-            antenatal_card.edd = request.POST.get('edd')
-            antenatal_card.weeks_of_amenorrhea = request.POST.get('weeks_of_amenorrhea')
-            antenatal_card.complications_of_pregnancy = request.POST.get('complications_of_pregnancy')
-            antenatal_card.hospitalization = request.POST.get('hospitalization') == 'on'
-            antenatal_card.hospitalization_reason = request.POST.get('hospitalization_reason')
-            antenatal_card.next_visit = request.POST.get('next_visit')
-            antenatal_card.save()
-
-            # Send email to the patient
-            send_mail(
-                'Updated Visit Details',
-                f'Your next visit is scheduled for {antenatal_card.next_visit}. Please check your calendar for details.',
-                'no-reply@example.com',
-                [antenatal_card.user.email],
-                fail_silently=False,
-            )
-
-            messages.success(request, 'Patient details updated successfully.')
-            return redirect('patient_details', patient_id=patient_id)
-
-        # Add new PreviousObstetricHistory
-        elif 'add_previous_obstetric_history' in request.POST:
-            form = PreviousObstetricHistoryForm(request.POST)
-            if form.is_valid():
-                history = form.save(commit=False)
-                history.antenatal_card = antenatal_card
-                history.recorded_by = request.user
-                history.save()
-                messages.success(request, 'Previous obstetric history added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
-
-        # Add new AntenatalProgressExamination
-        elif 'add_antenatal_progress' in request.POST:
-            form = AntenatalProgressExaminationForm(request.POST)
-            if form.is_valid():
-                progress = form.save(commit=False)
-                progress.antenatal_card = antenatal_card
-                progress.recorded_by = request.user
-                progress.save()
-                messages.success(request, 'Antenatal progress examination added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
-
-        # Add new UltrasoundReport
-        elif 'add_ultrasound_report' in request.POST:
-            form = UltrasoundReportForm(request.POST)
-            if form.is_valid():
-                report = form.save(commit=False)
-                report.antenatal_card = antenatal_card
-                report.recorded_by = request.user
-                report.save()
-                messages.success(request, 'Ultrasound report added successfully.')
-                return redirect('patient_details', patient_id=patient_id)
-
-    # Fetch related data
-    previous_histories = PreviousObstetricHistory.objects.filter(antenatal_card=antenatal_card)
-    progress_examinations = AntenatalProgressExamination.objects.filter(antenatal_card=antenatal_card)
-    ultrasound_reports = UltrasoundReport.objects.filter(antenatal_card=antenatal_card)
-
-    # Render the template
-    return render(request, 'antenatal/patient_details.html', {
-        'antenatal_card': antenatal_card,
-        'previous_histories': previous_histories,
-        'progress_examinations': progress_examinations,
-        'ultrasound_reports': ultrasound_reports,
-        'previous_obstetric_history_form': PreviousObstetricHistoryForm(),
-        'antenatal_progress_form': AntenatalProgressExaminationForm(),
-        'ultrasound_report_form': UltrasoundReportForm(),
-    })
-and URL
- path('patient-details/<int:patient_id>/', views.patient_details, name='patient_details'),
- help me sort it it look for method 2 with out using custom tagds
-
+ view

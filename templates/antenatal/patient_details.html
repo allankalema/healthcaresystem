@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Details: {{ antenatal_card.name }}</h2>
+
+        <!-- Next Visit -->
+        <div class="mb-6 p-4 bg-green-50 rounded-lg shadow-sm">
+            <h3 class="text-xl font-semibold text-green-600 mb-2">Next Visit</h3>
+            <p class="text-gray-700">{{ antenatal_card.next_visit|date:"F j, Y, g:i a" }}</p>
+        </div>
+
+        <!-- Antenatal Card Details -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Card Details</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="update_antenatal_card" value="true">
+                <!-- Add fields for AntenatalCard here -->
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Update Antenatal Card
+                </button>
+            </form>
+        </div>
+
+        <!-- Previous Obstetric History -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Previous Obstetric History</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_previous_obstetric_history" value="true">
+                {{ previous_obstetric_history_form.as_p }}
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Add History
+                </button>
+            </form>
+            <div class="mt-4 space-y-2">
+                {% for history in previous_histories %}
+                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                        <p class="text-gray-700">{{ history }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Antenatal Progress Examinations -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Progress Examinations</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_antenatal_progress" value="true">
+                {{ antenatal_progress_form.as_p }}
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Add Progress
+                </button>
+            </form>
+            <div class="mt-4 space-y-2">
+                {% for progress in progress_examinations %}
+                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                        <p class="text-gray-700">{{ progress }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Ultrasound Reports -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Ultrasound Reports</h3>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="add_ultrasound_report" value="true">
+                {{ ultrasound_report_form.as_p }}
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Add Report
+                </button>
+            </form>
+            <div class="mt-4 space-y-2">
+                {% for report in ultrasound_reports %}
+                    <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                        <p class="text-gray-700">{{ report }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

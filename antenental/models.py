@@ -3,7 +3,9 @@ from accounts.models import User
 from django.utils.timezone import now
 
 class AntenatalCard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Links to the registered patient
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_patients')  # Links to the registered patient
+    Doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_doctors', default=1)  # Links to the assigned doctor
+    
     health_unit = models.CharField(max_length=255)  # Health facility name
     reg_no = models.CharField(max_length=100, unique=True)  # Unique registration number
     name = models.CharField(max_length=255)  # Patient's full name
@@ -38,6 +40,7 @@ class AntenatalCard(models.Model):
     complications_of_pregnancy = models.TextField(null=True, blank=True)  
     hospitalization = models.BooleanField(default=False)  
     hospitalization_reason = models.TextField(null=True, blank=True)
+    Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
     
     next_visit = models.DateTimeField(null=True, blank=True)  # Date and time of the next visit
   

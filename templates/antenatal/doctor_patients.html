@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Your Patients</h2>
+
+        <!-- Search Bar -->
+        <form method="get" action="{% url 'doctor_patients' %}" class="mb-6">
+            <div class="flex items-center space-x-4">
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name or email"
+                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                <button type="submit"
+                        class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Search
+                </button>
+            </div>
+        </form>
+
+        <!-- List of Patients -->
+        <div class="space-y-4">
+            {% for card in antenatal_cards %}
+                <a href="#" class="block p-4 bg-green-50 rounded-lg shadow-sm hover:bg-green-100 transition duration-300">
+                    <div class="text-lg font-semibold text-green-700">{{ card.name }}</div>
+                    <div class="text-sm text-gray-600">Next Visit: {{ card.next_visit|date:"F j, Y, g:i a" }}</div>
+                </a>
+            {% empty %}
+                <p class="text-center text-gray-600">No patients found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}

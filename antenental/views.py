@@ -120,3 +120,26 @@ def admit_patient(request, patient_id):
         'location': location,
         'patient_profile': patient_profile,
     })
+
+
+
+
+def doctor_patients(request):
+    # Fetch all AntenatalCard instances where the Doctor is the logged-in user
+    antenatal_cards = AntenatalCard.objects.filter(Doctor=request.user)
+
+    # Handle search query
+    search_query = request.GET.get('q')
+    if search_query:
+        # Filter patients by first name, last name, or email
+        antenatal_cards = antenatal_cards.filter(
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query) |
+            Q(user__email__icontains=search_query)
+        )
+
+    # Render the template with the fetched data
+    return render(request, 'antenatal/doctor_patients.html', {
+        'antenatal_cards': antenatal_cards,
+        'search_query': search_query,
+    })

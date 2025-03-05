@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path('antenatal-card/<int:card_id>/', views.antenatal_card_details, name='antenatal_card_details'),
     path('prescription/<int:prescription_id>/', views.prescription_details, name='prescription_details'),
+    path('advanced-patient-search/', views.advanced_patient_search, name='advanced_patient_search'),
 ]

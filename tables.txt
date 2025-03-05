@@ -1,13 +1,12 @@
-now i need a doctor dashboard 
-the doctor should have the following things on hist dashboard, 
- add new patient button(for now #), My patients button,  prescribe button, make announcements, and also a put a calendar, let it be there for now  with out function we will give it functions later so since this is an antenental care system tracker help make advancement to the doctor dashboard to have  relevant  things in ti and things relevant 
-these are the models we have if there is something we wud wanna add in the  dashboard 
+now we r gonna  work on another page this page will be  be where the person or the doctor can be able to  get a  so look at these  models
 from django.db import models
 from accounts.models import User
 from django.utils.timezone import now
 
 class AntenatalCard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Links to the registered patient
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_patients')  # Links to the registered patient
+    Doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_doctors', default=1)  # Links to the assigned doctor
+    
     health_unit = models.CharField(max_length=255)  # Health facility name
     reg_no = models.CharField(max_length=100, unique=True)  # Unique registration number
     name = models.CharField(max_length=255)  # Patient's full name
@@ -42,6 +41,7 @@ class AntenatalCard(models.Model):
     complications_of_pregnancy = models.TextField(null=True, blank=True)  
     hospitalization = models.BooleanField(default=False)  
     hospitalization_reason = models.TextField(null=True, blank=True)
+    Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
     
     next_visit = models.DateTimeField(null=True, blank=True)  # Date and time of the next visit
   
@@ -141,7 +141,7 @@ class Medication(models.Model):
     def __str__(self):
         return f"{self.medication_name} prescribed on {self.prescription_date}"
 
- and 
+and this one 
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
@@ -325,6 +325,6 @@ class Hospital(models.Model):
     def __str__(self):
         return f"Hospital: {self.name}"
 
- help provide the  dashboard HTML. the  URLs, the view
- make the design super responsive it  fits properly on the small ab big screens  and the signature colors for the doctor should be   white and health green  also add a section like a notification section and call it appointments, add another one and call it emergencies 
-thaak you 
+ I want on this page  we will had an advanced  search for the patients whee the doctor will have these fields where they will feed in the   advanced search form first_name, last_name email, and the system should look thru the  user table (in users whose patient== true) and return an instance  on the same page which will have the first name, last name, and this instance will be clickable(for now put a hash )
+ so this search shud return the instance that has those three matching 
+help provide the template(use green theme and white), the URLs and the view to help that work

@@ -7,9 +7,8 @@ from django.shortcuts import render
 from django.utils.timezone import now
 from django.db.models import Q
 from .models import AntenatalCard
-from accounts.models import User  # Import your User model
-
-
+from.forms import *
+from accounts.models import * # Import your User model
 
 
 @login_required
@@ -53,27 +52,46 @@ def advanced_patient_search(request):
 def admit_patient(request, patient_id):
     # Get the patient object
     patient = get_object_or_404(User, id=patient_id, is_patient=True)
-    
+    location = Location.objects.get(user=patient)
+    patient_profile = Patient.objects.get(user=patient)
+
     if request.method == 'POST':
-        # Create a new AntenatalCard instance
+        # Update the Patient model
+        patient_profile.gestational_age = request.POST.get('gestational_age')
+        patient_profile.expected_due_date = request.POST.get('expected_due_date')
+        patient_profile.type_of_pregnancy = request.POST.get('type_of_pregnancy')
+        patient_profile.previous_pregnancies = request.POST.get('previous_pregnancies')
+        patient_profile.delivery_history = request.POST.get('delivery_history')
+        patient_profile.high_risk_factors = request.POST.get('high_risk_factors')
+        patient_profile.fetal_health = request.POST.get('fetal_health')
+        patient_profile.pre_existing_conditions = request.POST.get('pre_existing_conditions')
+        patient_profile.previous_surgeries = request.POST.get('previous_surgeries')
+        patient_profile.current_medications = request.POST.get('current_medications')
+        patient_profile.allergies = request.POST.get('allergies')
+        patient_profile.blood_type = request.POST.get('blood_type')
+        patient_profile.family_medical_history = request.POST.get('family_medical_history')
+        patient_profile.diet_preferences = request.POST.get('diet_preferences')
+        patient_profile.exercise_level = request.POST.get('exercise_level')
+        patient_profile.smoking_alcohol_drug_use = request.POST.get('smoking_alcohol_drug_use')
+        patient_profile.mental_health_status = request.POST.get('mental_health_status')
+        patient_profile.save()
+
+        # Create an AntenatalCard instance
         antenatal_card = AntenatalCard(
-            user=patient,  # Link to the patient
-            Doctor=request.user,  # Link to the current doctor (request.user)
+            user=patient,
+            Doctor=request.user,
             health_unit=request.POST.get('health_unit'),
             reg_no=request.POST.get('reg_no'),
-            name=f"{patient.first_name} {patient.last_name}",  # Full name
-            nin=request.POST.get('nin'),
-            phone_no=request.POST.get('phone_no'),
-            age=request.POST.get('age'),
-            village=request.POST.get('village'),
-            parish=request.POST.get('parish'),
-            sub_county=request.POST.get('sub_county'),
-            district=request.POST.get('district'),
-            occupation=request.POST.get('occupation'),
-            religion=request.POST.get('religion'),
-            education_level=request.POST.get('education_level'),
-            tribe=request.POST.get('tribe'),
-            marital_status=request.POST.get('marital_status'),
+            name=f"{patient.first_name} {patient.last_name}",
+            nin=patient.nin,
+            phone_no=patient.contact,
+            age=patient_profile.age,
+            village=location.village,
+            parish=location.parish,
+            sub_county=location.sub_county,
+            district=location.district,
+            occupation=patient_profile.occupation,
+            marital_status=patient.marital_status,
             next_of_kin_name=request.POST.get('next_of_kin_name'),
             next_of_kin_phone=request.POST.get('next_of_kin_phone'),
             next_of_kin_relationship=request.POST.get('next_of_kin_relationship'),
@@ -93,8 +111,12 @@ def admit_patient(request, patient_id):
         antenatal_card.save()
 
         # Add success message
-        messages.success(request, f"{patient.first_name} {patient.last_name} has been admitted successfully.")
+        messages.success(request, f"{patient.first_name} {patient.last_name} has been admitted successfully and is now your patient.")
         return redirect('doctor_dashboard')  # Redirect to the doctor dashboard
 
     # Render the admission form
-    return render(request, 'antenatal/admit_patient.html', {'patient': patient})
+    return render(request, 'antenatal/admit_patient.html', {
+        'patient': patient,
+        'location': location,
+        'patient_profile': patient_profile,
+    })

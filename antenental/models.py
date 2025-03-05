@@ -6,12 +6,12 @@ class AntenatalCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_patients')  # Links to the registered patient
     Doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_doctors', default=1)  # Links to the assigned doctor
     
-    health_unit = models.CharField(max_length=255)  # Health facility name
-    reg_no = models.CharField(max_length=100, unique=True)  # Unique registration number
+    health_unit = models.CharField(max_length=255, blank=True, null=True )  # Health facility name
+    reg_no = models.CharField(max_length=100, blank=True, null=True, unique=True)  # Unique registration number
     name = models.CharField(max_length=255)  # Patient's full name
     nin = models.CharField(max_length=20, unique=True, null=True, blank=True)  # National ID Number
     phone_no = models.CharField(max_length=15)  
-    age = models.IntegerField()  
+    age = models.IntegerField(blank=True, null=True)  
     village = models.CharField(max_length=255)  
     parish = models.CharField(max_length=255)  
     sub_county = models.CharField(max_length=255)  
@@ -24,21 +24,21 @@ class AntenatalCard(models.Model):
         max_length=20, choices=[('Single', 'Single'), ('Married', 'Married')]
     )
 
-    next_of_kin_name = models.CharField(max_length=255)  
-    next_of_kin_phone = models.CharField(max_length=15)  
-    next_of_kin_relationship = models.CharField(max_length=100)  
-    next_of_kin_address = models.TextField()  
+    next_of_kin_name = models.CharField(max_length=255,blank=True, null=True)  
+    next_of_kin_phone = models.CharField(max_length=15, blank=True, null=True)  
+    next_of_kin_relationship = models.CharField(max_length=100, blank=True, null=True)  
+    next_of_kin_address = models.TextField(blank=True, null=True)  
 
-    gravida = models.IntegerField()  # Number of pregnancies
-    para = models.IntegerField()  # Number of deliveries after 28 weeks
-    abortions = models.IntegerField()  # Number of pregnancy losses before 28 weeks
+    gravida = models.IntegerField(blank=True, null=True)  # Number of pregnancies
+    para = models.IntegerField(blank=True, null=True)  # Number of deliveries after 28 weeks
+    abortions = models.IntegerField(blank=True, null=True)  # Number of pregnancy losses before 28 weeks
 
     presenting_complaints = models.TextField(null=True, blank=True)  
-    first_day_of_lnmp = models.DateField()  # Last Normal Menstrual Period
-    edd = models.DateField()  # Estimated Due Date
-    weeks_of_amenorrhea = models.IntegerField()  # Number of weeks since last period
+    first_day_of_lnmp = models.DateField(blank=True, null=True)  # Last Normal Menstrual Period
+    edd = models.DateField(blank=True, null=True)  # Estimated Due Date
+    weeks_of_amenorrhea = models.IntegerField(blank=True, null=True)  # Number of weeks since last period
     complications_of_pregnancy = models.TextField(null=True, blank=True)  
-    hospitalization = models.BooleanField(default=False)  
+    hospitalization = models.BooleanField(default=False ,blank=True, null=True)  
     hospitalization_reason = models.TextField(null=True, blank=True)
     Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
     

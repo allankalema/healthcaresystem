@@ -4,177 +4,123 @@
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Admit Patient: {{ patient.first_name }} {{ patient.last_name }}</h2>
 
         <!-- Admission Form -->
         <form method="post" class="space-y-6">
             {% csrf_token %}
             
-            <!-- Basic Information -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Basic Information</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="health_unit" class="block text-sm font-medium text-gray-700">Health Unit</label>
-                        <input type="text" id="health_unit" name="health_unit" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="reg_no" class="block text-sm font-medium text-gray-700">Registration Number</label>
-                        <input type="text" id="reg_no" name="reg_no" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="nin" class="block text-sm font-medium text-gray-700">National ID Number (NIN)</label>
-                        <input type="text" id="nin" name="nin"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="phone_no" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" id="phone_no" name="phone_no" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="age" class="block text-sm font-medium text-gray-700">Age</label>
-                        <input type="number" id="age" name="age" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="village" class="block text-sm font-medium text-gray-700">Village</label>
-                        <input type="text" id="village" name="village" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="parish" class="block text-sm font-medium text-gray-700">Parish</label>
-                        <input type="text" id="parish" name="parish" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="sub_county" class="block text-sm font-medium text-gray-700">Sub County</label>
-                        <input type="text" id="sub_county" name="sub_county" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="district" class="block text-sm font-medium text-gray-700">District</label>
-                        <input type="text" id="district" name="district" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="occupation" class="block text-sm font-medium text-gray-700">Occupation</label>
-                        <input type="text" id="occupation" name="occupation" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="religion" class="block text-sm font-medium text-gray-700">Religion</label>
-                        <input type="text" id="religion" name="religion"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="education_level" class="block text-sm font-medium text-gray-700">Education Level</label>
-                        <input type="text" id="education_level" name="education_level"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="tribe" class="block text-sm font-medium text-gray-700">Tribe</label>
-                        <input type="text" id="tribe" name="tribe"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="marital_status" class="block text-sm font-medium text-gray-700">Marital Status</label>
-                        <select id="marital_status" name="marital_status" required
-                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                            <option value="Single">Single</option>
-                            <option value="Married">Married</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Next of Kin Information -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Next of Kin Information</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="next_of_kin_name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" id="next_of_kin_name" name="next_of_kin_name" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="next_of_kin_phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="text" id="next_of_kin_phone" name="next_of_kin_phone" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="next_of_kin_relationship" class="block text-sm font-medium text-gray-700">Relationship</label>
-                        <input type="text" id="next_of_kin_relationship" name="next_of_kin_relationship" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="next_of_kin_address" class="block text-sm font-medium text-gray-700">Address</label>
-                        <textarea id="next_of_kin_address" name="next_of_kin_address" rows="3" required
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                </div>
-            </div>
-
             <!-- Pregnancy Information -->
             <div>
                 <h3 class="text-xl font-semibold text-green-600 mb-4">Pregnancy Information</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="gravida" class="block text-sm font-medium text-gray-700">Gravida (Number of Pregnancies)</label>
-                        <input type="number" id="gravida" name="gravida" required
+                        <label for="gestational_age" class="block text-sm font-medium text-gray-700">Gestational Age (Weeks)</label>
+                        <input type="number" id="gestational_age" name="gestational_age" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="para" class="block text-sm font-medium text-gray-700">Para (Number of Deliveries)</label>
-                        <input type="number" id="para" name="para" required
+                        <label for="expected_due_date" class="block text-sm font-medium text-gray-700">Expected Due Date</label>
+                        <input type="date" id="expected_due_date" name="expected_due_date" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="abortions" class="block text-sm font-medium text-gray-700">Abortions</label>
-                        <input type="number" id="abortions" name="abortions" required
+                        <label for="type_of_pregnancy" class="block text-sm font-medium text-gray-700">Type of Pregnancy</label>
+                        <select id="type_of_pregnancy" name="type_of_pregnancy" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                            <option value="Single">Single</option>
+                            <option value="Twins">Twins</option>
+                            <option value="Multiples">Multiples</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="previous_pregnancies" class="block text-sm font-medium text-gray-700">Previous Pregnancies</label>
+                        <input type="number" id="previous_pregnancies" name="previous_pregnancies" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="presenting_complaints" class="block text-sm font-medium text-gray-700">Presenting Complaints</label>
-                        <textarea id="presenting_complaints" name="presenting_complaints" rows="3"
+                        <label for="delivery_history" class="block text-sm font-medium text-gray-700">Delivery History</label>
+                        <textarea id="delivery_history" name="delivery_history" rows="3"
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                     <div>
-                        <label for="first_day_of_lnmp" class="block text-sm font-medium text-gray-700">First Day of Last Normal Menstrual Period</label>
-                        <input type="date" id="first_day_of_lnmp" name="first_day_of_lnmp" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="edd" class="block text-sm font-medium text-gray-700">Estimated Due Date</label>
-                        <input type="date" id="edd" name="edd" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="weeks_of_amenorrhea" class="block text-sm font-medium text-gray-700">Weeks of Amenorrhea</label>
-                        <input type="number" id="weeks_of_amenorrhea" name="weeks_of_amenorrhea" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="complications_of_pregnancy" class="block text-sm font-medium text-gray-700">Complications of Pregnancy</label>
-                        <textarea id="complications_of_pregnancy" name="complications_of_pregnancy" rows="3"
+                        <label for="high_risk_factors" class="block text-sm font-medium text-gray-700">High Risk Factors</label>
+                        <textarea id="high_risk_factors" name="high_risk_factors" rows="3"
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                     <div>
-                        <label for="hospitalization" class="block text-sm font-medium text-gray-700">Hospitalization Required?</label>
-                        <input type="checkbox" id="hospitalization" name="hospitalization"
-                               class="mt-1 block h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-600">
+                        <label for="fetal_health" class="block text-sm font-medium text-gray-700">Fetal Health</label>
+                        <textarea id="fetal_health" name="fetal_health" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
+                </div>
+            </div>
+
+            <!-- Medical History -->
+            <div>
+                <h3 class="text-xl font-semibold text-green-600 mb-4">Medical History</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="hospitalization_reason" class="block text-sm font-medium text-gray-700">Hospitalization Reason</label>
-                        <textarea id="hospitalization_reason" name="hospitalization_reason" rows="3"
+                        <label for="pre_existing_conditions" class="block text-sm font-medium text-gray-700">Pre-existing Conditions</label>
+                        <textarea id="pre_existing_conditions" name="pre_existing_conditions" rows="3"
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                     <div>
-                        <label for="next_visit" class="block text-sm font-medium text-gray-700">Next Visit Date</label>
-                        <input type="datetime-local" id="next_visit" name="next_visit"
+                        <label for="previous_surgeries" class="block text-sm font-medium text-gray-700">Previous Surgeries</label>
+                        <textarea id="previous_surgeries" name="previous_surgeries" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="current_medications" class="block text-sm font-medium text-gray-700">Current Medications</label>
+                        <textarea id="current_medications" name="current_medications" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
+                        <textarea id="allergies" name="allergies" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="blood_type" class="block text-sm font-medium text-gray-700">Blood Type</label>
+                        <input type="text" id="blood_type" name="blood_type"
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="family_medical_history" class="block text-sm font-medium text-gray-700">Family Medical History</label>
+                        <textarea id="family_medical_history" name="family_medical_history" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lifestyle -->
+            <div>
+                <h3 class="text-xl font-semibold text-green-600 mb-4">Lifestyle</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="diet_preferences" class="block text-sm font-medium text-gray-700">Diet Preferences</label>
+                        <textarea id="diet_preferences" name="diet_preferences" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="exercise_level" class="block text-sm font-medium text-gray-700">Exercise Level</label>
+                        <textarea id="exercise_level" name="exercise_level" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="smoking_alcohol_drug_use" class="block text-sm font-medium text-gray-700">Smoking/Alcohol/Drug Use</label>
+                        <textarea id="smoking_alcohol_drug_use" name="smoking_alcohol_drug_use" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="mental_health_status" class="block text-sm font-medium text-gray-700">Mental Health Status</label>
+                        <textarea id="mental_health_status" name="mental_health_status" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                 </div>
             </div>

@@ -50,6 +50,11 @@ class AntenatalCard(models.Model):
 
     def __str__(self):
         return f"Antenatal Card for {self.name} ({self.reg_no})"
+    
+    @property
+    def next_visit_info(self):
+        return f"Next Visit: {self.next_visit}, Doctor: {self.doctor.get_full_name()}, Patient: {self.user.get_full_name()}"
+        
 
 # ----------------------- SEPARATE TABLES FOR TABULAR DATA -----------------------
 

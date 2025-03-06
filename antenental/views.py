@@ -406,3 +406,44 @@ def emergency_detail(request, emergency_id):
     return render(request, 'emergency/emergency_detail.html', {
         'emergency': emergency,
     })
+
+
+@login_required
+def report_emergency(request):
+    # Get the patient's antenatal card
+    antenatal_card = AntenatalCard.objects.filter(user=request.user).first()
+
+    if not antenatal_card:
+        messages.error(request, "You do not have an antenatal card.")
+        return redirect('patient_dashboard')
+
+    if request.method == 'POST':
+        form = EmergencyForm(request.POST)
+        if form.is_valid():
+            # Save the emergency
+            emergency = form.save(commit=False)
+            emergency.antenatal_card = antenatal_card
+            emergency.reported_by = request.user
+            emergency.save()
+
+            # Send email to the assigned doctor
+            doctor = antenatal_card.Doctor
+            send_mail(
+                subject=f"Emergency Reported by {request.user.get_full_name()}",
+                message=f"A new emergency has been reported by {request.user.get_full_name()}.\n\n"
+                        f"Emergency Type: {emergency.emergency_type}\n"
+                        f"Description: {emergency.description}\n\n"
+                        f"Please take appropriate action.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[doctor.email],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Emergency reported successfully. Your doctor has been notified.")
+            return redirect('patient_dashboard')
+    else:
+        form = EmergencyForm()
+
+    return render(request, 'emergency/report_emergency.html', {
+        'form': form,
+    })

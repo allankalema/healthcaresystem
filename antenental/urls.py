@@ -13,5 +13,6 @@ urlpatterns = [
     path('send-notification/', views.send_notification, name='send_notification'),
     path('emergencies/', views.emergency_list, name='emergency_list'),
     path('emergencies/<int:emergency_id>/', views.emergency_detail, name='emergency_detail'),
+     path('report-emergency/', views.report_emergency, name='report_emergency'),
 
 ]

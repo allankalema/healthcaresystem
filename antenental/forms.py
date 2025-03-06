@@ -46,3 +46,13 @@ class MedicationForm(forms.ModelForm):
 
 # Create a formset for medications
 MedicationFormSet = formset_factory(MedicationForm, extra=1)
+
+
+class EmergencyForm(forms.ModelForm):
+    class Meta:
+        model = Emergency
+        fields = ['emergency_type', 'description']
+        widgets = {
+            'emergency_type': forms.TextInput(attrs={'class': 'form-input'}),
+            'description': forms.Textarea(attrs={'class': 'form-textarea', 'rows': 4}),
+        }

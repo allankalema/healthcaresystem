@@ -323,3 +323,58 @@ def prescribe_medication(request):
         'medication_formset': medication_formset,
         'search_query': search_query,
     })
+
+
+@login_required
+def send_notification(request):
+    if request.method == 'POST':
+        header = request.POST.get('header')
+        body = request.POST.get('body')
+        send_by = request.POST.get('send_by')
+
+        if send_by == 'location':
+            # Get location filters
+            village = request.POST.get('village')
+            parish = request.POST.get('parish')
+            sub_county = request.POST.get('sub_county')
+            district = request.POST.get('district')
+
+            # Filter patients by location
+            locations = Location.objects.filter(
+                village=village,
+                parish=parish,
+                sub_county=sub_county,
+                district=district
+            )
+            patients = User.objects.filter(
+                is_patient=True,
+                location__in=locations
+            )
+
+            # Send emails to filtered patients
+            for patient in patients:
+                send_mail(
+                    subject=header,
+                    message=body,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[patient.email],
+                    fail_silently=False,
+                )
+
+            messages.success(request, f"Notification sent to {patients.count()} patients.")
+            return redirect('doctor_dashboard')
+
+        elif send_by == 'email':
+            # Send to a specific email
+            email = request.POST.get('email')
+            send_mail(
+                subject=header,
+                message=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[email],
+                fail_silently=False,
+            )
+            messages.success(request, f"Notification sent to {email}.")
+            return redirect('doctor_dashboard')
+
+    return render(request, 'notification/send_notification.html')

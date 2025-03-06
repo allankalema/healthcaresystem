@@ -10,5 +10,6 @@ urlpatterns = [
     path('patient-details/<int:patient_id>/', views.patient_details, name='patient_details'),
     path('add-information/<int:patient_id>/', views.add_information, name='add_information'),
     path('prescribe/', views.prescribe_medication, name='prescribe_medication'),
+    path('send-notification/', views.send_notification, name='send_notification'),
 
 ]

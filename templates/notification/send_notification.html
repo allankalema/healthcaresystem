@@ -1,0 +1,97 @@
+<!-- templates/notification/send_notification.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen p-6 bg-gray-100">
+    <div class="container mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold text-green-700 mb-6">Send Notification</h2>
+
+            <!-- Notification Form -->
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <!-- Header Field -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Header</label>
+                    <input type="text" name="header" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required>
+                </div>
+
+                <!-- Body Field -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Body</label>
+                    <textarea name="body" rows="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" required></textarea>
+                </div>
+
+                <!-- Send By Options -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Send By</label>
+                    <div class="flex items-center space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="send_by" value="location" class="form-radio text-green-600" checked>
+                            <span class="ml-2">Location</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="send_by" value="email" class="form-radio text-green-600">
+                            <span class="ml-2">Specific Email</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Location Fields (Hidden by Default) -->
+                <div id="location-fields" class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Village</label>
+                        <input type="text" name="village" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Parish</label>
+                        <input type="text" name="parish" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Sub County</label>
+                        <input type="text" name="sub_county" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">District</label>
+                        <input type="text" name="district" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                    </div>
+                </div>
+
+                <!-- Email Field (Hidden by Default) -->
+                <div id="email-field" class="hidden space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Patient Email</label>
+                    <input type="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-6 text-center">
+                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                        Send Notification
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sendByLocation = document.querySelector('input[value="location"]');
+        const sendByEmail = document.querySelector('input[value="email"]');
+        const locationFields = document.getElementById('location-fields');
+        const emailField = document.getElementById('email-field');
+
+        sendByLocation.addEventListener('change', function() {
+            locationFields.classList.remove('hidden');
+            emailField.classList.add('hidden');
+        });
+
+        sendByEmail.addEventListener('change', function() {
+            locationFields.classList.add('hidden');
+            emailField.classList.remove('hidden');
+        });
+    });
+</script>
+{% endblock %}

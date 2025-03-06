@@ -44,6 +44,14 @@ def prescription_details(request, prescription_id):
     return render(request, 'antenatal/prescription_details.html', {'prescription': prescription})
 
 
+@login_required
+def my_prescriptions(request):
+    # Fetch prescriptions for the logged-in patient
+    prescriptions = Prescription.objects.filter(patient=request.user)
+    return render(request, 'antenatal/my_prescriptions.html', {
+        'prescriptions': prescriptions,
+    })
+
 
 def advanced_patient_search(request):
     query = request.GET.get('q')  # Get the search query from the URL parameters

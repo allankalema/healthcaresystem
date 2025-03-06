@@ -92,7 +92,7 @@
                     {% if user.is_authenticated %}
                     {% if user.is_patient %}
                         <a href="{% url 'patient_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
-                        <a href="#" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">My Prescriptions</a>
+                        <a href="{% url 'my_prescriptions' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">My Prescriptions</a>
                     {% elif user.is_doctor %}
                         <a href="{% url 'doctor_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                     {% elif user.is_hospital %}
@@ -141,6 +141,7 @@
                 {% if user.is_authenticated %}
                 {% if user.is_patient %}
                     <li><a href="{% url 'patient_dashboard' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Dashboard</a></li>
+                    <li><a href="{% url 'my_prescriptions' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Prescription</a></li>
                 {% elif user.is_doctor %}
                     <a href="{% url 'doctor_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                 {% endif %}

@@ -1,0 +1,38 @@
+<!-- templates/antenatal/my_prescriptions.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen p-6 bg-gray-100">
+    <div class="container mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold text-hotpink-dark mb-6">My Prescriptions</h2>
+
+            <!-- Prescription List -->
+            <div class="space-y-4">
+                {% for prescription in prescriptions %}
+                    <a href="{% url 'prescription_details' prescription.id %}" class="block p-4 border border-gray-200 rounded-md hover:bg-gray-50">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 class="text-lg font-semibold text-hotpink-dark">
+                                    {{ prescription.disease_condition }}
+                                </h3>
+                                <p class="text-sm text-gray-600">Prescribed on {{ prescription.prescription_date|date:"Y-m-d" }}</p>
+                            </div>
+                            <div class="text-sm text-gray-500">
+                                {% if prescription.cleared %}
+                                    <span class="text-green-600">Cleared</span>
+                                {% else %}
+                                    <span class="text-hotpink-dark">Pending</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% empty %}
+                    <p class="text-gray-600">No prescriptions found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

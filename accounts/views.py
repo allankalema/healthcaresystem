@@ -303,7 +303,6 @@ def patient_dashboard(request):
 
     return render(request, 'dashboards/patient_dashboard.html', context)
 
-
 @login_required
 def doctor_dashboard(request):
     # Ensure the user is a doctor

@@ -339,13 +339,21 @@ def send_notification(request):
             sub_county = request.POST.get('sub_county')
             district = request.POST.get('district')
 
-            # Filter patients by location
-            locations = Location.objects.filter(
-                village=village,
-                parish=parish,
-                sub_county=sub_county,
-                district=district
-            )
+            # Build a dynamic query using Q objects
+            location_filters = Q()
+            if village:
+                location_filters |= Q(village=village)
+            if parish:
+                location_filters |= Q(parish=parish)
+            if sub_county:
+                location_filters |= Q(sub_county=sub_county)
+            if district:
+                location_filters |= Q(district=district)
+
+            # Filter locations based on the dynamic query
+            locations = Location.objects.filter(location_filters)
+
+            # Filter patients whose location matches any of the filtered locations
             patients = User.objects.filter(
                 is_patient=True,
                 location__in=locations

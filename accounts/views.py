@@ -10,8 +10,7 @@ from .forms import *
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .decorators import *
-from antenental.models import AntenatalCard, Prescription
-
+from antenental.models import *
 
 def forbidden_view(request):
     """View for handling forbidden access attempts."""
@@ -305,8 +304,7 @@ def patient_dashboard(request):
     return render(request, 'dashboards/patient_dashboard.html', context)
 
 
-
-@doctor
+@login_required
 def doctor_dashboard(request):
     # Ensure the user is a doctor
     if not request.user.is_doctor:
@@ -315,29 +313,14 @@ def doctor_dashboard(request):
     # Fetch the doctor's profile
     doctor = Doctor.objects.filter(user=request.user).first()
 
-    # Fetch the doctor's patients
-    patients = Patient.objects.all()  # You can filter this based on the doctor's patients if needed
-
-    # Fetch prescriptions made by the doctor
-    prescriptions = Prescription.objects.filter(doctor=request.user).order_by('-prescription_date')
-
-    # Fetch upcoming appointments (for now, use dummy data)
-    appointments = [
-        {'patient_name': 'Jane Doe', 'date': timezone.now().date(), 'time': '10:00 AM'},
-        {'patient_name': 'John Smith', 'date': timezone.now().date(), 'time': '11:00 AM'},
-    ]
-
-    # Fetch emergencies (for now, use dummy data)
-    emergencies = [
-        {'patient_name': 'Mary Johnson', 'description': 'Severe abdominal pain', 'time': '09:30 AM'},
-        {'patient_name': 'Alice Brown', 'description': 'High fever', 'time': '10:15 AM'},
-    ]
+    # Fetch unresolved emergencies for the doctor's patients
+    emergencies = Emergency.objects.filter(
+        antenatal_card__Doctor=request.user,
+        resolved=False
+    ).select_related('antenatal_card__user')
 
     context = {
         'doctor': doctor,
-        'patients': patients,
-        'prescriptions': prescriptions,
-        'appointments': appointments,
         'emergencies': emergencies,
     }
 

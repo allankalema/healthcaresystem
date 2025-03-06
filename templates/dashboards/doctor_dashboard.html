@@ -1,3 +1,4 @@
+<!-- templates/dashboards/doctor_dashboard.html -->
 {% extends 'base.html' %}
 {% load static %}
 
@@ -7,18 +8,18 @@
         <!-- Welcome Message -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <h2 class="text-2xl sm:text-3xl font-bold text-green-700 mb-4">Welcome, Dr. {{ doctor.user.first_name }}!</h2>
-            <p class="text-gray-700">Here’s your personalized dashboard for managing your patients and appointments.</p>
+            <p class="text-gray-700">Here’s your personalized dashboard for managing your patients and emergencies.</p>
         </div>
 
         <!-- Quick Actions -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <!-- Add New Patient Button -->
-            <a href="{% url 'advanced_patient_search'%}" class="bg-green-700 text-white p-6 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
+            <a href="{% url 'advanced_patient_search' %}" class="bg-green-700 text-white p-6 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
                 <i class="bi bi-person-plus text-2xl mr-2"></i>
                 <span class="text-lg font-semibold">Add New Patient</span>
             </a>
             <!-- My Patients Button -->
-            <a href="{% url 'doctor_patients'%}" class="bg-green-700 text-white p-6 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
+            <a href="{% url 'doctor_patients' %}" class="bg-green-700 text-white p-6 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
                 <i class="bi bi-people text-2xl mr-2"></i>
                 <span class="text-lg font-semibold">My Patients</span>
             </a>
@@ -28,9 +29,9 @@
                 <span class="text-lg font-semibold">Prescribe</span>
             </a>
 
-            <!-- Prescribe Button -->
+            <!-- Notification Button -->
             <a href="{% url 'send_notification' %}" class="bg-green-700 text-white p-6 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 flex items-center justify-center">
-                <i class="bi bi-prescription2 text-2xl mr-2"></i>
+                <i class="bi bi-bell-fill text-2xl mr-2"></i>
                 <span class="text-lg font-semibold">Notification</span>
             </a>
 
@@ -46,24 +47,6 @@
             </a>
         </div>
 
-        <!-- Appointments Section -->
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h3 class="text-xl font-semibold text-green-700 mb-4">Appointments</h3>
-            {% if appointments %}
-                <div class="space-y-4">
-                    {% for appointment in appointments %}
-                        <div class="p-4 border border-gray-200 rounded-lg">
-                            <p class="text-gray-700"><strong>Patient:</strong> {{ appointment.patient_name }}</p>
-                            <p class="text-gray-700"><strong>Date:</strong> {{ appointment.date }}</p>
-                            <p class="text-gray-700"><strong>Time:</strong> {{ appointment.time }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="text-gray-700">No upcoming appointments.</p>
-            {% endif %}
-        </div>
-
         <!-- Emergencies Section -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <h3 class="text-xl font-semibold text-green-700 mb-4">Emergencies</h3>
@@ -71,9 +54,10 @@
                 <div class="space-y-4">
                     {% for emergency in emergencies %}
                         <div class="p-4 border border-gray-200 rounded-lg">
-                            <p class="text-gray-700"><strong>Patient:</strong> {{ emergency.patient_name }}</p>
+                            <p class="text-gray-700"><strong>Patient:</strong> {{ emergency.antenatal_card.user.get_full_name }}</p>
+                            <p class="text-gray-700"><strong>Type:</strong> {{ emergency.emergency_type }}</p>
                             <p class="text-gray-700"><strong>Description:</strong> {{ emergency.description }}</p>
-                            <p class="text-gray-700"><strong>Time:</strong> {{ emergency.time }}</p>
+                            <p class="text-gray-700"><strong>Reported At:</strong> {{ emergency.reported_at|date:"Y-m-d H:i" }}</p>
                         </div>
                     {% endfor %}
                 </div>

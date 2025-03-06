@@ -15,7 +15,24 @@ from accounts.models import * # Import your User model
 @patient
 def antenatal_card_details(request, card_id):
     antenatal_card = get_object_or_404(AntenatalCard, id=card_id, user=request.user)
-    return render(request, 'antenatal/antenatal_card_details.html', {'antenatal_card': antenatal_card})
+    
+    if request.method == 'POST':
+        form = AntenatalCardUpdateForm(request.POST, instance=antenatal_card)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Antenatal card updated successfully!")  # Success message
+            return redirect('antenatal_card_details', card_id=card_id)
+        else:
+            # Debugging: Print form errors to the console
+            print("Form errors:", form.errors)
+            messages.error(request, "Error updating antenatal card. Please check the form.")  # Error message
+    else:
+        form = AntenatalCardUpdateForm(instance=antenatal_card)
+    
+    return render(request, 'antenatal/antenatal_card_details.html', {
+        'antenatal_card': antenatal_card,
+        'form': form
+    })
 
 
 @login_required

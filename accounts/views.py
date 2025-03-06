@@ -279,6 +279,7 @@ def doctor_profile_update(request):
 def patient_dashboard(request):
     user = request.user
 
+    # Fetch patient, location, and antenatal card data
     patient = Patient.objects.filter(user=user).first()
     location = Location.objects.filter(user=user).first()
     antenatal_card = AntenatalCard.objects.filter(user=user).first()
@@ -288,20 +289,22 @@ def patient_dashboard(request):
     next_visits = []
     if antenatal_card and antenatal_card.next_visit:
         next_visits.append({
-            'title': antenatal_card.name,
-            'start': antenatal_card.next_visit.isoformat(),
-            'allDay': True,
+            'title': f'Next Visit: {antenatal_card.name}',  # Adding more details in the title
+            'start': antenatal_card.next_visit.isoformat(),  # Ensure next_visit is a datetime field
+            'allDay': True,  # Make it an all-day event
         })
 
     context = {
-    'patient': patient,
-    'location': location,
-    'antenatal_card': antenatal_card,
-    'prescriptions': prescriptions,
-    'next_visits': json.dumps(next_visits, cls=DjangoJSONEncoder),  # Serialize to JSON
-}
+        'patient': patient,
+        'location': location,
+        'antenatal_card': antenatal_card,
+        'prescriptions': prescriptions,
+        'next_visits': json.dumps(next_visits, cls=DjangoJSONEncoder),  # Serialize the next visits to JSON for JavaScript
+    }
 
     return render(request, 'dashboards/patient_dashboard.html', context)
+
+
 
 @login_required
 def doctor_dashboard(request):

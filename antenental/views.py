@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import AntenatalCard, Prescription
 from accounts.decorators import *
+from django.core.mail import send_mail
 from django.contrib import messages
 from django.shortcuts import render
 from django.utils.timezone import now
 from django.db.models import Q
 from .models import *
 from.forms import *
+from django.conf import settings
 from accounts.models import * # Import your User model
 
 
@@ -182,11 +184,6 @@ def patient_details(request, patient_id):
     })
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from django.core.mail import send_mail
-from .models import AntenatalCard, PreviousObstetricHistory, AntenatalProgressExamination, UltrasoundReport
-from .forms import PreviousObstetricHistoryForm, AntenatalProgressExaminationForm, UltrasoundReportForm
 
 def add_information(request, patient_id):
     # Fetch the AntenatalCard instance for the patient
@@ -265,4 +262,64 @@ def add_information(request, patient_id):
         'previous_obstetric_history_form': PreviousObstetricHistoryForm(),
         'antenatal_progress_form': AntenatalProgressExaminationForm(),
         'ultrasound_report_form': UltrasoundReportForm(),
+    })
+
+@login_required
+def prescribe_medication(request):
+    antenatal_cards = AntenatalCard.objects.filter(Doctor=request.user)
+    selected_patient = None
+
+    # Handle patient search
+    search_query = request.GET.get('search', '')
+    if search_query:
+        antenatal_cards = antenatal_cards.filter(
+            user__first_name__icontains=search_query
+        ) | antenatal_cards.filter(
+            user__last_name__icontains=search_query
+        ) | antenatal_cards.filter(
+            user__email__icontains=search_query
+        )
+
+    # Handle form submission
+    if request.method == 'POST':
+        prescription_form = PrescriptionForm(request.POST)
+        medication_formset = MedicationFormSet(request.POST)
+
+        if prescription_form.is_valid() and medication_formset.is_valid():
+            # Save prescription
+            prescription = prescription_form.save(commit=False)
+            prescription.patient = User.objects.get(id=request.POST.get('patient'))
+            prescription.doctor = request.user
+            prescription.save()
+
+            # Save medications
+            for form in medication_formset:
+                if form.cleaned_data.get('medication_name'):
+                    medication = form.save(commit=False)
+                    medication.prescription = prescription
+                    medication.save()
+
+            # Send email to the patient
+            send_mail(
+                subject="New Prescription",
+                message=f"You have a new prescription from Dr. {request.user.get_full_name()}. "
+                        f"Please log in to the system for more details.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[prescription.patient.email],
+                fail_silently=False,
+            )
+
+            messages.success(request, "Prescription created successfully!")
+            return redirect('doctor_dashboard')
+        else:
+            messages.error(request, "Error creating prescription. Please check the form.")
+    else:
+        prescription_form = PrescriptionForm()
+        medication_formset = MedicationFormSet()
+
+    return render(request, 'prescription/prescribe_medication.html', {
+        'antenatal_cards': antenatal_cards,
+        'prescription_form': prescription_form,
+        'medication_formset': medication_formset,
+        'search_query': search_query,
     })

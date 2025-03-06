@@ -115,8 +115,8 @@ class Prescription(models.Model):
     patient = models.ForeignKey(User, related_name='prescriptions', on_delete=models.CASCADE)  # Links to the registered patient
     doctor = models.ForeignKey(User, related_name='prescribed_by', on_delete=models.CASCADE)  # Links to the doctor who prescribed
     disease_condition = models.CharField(max_length=255)  # Disease or condition the patient is being treated for
-    prescription_date = models.DateField(default=now)  # Date the prescription was made
-    follow_up_date = models.DateField()  # Latest date when the patient should have this checked
+    prescription_date = models.DateField(default=now)  # Date the prescription was made   
+    follow_up_date = models.DateField(null=True, blank=True)  # Latest date when the patient should have this checked    
     extra_information = models.TextField(null=True, blank=True)  # Any additional information about the prescription
     cleared = models.BooleanField(default=False)  # Whether the prescription has been cleared or not
     cleared_date = models.DateTimeField(null=True, blank=True)  # Date when the prescription was cleared

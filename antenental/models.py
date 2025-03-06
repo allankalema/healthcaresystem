@@ -139,3 +139,24 @@ class Medication(models.Model):
 
     def __str__(self):
         return f"{self.medication_name} prescribed on {self.prescription_date}"
+
+ 
+class Emergency(models.Model):
+    antenatal_card = models.ForeignKey(
+        AntenatalCard, on_delete=models.CASCADE, related_name='emergencies'
+    )  # Links to the patient’s antenatal card
+    reported_by = models.ForeignKey(
+        User, on_delete=models.SET_NULL, null=True, related_name='reported_emergencies'
+    )
+    emergency_type = models.TextField(null=True, blank=True)  # Open text field for emergency type
+    description = models.TextField(null=True, blank=True)  # Additional details about the emergency
+    reported_at = models.DateTimeField(default=now)  # Time the emergency was reported
+    action_taken = models.TextField(null=True, blank=True)  # What was done in response to the emergency
+    resolved = models.BooleanField(default=False)  # Whether the emergency has been resolved
+    resolved_at = models.DateTimeField(null=True, blank=True)  # When the emergency was resolved
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Emergency for {self.antenatal_card.name} reported on {self.reported_at.strftime('%Y-%m-%d %H:%M')}"

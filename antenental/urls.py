@@ -11,5 +11,7 @@ urlpatterns = [
     path('add-information/<int:patient_id>/', views.add_information, name='add_information'),
     path('prescribe/', views.prescribe_medication, name='prescribe_medication'),
     path('send-notification/', views.send_notification, name='send_notification'),
+    path('emergencies/', views.emergency_list, name='emergency_list'),
+    path('emergencies/<int:emergency_id>/', views.emergency_detail, name='emergency_detail'),
 
 ]

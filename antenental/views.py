@@ -386,3 +386,23 @@ def send_notification(request):
             return redirect('doctor_dashboard')
 
     return render(request, 'notification/send_notification.html')
+
+
+@login_required
+def emergency_list(request):
+    # Fetch emergencies for patients assigned to the logged-in doctor
+    emergencies = Emergency.objects.filter(
+        antenatal_card__Doctor=request.user
+    ).select_related('antenatal_card__user')
+
+    return render(request, 'emergency/emergency_list.html', {
+        'emergencies': emergencies,
+    })
+
+@login_required
+def emergency_detail(request, emergency_id):
+    # Fetch the specific emergency
+    emergency = get_object_or_404(Emergency, id=emergency_id, antenatal_card__Doctor=request.user)
+    return render(request, 'emergency/emergency_detail.html', {
+        'emergency': emergency,
+    })

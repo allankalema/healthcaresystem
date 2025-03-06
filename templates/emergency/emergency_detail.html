@@ -1,0 +1,54 @@
+<!-- templates/emergency/emergency_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen p-6 bg-gray-100">
+    <div class="container mx-auto">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold text-green-700 mb-6">Emergency Details</h2>
+
+            <!-- Emergency Details -->
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Patient</h3>
+                    <p class="text-gray-600">{{ emergency.antenatal_card.user.get_full_name }}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Emergency Type</h3>
+                    <p class="text-gray-600">{{ emergency.emergency_type }}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Description</h3>
+                    <p class="text-gray-600">{{ emergency.description }}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Reported At</h3>
+                    <p class="text-gray-600">{{ emergency.reported_at|date:"Y-m-d H:i" }}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Action Taken</h3>
+                    <p class="text-gray-600">{{ emergency.action_taken }}</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Resolved</h3>
+                    <p class="text-gray-600">
+                        {% if emergency.resolved %}
+                            Yes (Resolved on {{ emergency.resolved_at|date:"Y-m-d H:i" }})
+                        {% else %}
+                            No
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="mt-6">
+                <a href="{% url 'emergency_list' %}" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                    Back to Emergencies
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

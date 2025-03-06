@@ -121,7 +121,11 @@
                             <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Login</a>
                             <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Signup</a>
                         {% endif %}
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Emergency</a>
+                        {% if user.is_patient %}
+                        <a href="{% url 'report_emergency' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Emergency</a>
+                        {% elif user.is_doctor %}
+                        <a href="{% url 'emergency_list' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Emergency</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -141,7 +145,11 @@
                     <a href="{% url 'doctor_dashboard' %}" class="hover:{% if user.is_doctor %}text-health-green-light{% else %}text-hotpink-light{% endif %}">Dashboard</a>
                 {% endif %}
                 {% endif %}
-                <li><a href="#" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Emergency</a></li>
+                {% if user.is_patient %}
+                <li><a href="{% url 'report_emergency' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Emergency</a></li>
+                {% elif user.is_doctor %}
+                <li><a href="{% url 'emergency_list' %}" class="block hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %} p-2 rounded">Emergency</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

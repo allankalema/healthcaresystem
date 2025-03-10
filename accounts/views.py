@@ -297,7 +297,7 @@ def patient_dashboard(request):
     }
 
     return render(request, 'dashboards/patient_dashboard.html', context)
-    
+
 
 @login_required
 def doctor_dashboard(request):
@@ -314,9 +314,28 @@ def doctor_dashboard(request):
         resolved=False
     ).select_related('antenatal_card__user')
 
+    # Fetch next visit dates for patients assigned to this doctor
+    next_visits = AntenatalCard.objects.filter(
+        Doctor=request.user,
+        next_visit__isnull=False  # Only include cards with a next_visit date
+    ).select_related('user')
+
+    # Prepare data for the calendar
+    calendar_events = [
+        {
+            'title': f"{card.user.first_name} {card.user.last_name}",  # Patient's name
+            'start': card.next_visit.strftime('%Y-%m-%d'),  # Next visit date
+            'backgroundColor': '#FF69B4',  # Pink background color
+            'borderColor': '#FF69B4',  # Pink border color
+            'textColor': '#FFFFFF',  # White text color
+        }
+        for card in next_visits
+    ]
+
     context = {
         'doctor': doctor,
         'emergencies': emergencies,
+        'calendar_events': calendar_events,  # Pass calendar events to the template
     }
 
     return render(request, 'dashboards/doctor_dashboard.html', context)

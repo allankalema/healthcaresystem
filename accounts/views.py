@@ -275,6 +275,7 @@ def doctor_profile_update(request):
 
 
 
+
 @login_required
 @patient
 def patient_dashboard(request):
@@ -287,11 +288,7 @@ def patient_dashboard(request):
     prescriptions = Prescription.objects.filter(patient=user).order_by('-prescription_date')
 
     # Pass the next_visit date to the template
-    next_visit_date = (
-        antenatal_card.next_visit.strftime('%Y-%m-%d')
-        if antenatal_card and antenatal_card.next_visit and antenatal_card.next_visit >= timezone.now().date()
-        else None
-    )
+    next_visit_date = antenatal_card.next_visit if antenatal_card else None
 
     context = {
         'patient': patient,

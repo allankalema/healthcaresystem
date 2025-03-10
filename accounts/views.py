@@ -11,6 +11,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .decorators import *
 from antenental.models import *
+from django.utils import timezone 
 
 def forbidden_view(request):
     """View for handling forbidden access attempts."""
@@ -286,7 +287,11 @@ def patient_dashboard(request):
     prescriptions = Prescription.objects.filter(patient=user).order_by('-prescription_date')
 
     # Pass the next_visit date to the template
-    next_visit_date = antenatal_card.next_visit if antenatal_card else None
+    next_visit_date = (
+        antenatal_card.next_visit.strftime('%Y-%m-%d')
+        if antenatal_card and antenatal_card.next_visit and antenatal_card.next_visit >= timezone.now().date()
+        else None
+    )
 
     context = {
         'patient': patient,
@@ -320,7 +325,7 @@ def doctor_dashboard(request):
         next_visit__isnull=False,  # Only include cards with a next_visit date
         next_visit__gte=timezone.now().date()  # Only include future dates
     ).select_related('user')
-
+    
     # Prepare data for the calendar
     calendar_events = [
         {

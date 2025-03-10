@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block content %}
+
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
 <main class="mt-16 sm:mt-20 min-h-screen p-4 sm:p-6 bg-gray-100">
     <div class="container mx-auto">
         <!-- Welcome Message -->
@@ -84,62 +91,38 @@
             {% endif %}
         </div>
 
-        <!-- Calendar Section -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Next Visits</h3>
-            <div id="calendar"></div>
-        </div>
-    </div>
-</main>
 
-<!-- FullCalendar CSS -->
-<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+     <!-- Calendar Section -->
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Appointment Calendar</h3>
+    <div id="calendar"></div>
+</div>
 
-<!-- FullCalendar JS -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-
-<!-- Bootstrap Tooltip (for hover effect) -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
-<!-- Pass next_visits data to JavaScript -->
-{{ next_visits|json_script:"next-visits-data" }}
-
-<!-- Calendar Initialization Script -->
+<!-- FullCalendar Initialization Script -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendar');
+        const nextVisitDate = "{{ next_visit_date|date:'Y-m-d' }}";  // Get the next_visit date from the context
 
-        // Retrieve the data from the JSON script tag
-        const nextVisits = JSON.parse(document.getElementById('next-visits-data').textContent);
-        console.log('Next Visits Data:', nextVisits);  // Debugging: Check if data is correct
-
-        // Initialize FullCalendar
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',  // Default view
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: nextVisits,  // Use the static data
-            eventDidMount: function (info) {
-                console.log('Event Mounted:', info.event);  // Debugging: Check if event is mounted
-                // Add hover effect to show the antenatal card name
+            initialView: 'dayGridMonth',
+            events: [
+                {
+                    title: 'Appointment Date',  // Event title
+                    start: nextVisitDate,       // Event start date
+                    backgroundColor: '#FF69B4', // Pink background color
+                    borderColor: '#FF69B4',    // Pink border color
+                    textColor: '#FFFFFF',      // White text color
+                }
+            ],
+            eventDidMount: function(info) {
+                // Add a custom tooltip
                 const tooltip = new bootstrap.Tooltip(info.el, {
                     title: info.event.title,
                     placement: 'top',
                     trigger: 'hover',
                     container: 'body'
                 });
-            },
-            eventContent: function (info) {
-                // Customize event content
-                return { html: `<div class="fc-event-title">${info.event.title}</div>` };
-            },
-            eventClick: function (info) {
-                // Handle event click (optional)
-                alert('Visit for: ' + info.event.title);
             }
         });
 
@@ -147,51 +130,4 @@
     });
 </script>
 
-<!-- Calendar Styling -->
-<style>
-    #calendar {
-        max-width: 100%;
-        margin: 0 auto;
-        height: 500px; /* Adjust height as needed */
-    }
-
-    .fc-event {
-        background-color: #ff69b4; /* Hot pink color */
-        border: none;
-        cursor: pointer;
-    }
-
-    .fc-event:hover {
-        background-color: #ff1493; /* Darker pink on hover */
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        #calendar {
-            height: 400px; /* Smaller height for mobile screens */
-        }
-
-        /* Adjust calendar header for small screens */
-        .fc-header-toolbar {
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .fc-header-toolbar .fc-toolbar-chunk {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Make buttons smaller on small screens */
-        .fc-header-toolbar .fc-button {
-            font-size: 12px;
-            padding: 0.25rem 0.5rem;
-        }
-
-        /* Adjust week view for small screens */
-        .fc-timeGridWeek-view .fc-timegrid-slots {
-            font-size: 12px; /* Smaller font size for week view */
-        }
-    }
-</style>
 {% endblock %}

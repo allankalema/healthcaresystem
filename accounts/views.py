@@ -285,26 +285,19 @@ def patient_dashboard(request):
     antenatal_card = AntenatalCard.objects.filter(user=user).first()
     prescriptions = Prescription.objects.filter(patient=user).order_by('-prescription_date')
 
-    # Fetch next visit dates for the user's antenatal cards
-    next_visits = []
-    if antenatal_card and antenatal_card.next_visit:
-        next_visits.append({
-            'title': f'Next Visit: {antenatal_card.name}',  # Adding more details in the title
-            'start': antenatal_card.next_visit.isoformat(),  # Ensure next_visit is a datetime field
-            'allDay': True,  # Make it an all-day event
-        })
+    # Pass the next_visit date to the template
+    next_visit_date = antenatal_card.next_visit if antenatal_card else None
 
     context = {
         'patient': patient,
         'location': location,
         'antenatal_card': antenatal_card,
         'prescriptions': prescriptions,
-        'next_visits': json.dumps(next_visits, cls=DjangoJSONEncoder),  # Serialize the next visits to JSON for JavaScript
+        'next_visit_date': next_visit_date,  # Add this line
     }
 
     return render(request, 'dashboards/patient_dashboard.html', context)
-
-
+    
 
 @login_required
 def doctor_dashboard(request):

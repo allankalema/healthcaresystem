@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 
@@ -89,7 +90,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+class PasswordResetCode(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    code = models.CharField(max_length=7)
+    expires_at = models.DateTimeField()
 
+    def is_expired(self):
+        return timezone.now() > self.expires_at
+
+    
 # ----------------------- LOCATION MODEL -----------------------
 class Location(models.Model):
     """

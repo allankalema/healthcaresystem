@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-hotpink-dark mb-6 text-center">Enter Code</h2>
+        <p class="text-sm text-gray-600 mb-6 text-center">
+            We've sent a code to your email. Please enter it below to proceed.
+        </p>
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            <!-- Code Field -->
+            <div>
+                <label for="code" class="block text-sm font-medium text-gray-700">Verification Code</label>
+                <input type="text" id="code" name="code" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-hotpink focus:border-hotpink">
+            </div>
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-hotpink text-white px-4 py-2 rounded-lg font-semibold hover:bg-hotpink-light transition duration-300">
+                    Verify Code
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

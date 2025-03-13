@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, PasswordResetForm
 from django.core.exceptions import ValidationError
 from .models import User,Location, Patient, Doctor
 
@@ -154,3 +154,16 @@ class DoctorUpdateForm(forms.ModelForm):
             'education_level': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter education level'}),
             'rank_title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Enter rank/title'}),
         }
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        max_length=254,
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'})
+    )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("No user with this email found.")
+        return email

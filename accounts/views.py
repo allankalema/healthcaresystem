@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 import json
+from .models import *
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils import timezone
 from django.shortcuts import render, redirect
@@ -12,6 +13,132 @@ from django.contrib.auth.decorators import login_required
 from .decorators import *
 from antenental.models import *
 from django.utils import timezone 
+import random 
+import string
+from django.contrib.auth.password_validation import validate_password
+from django.core.mail import send_mail
+
+
+def generate_reset_code():
+    return ''.join(random.choices(string.digits, k=7))
+
+def forgot_password(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        form = CustomPasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                user = User.objects.get(email=email)
+                reset_code = generate_reset_code()
+                PasswordResetCode.objects.create(user=user, code=reset_code, expires_at=timezone.now() + timezone.timedelta(minutes=4))
+                
+                subject = 'Your App: Password Reset Code'
+                message = f'Use the following code to reset your password: {reset_code}\n\nThis code is valid for 4 minutes.'
+
+                try:
+                    send_mail(
+                        subject,
+                        message,
+                        'noreply@momcare.com',  # Replace with your email
+                        [email],
+                        fail_silently=False,
+                    )
+                    print(f"Email sent successfully to {email}")  # Debugging statement
+                    messages.success(request, 'A code has been sent to your email. Please check your inbox.')
+                    return redirect('verify_code')
+                except Exception as e:
+                    print(f"Error sending email to {email}: {e}")  # Debugging statement
+                    messages.error(request, f'Failed to send the email. Please try again. Error: {e}')
+                    return redirect('forgot_password')
+            except User.DoesNotExist:
+                print(f"No user found with email: {email}")  # Debugging statement
+                messages.error(request, 'No user with this email found.')
+                return redirect('forgot_password')
+        else:
+            print("Form is invalid")  # Debugging statement
+            messages.error(request, "Invalid form submission. Please check your input.")
+    else:
+        form = CustomPasswordResetForm()
+    context = {'form': form}
+    return render(request, 'forgot_password.html', context)
+
+
+def verify_code(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+        print(f"Code received: {code}")  # Debugging statement
+        try:
+            reset_code_obj = PasswordResetCode.objects.get(code=code, expires_at__gte=timezone.now())
+            print(f"Reset code found: {reset_code_obj}")  # Debugging statement
+            request.session['reset_user_id'] = reset_code_obj.user.id
+            request.session['reset_token'] = code
+            return redirect('reset_password')
+        except PasswordResetCode.DoesNotExist:
+            print("Invalid or expired reset code")  # Debugging statement
+            messages.error(request, 'Invalid or expired reset code.')
+    return render(request, 'verify_code.html')
+
+
+
+def reset_password(request):
+    user_id = request.session.get('reset_user_id')
+    token = request.session.get('reset_token')
+    print(f"User ID: {user_id}, Token: {token}")  # Debugging statement
+
+    if not user_id or not token:
+        messages.error(request, 'Invalid password reset request.')
+        return redirect('forgot_password')
+    
+    try:
+        user = User.objects.get(id=user_id)
+        print(f"User found: {user}")  # Debugging statement
+        if not PasswordResetCode.objects.filter(user=user, code=token, expires_at__gte=timezone.now()).exists():
+            messages.error(request, 'The password reset code is invalid or has expired.')
+            return redirect('forgot_password')
+
+        if request.method == 'POST':
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            print(f"Password 1: {password1}, Password 2: {password2}")  # Debugging statement
+
+            if not password1 or not password2:
+                messages.error(request, 'Password fields cannot be empty.')
+                return redirect('reset_password')
+
+            if password1 != password2:
+                messages.error(request, 'Passwords do not match.')
+            else:
+                try:
+                    validate_password(password1, user)
+                    user.set_password(password1)
+                    user.save()
+                    PasswordResetCode.objects.filter(user=user, code=token).delete()
+                    messages.success(request, 'Password updated successfully.')
+
+                    # Log in the user
+                    login(request, user)  # Use `login` instead of `auth_login`
+                    
+                    # Clear session variables after successful password reset
+                    del request.session['reset_user_id']
+                    del request.session['reset_token']
+                    return redirect('home')
+                except ValidationError as e:
+                    for error in e:
+                        messages.error(request, error)
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+        return redirect('forgot_password')
+    
+    context = {
+        'user': user,
+        'uid': user_id,
+        'token': token,
+    }
+    return render(request, 'reset_password.html', context)
+
+    
 
 def forbidden_view(request):
     """View for handling forbidden access attempts."""
@@ -160,14 +287,15 @@ def doctor_additional_details(request, user_id):
 
 
 
-def enter_code(request):
-    return render(request, 'accounts/enter_code.html') 
+# def enter_code(request):
+#     return render(request, 'accounts/enter_code.html') 
 
-def forgot_password(request):
-    return render(request, 'accounts/forgot_password.html') 
+# def forgot_password(request):
+    
+#     return render(request, 'accounts/forgot_password.html') 
 
-def reset_password(request):
-    return render(request, 'accounts/reset_password.html') 
+# def reset_password(request):
+#     return render(request, 'accounts/reset_password.html') 
 
 @login_required
 def change_password(request):

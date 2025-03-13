@@ -17,25 +17,12 @@
             <p class="text-gray-700">Here’s your personalized dashboard for managing your pregnancy journey.</p>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <!-- View Prescriptions -->
-            <a href="{% url 'my_prescriptions' %}" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
-                <i class="bi bi-prescription2 text-2xl mr-2"></i>
-                <span class="text-lg font-semibold">View Prescriptions</span>
-            </a>
-            <!-- Emergency -->
-            <a href="{% url 'report_emergency' %}" class="bg-hotpink text-white p-6 rounded-lg shadow-lg hover:bg-hotpink-light transition duration-300 flex items-center justify-center">
-                <i class="bi bi-exclamation-triangle text-2xl mr-2"></i>
-                <span class="text-lg font-semibold">Emergency</span>
-            </a>
-        </div>
-
         <!-- Antenatal Card Section -->
         <div id="antenatal-card" class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Antenatal Card</h3>
             {% if antenatal_card %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Basic Information -->
                     <div>
                         <p class="text-gray-700"><strong>Health Unit:</strong> {{ antenatal_card.health_unit }}</p>
                         <p class="text-gray-700"><strong>Registration Number:</strong> {{ antenatal_card.reg_no }}</p>
@@ -43,66 +30,43 @@
                         <p class="text-gray-700"><strong>Phone Number:</strong> {{ antenatal_card.phone_no }}</p>
                         <p class="text-gray-700"><strong>Age:</strong> {{ antenatal_card.age }}</p>
                     </div>
+                    <!-- Medical Information -->
                     <div>
-                        <a href="{% url 'antenatal_card_details' antenatal_card.id %}" class="text-hotpink hover:text-hotpink-light">View Details</a>
+                        <p class="text-gray-700"><strong>Gravida:</strong> {{ antenatal_card.gravida }}</p>
+                        <p class="text-gray-700"><strong>Para:</strong> {{ antenatal_card.para }}</p>
+                        <p class="text-gray-700"><strong>Abortions:</strong> {{ antenatal_card.abortions }}</p>
+                        <p class="text-gray-700"><strong>EDD:</strong> {{ antenatal_card.edd|date:"Y-m-d" }}</p>
+                        <p class="text-gray-700"><strong>Weeks of Amenorrhea:</strong> {{ antenatal_card.weeks_of_amenorrhea }}</p>
                     </div>
+                    <!-- Next of Kin Information -->
+                    <div>
+                        <p class="text-gray-700"><strong>Next of Kin:</strong> {{ antenatal_card.next_of_kin_name }}</p>
+                        <p class="text-gray-700"><strong>Relationship:</strong> {{ antenatal_card.next_of_kin_relationship }}</p>
+                        <p class="text-gray-700"><strong>Phone:</strong> {{ antenatal_card.next_of_kin_phone }}</p>
+                        <p class="text-gray-700"><strong>Address:</strong> {{ antenatal_card.next_of_kin_address }}</p>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <a href="{% url 'antenatal_card_details' antenatal_card.id %}" class="text-hotpink hover:text-hotpink-light">View Full Details</a>
                 </div>
             {% else %}
                 <p class="text-gray-700">No antenatal card found. Please contact your healthcare provider.</p>
             {% endif %}
         </div>
 
-        <!-- Prescriptions Section -->
-        <div id="prescriptions" class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Prescriptions</h3>
-            {% if prescriptions %}
-                <div class="space-y-4">
-                    {% for prescription in prescriptions %}
-                        <div class="p-4 border border-gray-200 rounded-lg">
-                            <p class="text-gray-700"><strong>Disease/Condition:</strong> {{ prescription.disease_condition }}</p>
-                            <p class="text-gray-700"><strong>Prescription Date:</strong> {{ prescription.prescription_date }}</p>
-                            <p class="text-gray-700"><strong>Follow-up Date:</strong> {{ prescription.follow_up_date }}</p>
-                            <p class="text-gray-700"><strong>Status:</strong> {% if prescription.cleared %}Cleared{% else %}Active{% endif %}</p>
-                            <a href="{% url 'prescription_details' prescription.id %}" class="text-hotpink hover:text-hotpink-light">View Details</a>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p class="text-gray-700">No prescriptions found.</p>
-            {% endif %}
+        <!-- Calendar Section -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Appointment Calendar</h3>
+            <div id="calendar"></div>
         </div>
-
-        <!-- Location Section -->
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Location Details</h3>
-            {% if location %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-gray-700"><strong>Village:</strong> {{ location.village }}</p>
-                        <p class="text-gray-700"><strong>Parish:</strong> {{ location.parish }}</p>
-                    </div>
-                    <div>
-                        <p class="text-gray-700"><strong>Sub County:</strong> {{ location.sub_county }}</p>
-                        <p class="text-gray-700"><strong>District:</strong> {{ location.district }}</p>
-                    </div>
-                </div>
-            {% else %}
-                <p class="text-gray-700">No location details found. Please update your profile.</p>
-            {% endif %}
-        </div>
-
-
-     <!-- Calendar Section -->
-<div class="bg-white p-6 rounded-lg shadow-lg">
-    <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Appointment Calendar</h3>
-    <div id="calendar"></div>
-</div>
+    </div>
+</main>
 
 <!-- FullCalendar Initialization Script -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendar');
-        const nextVisitDate = "{{ next_visit_date|date:'Y-m-d' }}";  // Get the next_visit date from the context
+        const nextVisitDate = "{{ antenatal_card.next_visit|date:'Y-m-d' }}";  // Get the next_visit date from the context
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',

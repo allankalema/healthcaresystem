@@ -67,12 +67,12 @@ WSGI_APPLICATION = 'health.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'momcare',
-        'USER': 'django_user',
-        'PASSWORD': 'alan.KAL3',
-        'HOST': 'localhost',  # Change this when hosting
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'momcare',  # Your database name
+        'USER': 'allan',  # Your database user
+        'PASSWORD': 'u27FX7WidZS1VjN9Epm2z7vH7vaY2jIK',  # Your database password
+        'HOST': 'dpg-cv9a6gpc1ekc73e5tpr0-a.oregon-postgres.render.com',  # Host URL from Render
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 

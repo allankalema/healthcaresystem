@@ -1,0 +1,17 @@
+# Ignore environment variables
+.env
+
+# Byte-compiled / binary files
+*.pyc
+__pycache__/
+
+# Virtual environments
+venv/
+.env/
+
+# Logs and database files
+*.log
+db.sqlite3
+
+# Docker
+*.dockerignore

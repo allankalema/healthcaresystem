@@ -452,6 +452,8 @@ def report_emergency(request):
     else:
         form = EmergencyForm()
 
+        
+
     return render(request, 'emergency/report_emergency.html', {
         'form': form,
     })

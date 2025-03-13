@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/3063/3063172.png">
+    <link rel="icon" type="image/png" href="/media/images/favicon.png">
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Bootstrap Icons CDN -->
@@ -186,6 +186,24 @@
         {% endblock %}
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-8">
+        <div class="container mx-auto text-center">
+            <!-- Locate Health Care Centers -->
+            <div class="mb-4">
+                <a href="#" id="locate-health-centers" class="inline-flex items-center text-blue-400 hover:text-blue-300">
+                    <i class="bi bi-geo-alt-fill mr-2"></i>
+                    <span>Locate Health Care Centers</span>
+                </a>
+            </div>
+            <!-- Copyright and Developer Info -->
+            <div class="text-sm">
+                <p>&copy; 2023 MomCare. All rights reserved.</p>
+                <p>Developed by <a href="mailto:allankalema4@gmail.com" class="text-blue-400 hover:text-blue-300">allankalema4@gmail.com</a></p>
+            </div>
+        </div>
+    </footer>
+
     <!-- JavaScript for Interactivity -->
     <script>
         // Toggle Sidebar
@@ -226,6 +244,21 @@
                 messages.innerHTML = '';
             }
         }, 5000);
+
+        // Locate Health Care Centers
+        document.getElementById('locate-health-centers').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const { latitude, longitude } = position.coords;
+                    window.open(`https://www.google.com/maps/search/?api=1&query=health+center&query_place_id&location=${latitude},${longitude}`, '_blank');
+                }, (error) => {
+                    alert('Unable to retrieve your location. Please enable location services and try again.');
+                });
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
     </script>
 </body>
 </html>

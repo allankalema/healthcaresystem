@@ -1,5 +1,10 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
+
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -68,11 +73,11 @@ WSGI_APPLICATION = 'health.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'momcare',  # Your database name
-        'USER': 'allan',  # Your database user
-        'PASSWORD': 'u27FX7WidZS1VjN9Epm2z7vH7vaY2jIK',  # Your database password
-        'HOST': 'dpg-cv9a6gpc1ekc73e5tpr0-a.oregon-postgres.render.com',  # Host URL from Render
-        'PORT': '5432',  # Default PostgreSQL port
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT", "5432"),
     }
 }
 
@@ -127,8 +132,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'MomCare.ug@gmail.com'
-EMAIL_HOST_PASSWORD = 'txnk yntb ptas fwuy'  # It's better to use environment variables for security
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Default from email (optional)
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
@@ -142,8 +147,3 @@ STATICFILES_DIRS = [
 ]
 
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',  # Allows local development
-    'localhost',   # Allows local access
-    '192.168.0.243',  # Allows access from your local network
-]

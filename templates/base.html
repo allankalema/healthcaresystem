@@ -123,7 +123,8 @@
                             <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Logout</a>
                         {% else %}
                             <a href="{% url 'login' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Login</a>
-                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Signup</a>
+                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">patient Signup</a>
+                            <a href="{% url 'doctor_signup' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Doctor Signup</a>
                         {% endif %}
                         {% if user.is_patient %}
                         <a href="{% url 'report_emergency' %}" class="block px-4 py-2 text-gray-800 hover:{% if user.is_doctor %}bg-health-green-light{% else %}bg-hotpink-light{% endif %}">Emergency</a>

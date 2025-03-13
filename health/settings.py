@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1").split(",")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,7 +17,32 @@ SECRET_KEY = 'django-insecure-3j7g28_1$u_hz5t-ig0^%t)6j8r*pv)g+v1=qiy6j0r27(e_u#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+
+DEPLOYED_URL = os.getenv('DEPLOYED_URL', '')
+
+DEPLOYED_URL_PROD = os.getenv('DEPLOYED_URL_PROD', '')
+
+# Define the list of trusted origins
+CSRF_TRUSTED_ORIGINS = [
+    'https://ticketyo-c2uw.onrender.com',  # ✅ Render-hosted domain
+    'http://192.168.1.69:8000',  # ✅ Local development URL
+]
+
+# Add the DEPLOYED_URL if it's not empty and not already in the list
+if DEPLOYED_URL and DEPLOYED_URL not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL)
+
+if DEPLOYED_URL_PROD and DEPLOYED_URL_PROD not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL_PROD)
+
+# Only add the URL if it is non-empty
+if DEPLOYED_URL:
+    CSRF_TRUSTED_ORIGINS = [DEPLOYED_URL]
+else:
+    CSRF_TRUSTED_ORIGINS = []
+
 
 # Application definition
 INSTALLED_APPS = [

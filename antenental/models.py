@@ -10,7 +10,7 @@ class AntenatalCard(models.Model):
     reg_no = models.CharField(max_length=100, blank=True, null=True, unique=True)  # Unique registration number
     name = models.CharField(max_length=255)  # Patient's full name
     nin = models.CharField(max_length=20, unique=True, null=True, blank=True)  # National ID Number
-    phone_no = models.CharField(max_length=15)  
+    phone_no = models.CharField(max_length=15, null=True)  
     age = models.IntegerField(blank=True, null=True)  
     village = models.CharField(max_length=255)  
     parish = models.CharField(max_length=255)  
@@ -165,3 +165,7 @@ class Emergency(models.Model):
 
     def __str__(self):
         return f"Emergency for {self.antenatal_card.name} reported on {self.reported_at.strftime('%Y-%m-%d %H:%M')}"
+
+
+# docker build -t allankalema/momcare .
+# docker push allankalema/momcare

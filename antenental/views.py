@@ -200,24 +200,29 @@ def admit_patient(request, patient_id):
 
 def doctor_patients(request):
     # Fetch all AntenatalCard instances where the Doctor is the logged-in user
-    antenatal_cards = AntenatalCard.objects.filter(Doctor=request.user)
+    admitted_patients = AntenatalCard.objects.filter(Doctor=request.user, user__patient_profile__admitted=True)
+    unadmitted_patients = AntenatalCard.objects.filter(Doctor=request.user, user__patient_profile__admitted=False)
 
     # Handle search query
     search_query = request.GET.get('q')
     if search_query:
-        # Filter patients by first name, last name, or email
-        antenatal_cards = antenatal_cards.filter(
+        admitted_patients = admitted_patients.filter(
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query) |
+            Q(user__email__icontains=search_query)
+        )
+        unadmitted_patients = unadmitted_patients.filter(
             Q(user__first_name__icontains=search_query) |
             Q(user__last_name__icontains=search_query) |
             Q(user__email__icontains=search_query)
         )
 
-    # Render the template with the fetched data
+    # Render the template with separate lists
     return render(request, 'antenatal/doctor_patients.html', {
-        'antenatal_cards': antenatal_cards,
+        'admitted_patients': admitted_patients,
+        'unadmitted_patients': unadmitted_patients,
         'search_query': search_query,
     })
-
 
 
 

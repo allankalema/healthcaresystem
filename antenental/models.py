@@ -41,6 +41,7 @@ class AntenatalCard(models.Model):
     hospitalization = models.BooleanField(default=False ,blank=True, null=True)  
     hospitalization_reason = models.TextField(null=True, blank=True)
     Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    admitted = models.BooleanField(default=False)
     
     next_visit = models.DateTimeField(null=True, blank=True)  # Date and time of the next visit
   

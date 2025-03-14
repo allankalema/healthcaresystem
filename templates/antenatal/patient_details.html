@@ -4,8 +4,14 @@
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+
         <!-- Ministry of Health Emblem and Add Information Button -->
         <div class="flex justify-between mb-6">
+            <div>
+                <a href="{% url 'doctor_patients' %}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
+                    Back Search
+                </a>
+            </div>
             <div>
                 <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
             </div>

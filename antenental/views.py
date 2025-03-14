@@ -220,16 +220,6 @@ def add_information(request, patient_id):
     if request.method == 'POST':
         # Update AntenatalCard fields
         if 'update_antenatal_card' in request.POST:
-            antenatal_card.gravida = request.POST.get('gravida', antenatal_card.gravida)
-            antenatal_card.para = request.POST.get('para', antenatal_card.para)
-            antenatal_card.abortions = request.POST.get('abortions', antenatal_card.abortions)
-            antenatal_card.presenting_complaints = request.POST.get('presenting_complaints', antenatal_card.presenting_complaints)
-            antenatal_card.first_day_of_lnmp = request.POST.get('first_day_of_lnmp', antenatal_card.first_day_of_lnmp)
-            antenatal_card.edd = request.POST.get('edd', antenatal_card.edd)
-            antenatal_card.weeks_of_amenorrhea = request.POST.get('weeks_of_amenorrhea', antenatal_card.weeks_of_amenorrhea)
-            antenatal_card.complications_of_pregnancy = request.POST.get('complications_of_pregnancy', antenatal_card.complications_of_pregnancy)
-            antenatal_card.hospitalization = request.POST.get('hospitalization') == 'on'
-            antenatal_card.hospitalization_reason = request.POST.get('hospitalization_reason', antenatal_card.hospitalization_reason)
             antenatal_card.next_visit = request.POST.get('next_visit', antenatal_card.next_visit)
             antenatal_card.save()
             messages.success(request, 'Antenatal card updated successfully.')
@@ -290,7 +280,10 @@ def add_information(request, patient_id):
         'previous_obstetric_history_form': PreviousObstetricHistoryForm(),
         'antenatal_progress_form': AntenatalProgressExaminationForm(),
         'ultrasound_report_form': UltrasoundReportForm(),
+        'patient': antenatal_card.user,
     })
+
+
 
 @login_required
 def prescribe_medication(request):

@@ -10,6 +10,18 @@
             <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
         </div>
 
+        <!-- Cancel and Done Buttons -->
+        <div class="flex justify-between mb-6">
+            <!-- Cancel Button -->
+            <a href="{% url 'doctor_dashboard' %}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
+                Cancel
+            </a>
+            <!-- Done Button -->
+            <a href="{% url 'doctor_dashboard' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Done
+            </a>
+        </div>
+
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Add Information to Card: {{ antenatal_card.name }}</h2>
 
         <!-- Messages -->
@@ -33,31 +45,12 @@
                 {% csrf_token %}
                 <input type="hidden" name="update_antenatal_card" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Gravida -->
-                    <div>
-                        <label for="gravida" class="block text-sm font-medium text-gray-700">Gravida</label>
-                        <input type="number" id="gravida" name="gravida" value="{{ antenatal_card.gravida|default_if_none:'' }}"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <!-- Para -->
-                    <div>
-                        <label for="para" class="block text-sm font-medium text-gray-700">Para</label>
-                        <input type="number" id="para" name="para" value="{{ antenatal_card.para|default_if_none:'' }}"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <!-- Abortions -->
-                    <div>
-                        <label for="abortions" class="block text-sm font-medium text-gray-700">Abortions</label>
-                        <input type="number" id="abortions" name="abortions" value="{{ antenatal_card.abortions|default_if_none:'' }}"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <!-- Next Visit (Always Visible) -->
+                    <!-- Next Visit (Only Field Left) -->
                     <div>
                         <label for="next_visit" class="block text-sm font-medium text-gray-700">Next Visit</label>
                         <input type="datetime-local" id="next_visit" name="next_visit" value="{{ antenatal_card.next_visit|date:'Y-m-d\TH:i'|default_if_none:'' }}"
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
-                    <!-- Add more fields here -->
                 </div>
                 <div class="flex justify-end">
                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
@@ -161,13 +154,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Done Button -->
-        <div class="flex justify-end mt-8">
-            <a href="{% url 'doctor_dashboard' %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                Done
-            </a>
         </div>
     </div>
 </main>

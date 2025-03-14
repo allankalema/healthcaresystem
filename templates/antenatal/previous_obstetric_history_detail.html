@@ -18,12 +18,44 @@
                 <p class="mt-1 text-gray-900">{{ history.pregnancy_year }}</p>
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700">Abortions Below 12 Weeks</label>
+                <p class="mt-1 text-gray-900">{{ history.abortions_below_12_weeks }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Abortions Above 12 Weeks</label>
+                <p class="mt-1 text-gray-900">{{ history.abortions_above_12_weeks }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Premature Births</label>
+                <p class="mt-1 text-gray-900">{{ history.premature_births }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Full Term Deliveries</label>
+                <p class="mt-1 text-gray-900">{{ history.full_term_deliveries }}</p>
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700">Delivery Type</label>
                 <p class="mt-1 text-gray-900">{{ history.delivery_type }}</p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Place of Delivery</label>
                 <p class="mt-1 text-gray-900">{{ history.place_of_delivery }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Third Stage Complications</label>
+                <p class="mt-1 text-gray-900">{{ history.third_stage_complications|default:"No data" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Puerperium</label>
+                <p class="mt-1 text-gray-900">{{ history.puerperium|default:"No data" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Baby Alive</label>
+                <p class="mt-1 text-gray-900">{{ history.baby_alive|yesno:"Yes,No" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Stillbirth or NND</label>
+                <p class="mt-1 text-gray-900">{{ history.stillbirth_or_nnd|yesno:"Yes,No" }}</p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Baby Sex</label>

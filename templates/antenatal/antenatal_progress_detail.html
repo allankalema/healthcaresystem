@@ -22,8 +22,24 @@
                 <p class="mt-1 text-gray-900">{{ progress.fundal_height }}</p>
             </div>
             <div>
+                <label class="block text-sm font-medium text-gray-700">Presentation</label>
+                <p class="mt-1 text-gray-900">{{ progress.presentation }}</p>
+            </div>
+            <div>
                 <label class="block text-sm font-medium text-gray-700">Fetal Heart Rate</label>
                 <p class="mt-1 text-gray-900">{{ progress.fetal_heart_rate }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Varicose or Oedema</label>
+                <p class="mt-1 text-gray-900">{{ progress.varicose_or_oedema|default:"No data" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Urine Test Results</label>
+                <p class="mt-1 text-gray-900">{{ progress.urine_test_results|default:"No data" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Iron Folic Acid Pills</label>
+                <p class="mt-1 text-gray-900">{{ progress.iron_folic_acid_pills|default:"No data" }}</p>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">Complaints and Remarks</label>

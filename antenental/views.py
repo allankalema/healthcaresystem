@@ -64,15 +64,30 @@ def unadmit_patient(request, card_id):
         messages.error(request, "You do not have permission to unadmit this patient.")
         return redirect('doctor_patients')
 
-    # Set patient as unadmitted
+    # Set the patient as unadmitted
     patient = get_object_or_404(Patient, user=antenatal_card.user)
-    AntenatalCard.admitted = False
-    patient.save()
-    antenatal_card.save()
-
+    antenatal_card.admitted = False
+    antenatal_card.save()  # Save the antenatal card to reflect the changes
 
     messages.success(request, "Patient has been unadmitted successfully.")
     return redirect('doctor_patients')
+
+@login_required
+def readmit_patient(request, card_id):
+    antenatal_card = get_object_or_404(AntenatalCard, id=card_id)
+
+    # Ensure only the assigned doctor can readmit the patient
+    if antenatal_card.Doctor != request.user:
+        messages.error(request, "You do not have permission to readmit this patient.")
+        return redirect('doctor_patients')
+
+    # Set the patient as admitted
+    antenatal_card.admitted = True
+    antenatal_card.save()  # Save the antenatal card to reflect the changes
+
+    messages.success(request, "Patient has been readmitted successfully.")
+    return redirect('doctor_patients')
+
 
 
 def advanced_patient_search(request):

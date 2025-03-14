@@ -15,6 +15,45 @@
         <form method="post" class="space-y-6">
             {% csrf_token %}
             
+            <!-- User Information -->
+            <div>
+                <h3 class="text-xl font-semibold text-green-600 mb-4">User Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
+                        <input type="text" id="contact" name="contact" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="health_insurance_details" class="block text-sm font-medium text-gray-700">Health Insurance Details</label>
+                        <textarea id="health_insurance_details" name="health_insurance_details" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="government_scheme_eligibility" class="block text-sm font-medium text-gray-700">Government Scheme Eligibility</label>
+                        <textarea id="government_scheme_eligibility" name="government_scheme_eligibility" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Patient Information -->
+            <div>
+                <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="number_of_children" class="block text-sm font-medium text-gray-700">Number of Children</label>
+                        <input type="number" id="number_of_children" name="number_of_children" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="date_of_last_period" class="block text-sm font-medium text-gray-700">Date of Last Period</label>
+                        <input type="date" id="date_of_last_period" name="date_of_last_period" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                </div>
+            </div>
+
             <!-- Pregnancy Information -->
             <div>
                 <h3 class="text-xl font-semibold text-green-600 mb-4">Pregnancy Information</h3>
@@ -61,65 +100,71 @@
                 </div>
             </div>
 
-            <!-- Medical History -->
+            <!-- Antenatal Card Information -->
             <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Medical History</h3>
+                <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Card Information</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="pre_existing_conditions" class="block text-sm font-medium text-gray-700">Pre-existing Conditions</label>
-                        <textarea id="pre_existing_conditions" name="pre_existing_conditions" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="previous_surgeries" class="block text-sm font-medium text-gray-700">Previous Surgeries</label>
-                        <textarea id="previous_surgeries" name="previous_surgeries" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="current_medications" class="block text-sm font-medium text-gray-700">Current Medications</label>
-                        <textarea id="current_medications" name="current_medications" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
-                        <textarea id="allergies" name="allergies" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="blood_type" class="block text-sm font-medium text-gray-700">Blood Type</label>
-                        <input type="text" id="blood_type" name="blood_type"
+                        <label for="phone_no" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="text" id="phone_no" name="phone_no" required
                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="family_medical_history" class="block text-sm font-medium text-gray-700">Family Medical History</label>
-                        <textarea id="family_medical_history" name="family_medical_history" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lifestyle -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Lifestyle</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="diet_preferences" class="block text-sm font-medium text-gray-700">Diet Preferences</label>
-                        <textarea id="diet_preferences" name="diet_preferences" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                        <label for="tribe" class="block text-sm font-medium text-gray-700">Tribe</label>
+                        <input type="text" id="tribe" name="tribe" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="exercise_level" class="block text-sm font-medium text-gray-700">Exercise Level</label>
-                        <textarea id="exercise_level" name="exercise_level" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                        <label for="gravida" class="block text-sm font-medium text-gray-700">Gravida</label>
+                        <input type="number" id="gravida" name="gravida" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                     </div>
                     <div>
-                        <label for="smoking_alcohol_drug_use" class="block text-sm font-medium text-gray-700">Smoking/Alcohol/Drug Use</label>
-                        <textarea id="smoking_alcohol_drug_use" name="smoking_alcohol_drug_use" rows="3"
+                        <label for="para" class="block text-sm font-medium text-gray-700">Para</label>
+                        <input type="number" id="para" name="para" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="abortions" class="block text-sm font-medium text-gray-700">Abortions</label>
+                        <input type="number" id="abortions" name="abortions" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="presenting_complaints" class="block text-sm font-medium text-gray-700">Presenting Complaints</label>
+                        <textarea id="presenting_complaints" name="presenting_complaints" rows="3"
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                     <div>
-                        <label for="mental_health_status" class="block text-sm font-medium text-gray-700">Mental Health Status</label>
-                        <textarea id="mental_health_status" name="mental_health_status" rows="3"
+                        <label for="first_day_of_lnmp" class="block text-sm font-medium text-gray-700">First Day of LNMP</label>
+                        <input type="date" id="first_day_of_lnmp" name="first_day_of_lnmp" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="edd" class="block text-sm font-medium text-gray-700">Estimated Due Date (EDD)</label>
+                        <input type="date" id="edd" name="edd" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="weeks_of_amenorrhea" class="block text-sm font-medium text-gray-700">Weeks of Amenorrhea</label>
+                        <input type="number" id="weeks_of_amenorrhea" name="weeks_of_amenorrhea" required
+                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                    </div>
+                    <div>
+                        <label for="complications_of_pregnancy" class="block text-sm font-medium text-gray-700">Complications of Pregnancy</label>
+                        <textarea id="complications_of_pregnancy" name="complications_of_pregnancy" rows="3"
+                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
+                    </div>
+                    <div>
+                        <label for="hospitalization" class="block text-sm font-medium text-gray-700">Hospitalization</label>
+                        <select id="hospitalization" name="hospitalization" required
+                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                            <option value="True">Yes</option>
+                            <option value="False">No</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="hospitalization_reason" class="block text-sm font-medium text-gray-700">Hospitalization Reason</label>
+                        <textarea id="hospitalization_reason" name="hospitalization_reason" rows="3"
                                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
                     </div>
                 </div>

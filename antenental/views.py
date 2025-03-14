@@ -83,7 +83,15 @@ def admit_patient(request, patient_id):
     patient_profile = Patient.objects.get(user=patient)
 
     if request.method == 'POST':
+        # Update the User model
+        patient.contact = request.POST.get('contact')
+        patient.health_insurance_details = request.POST.get('health_insurance_details')
+        patient.government_scheme_eligibility = request.POST.get('government_scheme_eligibility')
+        patient.save()
+
         # Update the Patient model
+        patient_profile.number_of_children = request.POST.get('number_of_children')
+        patient_profile.date_of_last_period = request.POST.get('date_of_last_period')
         patient_profile.gestational_age = request.POST.get('gestational_age')
         patient_profile.expected_due_date = request.POST.get('expected_due_date')
         patient_profile.type_of_pregnancy = request.POST.get('type_of_pregnancy')
@@ -111,7 +119,7 @@ def admit_patient(request, patient_id):
             reg_no=request.POST.get('reg_no'),
             name=f"{patient.first_name} {patient.last_name}",
             nin=patient.nin,
-            phone_no=patient.contact,
+            phone_no=request.POST.get('phone_no'),
             age=patient_profile.age,
             village=location.village,
             parish=location.parish,
@@ -131,7 +139,7 @@ def admit_patient(request, patient_id):
             edd=request.POST.get('edd'),
             weeks_of_amenorrhea=request.POST.get('weeks_of_amenorrhea'),
             complications_of_pregnancy=request.POST.get('complications_of_pregnancy'),
-            hospitalization=request.POST.get('hospitalization') == 'on',
+            hospitalization=request.POST.get('hospitalization') == 'True',
             hospitalization_reason=request.POST.get('hospitalization_reason'),
             next_visit=request.POST.get('next_visit'),
         )
@@ -147,8 +155,6 @@ def admit_patient(request, patient_id):
         'location': location,
         'patient_profile': patient_profile,
     })
-
-
 
 
 def doctor_patients(request):

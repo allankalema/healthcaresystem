@@ -4,7 +4,7 @@
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Advanced Patient Search</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Search</h2>
 
         <!-- Notice -->
         <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-lg">
@@ -16,14 +16,16 @@
         <!-- Search Form -->
         <form method="get" action="{% url 'advanced_patient_search' %}" class="mb-8">
             <div class="flex items-center space-x-4">
-                <input type="text" name="q" value="{{ query }}" placeholder="Search by first name, last name, or email"
-                       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+                <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search patients to admit (name, email)"
+       class="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+
                 <button type="submit"
                         class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
                     Search
                 </button>
             </div>
         </form>
+        
 
         <!-- Search Results -->
         {% if results %}

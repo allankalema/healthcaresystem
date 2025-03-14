@@ -18,5 +18,6 @@ urlpatterns = [
      path('previous-obstetric-history/<int:history_id>/', views.previous_obstetric_history_detail, name='previous_obstetric_history_detail'),
     path('antenatal-progress/<int:progress_id>/', views.antenatal_progress_detail, name='antenatal_progress_detail'),
     path('ultrasound-report/<int:report_id>/', views.ultrasound_report_detail, name='ultrasound_report_detail'),
+    path('unadmit-patient/<int:card_id>/', views.unadmit_patient, name='unadmit_patient'),
 
 ]

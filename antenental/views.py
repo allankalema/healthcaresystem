@@ -55,6 +55,23 @@ def my_prescriptions(request):
         'prescriptions': prescriptions,
     })
 
+@login_required
+def unadmit_patient(request, card_id):
+    antenatal_card = get_object_or_404(AntenatalCard, id=card_id)
+
+    # Ensure only the assigned doctor can unadmit the patient
+    if antenatal_card.Doctor != request.user:
+        messages.error(request, "You do not have permission to unadmit this patient.")
+        return redirect('doctor_patients')
+
+    # Set patient as unadmitted
+    patient = get_object_or_404(Patient, user=antenatal_card.user)
+    patient.admitted = False
+    patient.save()
+    
+    messages.success(request, "Patient has been unadmitted successfully.")
+    return redirect('doctor_patients')
+
 
 def advanced_patient_search(request):
     query = request.GET.get('q')  # Get the search query from the URL parameters

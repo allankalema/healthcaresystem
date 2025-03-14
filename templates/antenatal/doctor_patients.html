@@ -33,14 +33,39 @@
         <!-- List of Patients -->
         <div class="space-y-4">
             {% for card in antenatal_cards %}
-                <a href="{% url 'patient_details' card.id %}" class="block p-4 bg-green-50 rounded-lg shadow-sm hover:bg-green-100 transition duration-300">
-                    <div class="text-lg font-semibold text-green-700">{{ card.name }}</div>
-                    <div class="text-sm text-gray-600">Next Visit: {{ card.next_visit|date:"F j, Y, g:i a" }}</div>
-                </a>
+                <div class="relative bg-green-50 rounded-lg shadow-sm hover:bg-green-100 transition duration-300 p-4 flex justify-between items-center">
+                    <a href="{% url 'patient_details' card.id %}" class="flex-1">
+                        <div class="text-lg font-semibold text-green-700">{{ card.name }}</div>
+                        <div class="text-sm text-gray-600">Next Visit: {{ card.next_visit|date:"F j, Y, g:i a" }}</div>
+                    </a>
+
+                    <!-- Three-dot menu -->
+                    <div class="relative">
+                        <button onclick="toggleMenu({{ card.id }})" class="text-gray-600 hover:text-gray-800">
+                            &#8942; <!-- Three dots icon -->
+                        </button>
+
+                        <div id="menu-{{ card.id }}" class="hidden absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg overflow-hidden">
+                            <form method="post" action="{% url 'unadmit_patient' card.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100">
+                                    Unadmit Patient
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             {% empty %}
                 <p class="text-center text-gray-600">No patients found.</p>
             {% endfor %}
         </div>
     </div>
 </main>
+
+<script>
+    function toggleMenu(cardId) {
+        let menu = document.getElementById(`menu-${cardId}`);
+        menu.classList.toggle("hidden");
+    }
+</script>
 {% endblock %}

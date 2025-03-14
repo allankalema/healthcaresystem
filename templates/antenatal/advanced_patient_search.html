@@ -4,6 +4,13 @@
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="{% url 'doctor_dashboard' %}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
+                &larr; Back
+            </a>
+        </div>
+        
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Search</h2>
 
         <!-- Notice -->

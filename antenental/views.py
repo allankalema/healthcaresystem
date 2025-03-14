@@ -8,7 +8,10 @@ from django.shortcuts import render
 from django.utils.timezone import now
 from django.db.models import Q
 from .models import *
+from django.db.models import Exists, OuterRef
 from.forms import *
+import random
+import string
 from django.conf import settings
 from accounts.models import * # Import your User model
 
@@ -63,21 +66,27 @@ def advanced_patient_search(request):
         
         # Build a Q object to search for patients (is_patient=True)
         q_objects = Q(is_patient=True)  # Ensure only patients are searched
-        
+
         # Add conditions for first name, last name, and email
         for part in parts:
             q_objects &= (Q(first_name__icontains=part) | Q(last_name__icontains=part) | Q(email__icontains=part))
-        
-        # Perform the search
-        results = User.objects.filter(q_objects)
+
+        # Exclude patients who have already been admitted by this doctor
+        admitted_patients = AntenatalCard.objects.filter(
+            user=OuterRef('id'),  # Match the patient in User model
+            Doctor=request.user  # Ensure they were admitted by the logged-in doctor
+        )
+
+        # Perform the search while excluding already admitted patients
+        results = User.objects.filter(q_objects).annotate(
+            already_admitted=Exists(admitted_patients)
+        ).filter(already_admitted=False)
 
     return render(request, 'antenatal/advanced_patient_search.html', {'results': results, 'query': query})
 
 
 
 
-import random
-import string
 
 def generate_random_string(length=10):
     """Generate a random string of fixed length."""

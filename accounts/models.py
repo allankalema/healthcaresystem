@@ -143,7 +143,7 @@ class Patient(models.Model):
     allergies = models.TextField(null=True, blank=True)
     blood_type = models.CharField(max_length=5, null=True, blank=True)
     family_medical_history = models.TextField(null=True, blank=True)
-    admitted = models.BooleanField(default=False)
+    
 
 
     # Lifestyle

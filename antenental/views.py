@@ -66,8 +66,10 @@ def unadmit_patient(request, card_id):
 
     # Set patient as unadmitted
     patient = get_object_or_404(Patient, user=antenatal_card.user)
-    patient.admitted = False
+    AntenatalCard.admitted = False
     patient.save()
+    antenatal_card.save()
+
 
     messages.success(request, "Patient has been unadmitted successfully.")
     return redirect('doctor_patients')
@@ -94,10 +96,6 @@ def advanced_patient_search(request):
             Doctor=request.user  # Ensure they were admitted by the logged-in doctor
         )
 
-        # Perform the search while excluding already admitted patients
-        results = User.objects.filter(q_objects).annotate(
-            already_admitted=Exists(admitted_patients)
-        ).filter(already_admitted=False)
 
     return render(request, 'antenatal/advanced_patient_search.html', {'results': results, 'query': query})
 
@@ -143,7 +141,7 @@ def admit_patient(request, patient_id):
         patient_profile.exercise_level = request.POST.get('exercise_level')
         patient_profile.smoking_alcohol_drug_use = request.POST.get('smoking_alcohol_drug_use')
         patient_profile.mental_health_status = request.POST.get('mental_health_status')
-        patient.admitted = True
+        
         patient_profile.save()
 
         # Auto-generate health_unit and reg_no
@@ -184,6 +182,7 @@ def admit_patient(request, patient_id):
             hospitalization=request.POST.get('hospitalization') == 'True',
             hospitalization_reason=request.POST.get('hospitalization_reason'),
             next_visit=request.POST.get('next_visit'),
+            admitted = True
         )
         antenatal_card.save()
 
@@ -200,8 +199,8 @@ def admit_patient(request, patient_id):
 
 def doctor_patients(request):
     # Fetch all AntenatalCard instances where the Doctor is the logged-in user
-    admitted_patients = AntenatalCard.objects.filter(Doctor=request.user, user__patient_profile__admitted=True)
-    unadmitted_patients = AntenatalCard.objects.filter(Doctor=request.user, user__patient_profile__admitted=False)
+    admitted_patients = AntenatalCard.objects.filter(Doctor=request.user, is_admitted=True)
+    unadmitted_patients = AntenatalCard.objects.filter(Doctor=request.user, is_admitted=False)
 
     # Handle search query
     search_query = request.GET.get('q')

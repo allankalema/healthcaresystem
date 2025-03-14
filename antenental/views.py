@@ -470,3 +470,21 @@ def report_emergency(request):
     return render(request, 'emergency/report_emergency.html', {
         'form': form,
     })
+
+def previous_obstetric_history_detail(request, history_id):
+    history = get_object_or_404(PreviousObstetricHistory, id=history_id)
+    return render(request, 'antenatal/previous_obstetric_history_detail.html', {
+        'history': history,
+    })
+
+def antenatal_progress_detail(request, progress_id):
+    progress = get_object_or_404(AntenatalProgressExamination, id=progress_id)
+    return render(request, 'antenatal/antenatal_progress_detail.html', {
+        'progress': progress,
+    })
+
+def ultrasound_report_detail(request, report_id):
+    report = get_object_or_404(UltrasoundReport, id=report_id)
+    return render(request, 'antenatal/ultrasound_report_detail.html', {
+        'report': report,
+    })

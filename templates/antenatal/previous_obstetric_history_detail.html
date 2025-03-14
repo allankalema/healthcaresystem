@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Previous Obstetric History Details</h2>
+
+        <!-- Details -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Pregnancy Year</label>
+                <p class="mt-1 text-gray-900">{{ history.pregnancy_year }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Delivery Type</label>
+                <p class="mt-1 text-gray-900">{{ history.delivery_type }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Place of Delivery</label>
+                <p class="mt-1 text-gray-900">{{ history.place_of_delivery }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Baby Sex</label>
+                <p class="mt-1 text-gray-900">{{ history.baby_sex }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Birth Weight</label>
+                <p class="mt-1 text-gray-900">{{ history.birth_weight }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Immunization Status</label>
+                <p class="mt-1 text-gray-900">{{ history.immunization_status }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Baby Health Condition</label>
+                <p class="mt-1 text-gray-900">{{ history.baby_health_condition|default:"No data" }}</p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="flex justify-end mt-8">
+            <a href="{% url 'patient_details' history.antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Back to Patient Details
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

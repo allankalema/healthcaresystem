@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+        <!-- Ministry of Health Emblem -->
+        <div class="flex justify-center mb-6">
+            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        </div>
+
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Antenatal Progress Examination Details</h2>
+
+        <!-- Details -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Visit Date</label>
+                <p class="mt-1 text-gray-900">{{ progress.visit_date|date:"F j, Y" }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Fundal Height</label>
+                <p class="mt-1 text-gray-900">{{ progress.fundal_height }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Fetal Heart Rate</label>
+                <p class="mt-1 text-gray-900">{{ progress.fetal_heart_rate }}</p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Complaints and Remarks</label>
+                <p class="mt-1 text-gray-900">{{ progress.complaints_and_remarks|default:"No data" }}</p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="flex justify-end mt-8">
+            <a href="{% url 'patient_details' progress.antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Back to Patient Details
+            </a>
+        </div>
+    </div>
+</main>
+{% endblock %}

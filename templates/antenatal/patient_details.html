@@ -120,7 +120,7 @@
                             <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Baby Sex:</strong> {{ history.baby_sex|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Birth Weight:</strong> {{ history.birth_weight|default:"No data" }}</p>
-                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
+                            <a href="{% url 'previous_obstetric_history_detail' history.id %}" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -140,7 +140,7 @@
                             <p class="text-gray-700"><strong>Fundal Height:</strong> {{ progress.fundal_height|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ progress.fetal_heart_rate|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ progress.complaints_and_remarks|default:"No data" }}</p>
-                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
+                            <a href="{% url 'antenatal_progress_detail' progress.id %}" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -160,7 +160,7 @@
                             <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Fetal Position:</strong> {{ report.fetal_position|default:"No data" }}</p>
-                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
+                            <a href="{% url 'ultrasound_report_detail' report.id %}" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>

@@ -13,8 +13,9 @@
 
         <!-- Search Bar -->
         <form method="get" action="{% url 'doctor_patients' %}" class="mb-6">
+          
             <div class="flex items-center space-x-4">
-                <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name or email"
+                <input type="text" name="q" value="{{ search_query|default:''  }}" placeholder="Search by name or email"
                        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
                 <button type="submit"
                         class="bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">

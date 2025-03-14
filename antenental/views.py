@@ -68,7 +68,7 @@ def unadmit_patient(request, card_id):
     patient = get_object_or_404(Patient, user=antenatal_card.user)
     patient.admitted = False
     patient.save()
-    
+
     messages.success(request, "Patient has been unadmitted successfully.")
     return redirect('doctor_patients')
 
@@ -143,6 +143,7 @@ def admit_patient(request, patient_id):
         patient_profile.exercise_level = request.POST.get('exercise_level')
         patient_profile.smoking_alcohol_drug_use = request.POST.get('smoking_alcohol_drug_use')
         patient_profile.mental_health_status = request.POST.get('mental_health_status')
+        patient.admitted = True
         patient_profile.save()
 
         # Auto-generate health_unit and reg_no

@@ -76,6 +76,14 @@ def advanced_patient_search(request):
 
 
 
+import random
+import string
+
+def generate_random_string(length=10):
+    """Generate a random string of fixed length."""
+    letters_and_digits = string.ascii_letters + string.digits
+    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+
 def admit_patient(request, patient_id):
     # Get the patient object
     patient = get_object_or_404(User, id=patient_id, is_patient=True)
@@ -111,12 +119,16 @@ def admit_patient(request, patient_id):
         patient_profile.mental_health_status = request.POST.get('mental_health_status')
         patient_profile.save()
 
+        # Auto-generate health_unit and reg_no
+        health_unit = "Health Unit " + generate_random_string(5)  # Example: "Health Unit Abc12"
+        reg_no = "REG" + generate_random_string(7)  # Example: "REG123Abc"
+
         # Create an AntenatalCard instance
         antenatal_card = AntenatalCard(
             user=patient,
             Doctor=request.user,
-            health_unit=request.POST.get('health_unit'),
-            reg_no=request.POST.get('reg_no'),
+            health_unit=health_unit,  # Auto-generated health unit
+            reg_no=reg_no,  # Auto-generated registration number
             name=f"{patient.first_name} {patient.last_name}",
             nin=patient.nin,
             phone_no=request.POST.get('phone_no'),
@@ -126,6 +138,9 @@ def admit_patient(request, patient_id):
             sub_county=location.sub_county,
             district=location.district,
             occupation=patient_profile.occupation,
+            religion=request.POST.get('religion'),  # New field
+            education_level=request.POST.get('education_level'),  # New field
+            tribe=request.POST.get('tribe'),  # New field
             marital_status=patient.marital_status,
             next_of_kin_name=request.POST.get('next_of_kin_name'),
             next_of_kin_phone=request.POST.get('next_of_kin_phone'),
@@ -147,8 +162,7 @@ def admit_patient(request, patient_id):
 
         # Add success message
         messages.success(request, f"{patient.first_name} {patient.last_name} has been admitted successfully and is now your patient.")
-        return redirect('doctor_dashboard')  # Redirect to the doctor dashboard
-
+        return redirect('doctor_patients')  # Redirect to the doctor dashboard
     # Render the admission form
     return render(request, 'antenatal/admit_patient.html', {
         'patient': patient,

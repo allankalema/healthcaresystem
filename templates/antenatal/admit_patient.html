@@ -37,22 +37,39 @@
                 </div>
             </div>
 
-            <!-- Patient Information -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="number_of_children" class="block text-sm font-medium text-gray-700">Number of Children</label>
-                        <input type="number" id="number_of_children" name="number_of_children" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="date_of_last_period" class="block text-sm font-medium text-gray-700">Date of Last Period</label>
-                        <input type="date" id="date_of_last_period" name="date_of_last_period" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                </div>
-            </div>
+            <!-- Add these fields under the "Patient Information" section -->
+<div>
+    <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Existing fields -->
+        <div>
+            <label for="number_of_children" class="block text-sm font-medium text-gray-700">Number of Children</label>
+            <input type="number" id="number_of_children" name="number_of_children" required
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+        </div>
+        <div>
+            <label for="date_of_last_period" class="block text-sm font-medium text-gray-700">Date of Last Period</label>
+            <input type="date" id="date_of_last_period" name="date_of_last_period" required
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+        </div>
+        
+        <div>
+            <label for="education_level" class="block text-sm font-medium text-gray-700">Education Level</label>
+            <input type="text" id="education_level" name="education_level" required
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+        </div>
+        <div>
+            <label for="religion" class="block text-sm font-medium text-gray-700">Religion</label>
+            <input type="text" id="religion" name="religion" required
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+        </div>
+        <div>
+            <label for="tribe" class="block text-sm font-medium text-gray-700">Tribe</label>
+            <input type="text" id="tribe" name="tribe" required
+                   class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
+        </div>
+    </div>
+</div>
 
             <!-- Pregnancy Information -->
             <div>

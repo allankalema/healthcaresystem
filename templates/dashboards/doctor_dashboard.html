@@ -48,11 +48,7 @@
                 <a href="{% url 'emergency_list' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200 relative">
                     <i class="bi bi-exclamation-triangle text-lg sm:text-xl mr-2"></i>
                     <span class="text-xs sm:text-sm font-semibold">Emergencies</span>
-                    {% if emergencies %}
-                        <span class="bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full absolute -top-2 -right-2">
-                            {{ emergencies.count }}  <!-- Use .count to get the total number of emergencies -->
-                        </span>
-                    {% endif %}
+                    
                 </a>
             </div>
     

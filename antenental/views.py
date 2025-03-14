@@ -69,6 +69,15 @@ def unadmit_patient(request, card_id):
     antenatal_card.admitted = False
     antenatal_card.save()  # Save the antenatal card to reflect the changes
 
+    # Send email notification to the patient
+    send_mail(
+        'Your Antenatal Card Status Update',
+        f'Dear {patient.user.first_name},\n\nYour antenatal card has been unadmitted by Dr. {request.user.first_name}. Please contact the clinic for further updates.',
+        settings.DEFAULT_FROM_EMAIL,
+        [patient.user.email],
+        fail_silently=False,
+    )
+
     messages.success(request, "Patient has been unadmitted successfully.")
     return redirect('doctor_patients')
 
@@ -85,11 +94,20 @@ def readmit_patient(request, card_id):
     antenatal_card.admitted = True
     antenatal_card.save()  # Save the antenatal card to reflect the changes
 
+    # Send email notification to the patient
+    patient = get_object_or_404(Patient, user=antenatal_card.user)
+    send_mail(
+        'Your Antenatal Card Status Update',
+        f'Dear {patient.user.first_name},\n\nYour antenatal card has been readmitted by Dr. {request.user.first_name}. Please contact the clinic for further updates.',
+        settings.DEFAULT_FROM_EMAIL,
+        [patient.user.email],
+        fail_silently=False,
+    )
+
     messages.success(request, "Patient has been readmitted successfully.")
     return redirect('doctor_patients')
 
-
-
+    
 def advanced_patient_search(request):
     query = request.GET.get('q')  # Get the search query from the URL parameters
     results = []

@@ -199,8 +199,8 @@ def admit_patient(request, patient_id):
 
 def doctor_patients(request):
     # Fetch all AntenatalCard instances where the Doctor is the logged-in user
-    admitted_patients = AntenatalCard.objects.filter(Doctor=request.user, is_admitted=True)
-    unadmitted_patients = AntenatalCard.objects.filter(Doctor=request.user, is_admitted=False)
+    admitted_patients = AntenatalCard.objects.filter(Doctor=request.user, admitted=True)
+    unadmitted_patients = AntenatalCard.objects.filter(Doctor=request.user,admitted=False)
 
     # Handle search query
     search_query = request.GET.get('q')

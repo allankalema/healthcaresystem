@@ -13,7 +13,7 @@
         <!-- Cancel and Done Buttons -->
         <div class="flex justify-between mb-6">
             <!-- Cancel Button -->
-            <a href="{% url 'doctor_dashboard' %}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
+            <a href="{% url 'doctor_dashboard'  %}" class="bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
                 Cancel
             </a>
             <!-- Done Button -->
@@ -68,7 +68,7 @@
                 <input type="hidden" name="add_previous_obstetric_history" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in previous_obstetric_history_form %}
-                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by,created_at" %}
                             <div>
                                 <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
                                 {% if field.field.widget.input_type == 'checkbox' %}
@@ -100,7 +100,7 @@
                 <input type="hidden" name="add_antenatal_progress" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in antenatal_progress_form %}
-                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by,created_at" %}
                             <div>
                                 <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
                                 {% if field.field.widget.input_type == 'checkbox' %}
@@ -132,7 +132,7 @@
                 <input type="hidden" name="add_ultrasound_report" value="true">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {% for field in ultrasound_report_form %}
-                        {% if field.name|exclude_fields:"antenatal_card,recorded_by" %}
+                        {% if field.name|exclude_fields:"antenatal_card,recorded_by,created_at" %}
                             <div>
                                 <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
                                 {% if field.field.widget.input_type == 'checkbox' %}

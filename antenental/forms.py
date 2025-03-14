@@ -6,19 +6,19 @@ class PreviousObstetricHistoryForm(forms.ModelForm):
     class Meta:
         model = PreviousObstetricHistory
         fields = '__all__'
-        exclude = ['antenatal_card', 'recorded_by']
+        exclude = ['antenatal_card', 'recorded_by','created_at']
 
 class AntenatalProgressExaminationForm(forms.ModelForm):
     class Meta:
         model = AntenatalProgressExamination
         fields = '__all__'
-        exclude = ['antenatal_card', 'recorded_by']
+        exclude = ['antenatal_card', 'recorded_by','created_at']
 
 class UltrasoundReportForm(forms.ModelForm):
     class Meta:
         model = UltrasoundReport
         fields = '__all__'
-        exclude = ['antenatal_card', 'recorded_by']
+        exclude = ['antenatal_card', 'recorded_by','created_at']
 
 class AntenatalCardUpdateForm(forms.ModelForm):
     class Meta:

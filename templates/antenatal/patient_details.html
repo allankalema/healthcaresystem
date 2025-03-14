@@ -4,9 +4,16 @@
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
     <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
-        <!-- Ministry of Health Emblem -->
-        <div class="flex justify-center mb-6">
-            <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+        <!-- Ministry of Health Emblem and Add Information Button -->
+        <div class="flex justify-between mb-6">
+            <div>
+                <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
+            </div>
+            <div>
+                <a href="{% url 'add_information' antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Add Information
+                </a>
+            </div>
         </div>
 
         <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Details: {{ antenatal_card.name }}</h2>
@@ -16,39 +23,39 @@
             <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Name</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.name|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">NIN</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">NIN</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.nin|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Phone Number</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.phone_no|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Village</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Village</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.village|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Parish</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Parish</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.parish|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">District</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">District</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.district|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Occupation</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Occupation</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.occupation|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Marital Status</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Marital Status</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.marital_status|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Next of Kin</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Next of Kin</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_name|default:"No data" }} ({{ antenatal_card.next_of_kin_relationship|default:"No data" }})</p>
                 </div>
             </div>
@@ -59,16 +66,44 @@
             <h3 class="text-xl font-semibold text-green-600 mb-4">Card Details</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Health Unit</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Health Unit</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.health_unit|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Registration Number</label>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Registration Number</label>
                     <p class="mt-1 text-gray-900">{{ antenatal_card.reg_no|default:"No data" }}</p>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700">Next Visit</label>
-                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_visit|date:"F j, Y, g:i a"|default:"No data" }}</p>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Religion</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.religion|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Education Level</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.education_level|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Tribe</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.tribe|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Next of Kin Phone</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_phone|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Next of Kin Address</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_address|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Gravida</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.gravida|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Para</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.para|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 font-bold">Abortions</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.abortions|default:"No data" }}</p>
                 </div>
             </div>
         </div>
@@ -77,7 +112,7 @@
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Previous Obstetric History</h3>
             {% if previous_histories %}
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {% for history in previous_histories %}
                         <div class="p-4 bg-green-50 rounded-lg shadow-sm">
                             <p class="text-gray-700"><strong>Pregnancy Year:</strong> {{ history.pregnancy_year|default:"No data" }}</p>
@@ -85,6 +120,7 @@
                             <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Baby Sex:</strong> {{ history.baby_sex|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Birth Weight:</strong> {{ history.birth_weight|default:"No data" }}</p>
+                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -97,13 +133,14 @@
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Progress Examinations</h3>
             {% if progress_examinations %}
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {% for progress in progress_examinations %}
                         <div class="p-4 bg-green-50 rounded-lg shadow-sm">
                             <p class="text-gray-700"><strong>Visit Date:</strong> {{ progress.visit_date|date:"F j, Y"|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Fundal Height:</strong> {{ progress.fundal_height|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ progress.fetal_heart_rate|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ progress.complaints_and_remarks|default:"No data" }}</p>
+                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>
@@ -116,26 +153,20 @@
         <div class="mb-6">
             <h3 class="text-xl font-semibold text-green-600 mb-4">Ultrasound Reports</h3>
             {% if ultrasound_reports %}
-                <div class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {% for report in ultrasound_reports %}
                         <div class="p-4 bg-green-50 rounded-lg shadow-sm">
                             <p class="text-gray-700"><strong>Ultrasound Date:</strong> {{ report.ultrasound_date|date:"F j, Y"|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age|default:"No data" }}</p>
                             <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details|default:"No data" }}</p>
-                            <p class="text-gray-700"><strong>Complications:</strong> {{ report.complications|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Fetal Position:</strong> {{ report.fetal_position|default:"No data" }}</p>
+                            <a href="#" class="text-blue-500 hover:underline mt-2">View Details</a>
                         </div>
                     {% endfor %}
                 </div>
             {% else %}
                 <p class="text-gray-700">No ultrasound reports found.</p>
             {% endif %}
-        </div>
-
-        <div class="mb-6">
-            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Information to the Card</h3>
-            <a href="{% url 'add_information' antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                Add Information
-            </a>
         </div>
     </div>
 </main>

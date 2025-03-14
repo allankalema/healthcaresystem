@@ -1,435 +1,157 @@
-so i need you to look at this page 
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <main class="mt-16 sm:mt-20 min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-4xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
+    <div class="w-full max-w-6xl p-6 sm:p-8 bg-white rounded-lg shadow-lg">
         <!-- Ministry of Health Emblem -->
         <div class="flex justify-center mb-6">
             <img src="{{ MEDIA_URL }}images/emblem.png" alt="Ministry of Health Symbol" class="w-24 h-24">
         </div>
 
-        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Admit Patient: {{ patient.first_name }} {{ patient.last_name }}</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-green-600 mb-6 text-center">Patient Details: {{ antenatal_card.name }}</h2>
 
-        <!-- Admission Form -->
-        <form method="post" class="space-y-6">
-            {% csrf_token %}
-            
-            <!-- Pregnancy Information -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Pregnancy Information</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="gestational_age" class="block text-sm font-medium text-gray-700">Gestational Age (Weeks)</label>
-                        <input type="number" id="gestational_age" name="gestational_age" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="expected_due_date" class="block text-sm font-medium text-gray-700">Expected Due Date</label>
-                        <input type="date" id="expected_due_date" name="expected_due_date" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="type_of_pregnancy" class="block text-sm font-medium text-gray-700">Type of Pregnancy</label>
-                        <select id="type_of_pregnancy" name="type_of_pregnancy" required
-                                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                            <option value="Single">Single</option>
-                            <option value="Twins">Twins</option>
-                            <option value="Multiples">Multiples</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="previous_pregnancies" class="block text-sm font-medium text-gray-700">Previous Pregnancies</label>
-                        <input type="number" id="previous_pregnancies" name="previous_pregnancies" required
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="delivery_history" class="block text-sm font-medium text-gray-700">Delivery History</label>
-                        <textarea id="delivery_history" name="delivery_history" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="high_risk_factors" class="block text-sm font-medium text-gray-700">High Risk Factors</label>
-                        <textarea id="high_risk_factors" name="high_risk_factors" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="fetal_health" class="block text-sm font-medium text-gray-700">Fetal Health</label>
-                        <textarea id="fetal_health" name="fetal_health" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
+        <!-- Patient Information -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Patient Information</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Name</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.name|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">NIN</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.nin|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.phone_no|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Village</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.village|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Parish</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.parish|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">District</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.district|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Occupation</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.occupation|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Marital Status</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.marital_status|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Next of Kin</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_of_kin_name|default:"No data" }} ({{ antenatal_card.next_of_kin_relationship|default:"No data" }})</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Medical History -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Medical History</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="pre_existing_conditions" class="block text-sm font-medium text-gray-700">Pre-existing Conditions</label>
-                        <textarea id="pre_existing_conditions" name="pre_existing_conditions" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="previous_surgeries" class="block text-sm font-medium text-gray-700">Previous Surgeries</label>
-                        <textarea id="previous_surgeries" name="previous_surgeries" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="current_medications" class="block text-sm font-medium text-gray-700">Current Medications</label>
-                        <textarea id="current_medications" name="current_medications" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
-                        <textarea id="allergies" name="allergies" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="blood_type" class="block text-sm font-medium text-gray-700">Blood Type</label>
-                        <input type="text" id="blood_type" name="blood_type"
-                               class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600">
-                    </div>
-                    <div>
-                        <label for="family_medical_history" class="block text-sm font-medium text-gray-700">Family Medical History</label>
-                        <textarea id="family_medical_history" name="family_medical_history" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
+        <!-- Card Details -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Card Details</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Health Unit</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.health_unit|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Registration Number</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.reg_no|default:"No data" }}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Next Visit</label>
+                    <p class="mt-1 text-gray-900">{{ antenatal_card.next_visit|date:"F j, Y, g:i a"|default:"No data" }}</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Lifestyle -->
-            <div>
-                <h3 class="text-xl font-semibold text-green-600 mb-4">Lifestyle</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label for="diet_preferences" class="block text-sm font-medium text-gray-700">Diet Preferences</label>
-                        <textarea id="diet_preferences" name="diet_preferences" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="exercise_level" class="block text-sm font-medium text-gray-700">Exercise Level</label>
-                        <textarea id="exercise_level" name="exercise_level" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="smoking_alcohol_drug_use" class="block text-sm font-medium text-gray-700">Smoking/Alcohol/Drug Use</label>
-                        <textarea id="smoking_alcohol_drug_use" name="smoking_alcohol_drug_use" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
-                    <div>
-                        <label for="mental_health_status" class="block text-sm font-medium text-gray-700">Mental Health Status</label>
-                        <textarea id="mental_health_status" name="mental_health_status" rows="3"
-                                  class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-green-600 focus:border-green-600"></textarea>
-                    </div>
+        <!-- Previous Obstetric History -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Previous Obstetric History</h3>
+            {% if previous_histories %}
+                <div class="space-y-4">
+                    {% for history in previous_histories %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Pregnancy Year:</strong> {{ history.pregnancy_year|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Delivery Type:</strong> {{ history.delivery_type|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Place of Delivery:</strong> {{ history.place_of_delivery|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Baby Sex:</strong> {{ history.baby_sex|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Birth Weight:</strong> {{ history.birth_weight|default:"No data" }}</p>
+                        </div>
+                    {% endfor %}
                 </div>
-            </div>
+            {% else %}
+                <p class="text-gray-700">No previous obstetric history found.</p>
+            {% endif %}
+        </div>
 
-            <!-- Submit Button -->
-            <div>
-                <button type="submit"
-                        class="w-full bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
-                    Admit Patient
-                </button>
-            </div>
-        </form>
+        <!-- Antenatal Progress Examinations -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Antenatal Progress Examinations</h3>
+            {% if progress_examinations %}
+                <div class="space-y-4">
+                    {% for progress in progress_examinations %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Visit Date:</strong> {{ progress.visit_date|date:"F j, Y"|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Fundal Height:</strong> {{ progress.fundal_height|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Fetal Heart Rate:</strong> {{ progress.fetal_heart_rate|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Complaints and Remarks:</strong> {{ progress.complaints_and_remarks|default:"No data" }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No antenatal progress examinations found.</p>
+            {% endif %}
+        </div>
+
+        <!-- Ultrasound Reports -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Ultrasound Reports</h3>
+            {% if ultrasound_reports %}
+                <div class="space-y-4">
+                    {% for report in ultrasound_reports %}
+                        <div class="p-4 bg-green-50 rounded-lg shadow-sm">
+                            <p class="text-gray-700"><strong>Ultrasound Date:</strong> {{ report.ultrasound_date|date:"F j, Y"|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Gestational Age:</strong> {{ report.gestational_age|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Placenta Details:</strong> {{ report.placenta_details|default:"No data" }}</p>
+                            <p class="text-gray-700"><strong>Complications:</strong> {{ report.complications|default:"No data" }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No ultrasound reports found.</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold text-green-600 mb-4">Add Information to the Card</h3>
+            <a href="{% url 'add_information' antenatal_card.id %}" class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                Add Information
+            </a>
+        </div>
     </div>
 </main>
 {% endblock %}
- I wanna add certain information info it that will be saved in the database 
-this is its view
-def admit_patient(request, patient_id):
-    # Get the patient object
-    patient = get_object_or_404(User, id=patient_id, is_patient=True)
-    location = Location.objects.get(user=patient)
-    patient_profile = Patient.objects.get(user=patient)
-
-    if request.method == 'POST':
-        # Update the Patient model
-        patient_profile.gestational_age = request.POST.get('gestational_age')
-        patient_profile.expected_due_date = request.POST.get('expected_due_date')
-        patient_profile.type_of_pregnancy = request.POST.get('type_of_pregnancy')
-        patient_profile.previous_pregnancies = request.POST.get('previous_pregnancies')
-        patient_profile.delivery_history = request.POST.get('delivery_history')
-        patient_profile.high_risk_factors = request.POST.get('high_risk_factors')
-        patient_profile.fetal_health = request.POST.get('fetal_health')
-        patient_profile.pre_existing_conditions = request.POST.get('pre_existing_conditions')
-        patient_profile.previous_surgeries = request.POST.get('previous_surgeries')
-        patient_profile.current_medications = request.POST.get('current_medications')
-        patient_profile.allergies = request.POST.get('allergies')
-        patient_profile.blood_type = request.POST.get('blood_type')
-        patient_profile.family_medical_history = request.POST.get('family_medical_history')
-        patient_profile.diet_preferences = request.POST.get('diet_preferences')
-        patient_profile.exercise_level = request.POST.get('exercise_level')
-        patient_profile.smoking_alcohol_drug_use = request.POST.get('smoking_alcohol_drug_use')
-        patient_profile.mental_health_status = request.POST.get('mental_health_status')
-        patient_profile.save()
-
-        # Create an AntenatalCard instance
-        antenatal_card = AntenatalCard(
-            user=patient,
-            Doctor=request.user,
-            health_unit=request.POST.get('health_unit'),
-            reg_no=request.POST.get('reg_no'),
-            name=f"{patient.first_name} {patient.last_name}",
-            nin=patient.nin,
-            phone_no=patient.contact,
-            age=patient_profile.age,
-            village=location.village,
-            parish=location.parish,
-            sub_county=location.sub_county,
-            district=location.district,
-            occupation=patient_profile.occupation,
-            marital_status=patient.marital_status,
-            next_of_kin_name=request.POST.get('next_of_kin_name'),
-            next_of_kin_phone=request.POST.get('next_of_kin_phone'),
-            next_of_kin_relationship=request.POST.get('next_of_kin_relationship'),
-            next_of_kin_address=request.POST.get('next_of_kin_address'),
-            gravida=request.POST.get('gravida'),
-            para=request.POST.get('para'),
-            abortions=request.POST.get('abortions'),
-            presenting_complaints=request.POST.get('presenting_complaints'),
-            first_day_of_lnmp=request.POST.get('first_day_of_lnmp'),
-            edd=request.POST.get('edd'),
-            weeks_of_amenorrhea=request.POST.get('weeks_of_amenorrhea'),
-            complications_of_pregnancy=request.POST.get('complications_of_pregnancy'),
-            hospitalization=request.POST.get('hospitalization') == 'on',
-            hospitalization_reason=request.POST.get('hospitalization_reason'),
-            next_visit=request.POST.get('next_visit'),
-        )
-        antenatal_card.save()
-
-        # Add success message
-        messages.success(request, f"{patient.first_name} {patient.last_name} has been admitted successfully and is now your patient.")
-        return redirect('doctor_dashboard')  # Redirect to the doctor dashboard
-
-    # Render the admission form
-    return render(request, 'antenatal/admit_patient.html', {
-        'patient': patient,
-        'location': location,
-        'patient_profile': patient_profile,
-    })
-u add these fields to be put information , 
-User.contact,User.health_insurance_details, user.government_scheme_eligibilityand fort the same user id in the Patients
-table number_of_children,date_of_last_period,
- and now in the AntenatalCard table  these are the extra fields u gotta add 
-AntenatalCard.phone_no,tribe,gravida,para,abortions, presenting_complaints, 
-first_day_of_lnmp,edd,weeks_of_amenorrhea,complications_of_pregnancy,hospitalization, hospitalization_reason this information should be existing in the admiting form so that all that is saved on the patient before they see the next step, 
- these are the models am working with 
-from django.db import models
-from accounts.models import User
-from django.utils.timezone import now
-
-class AntenatalCard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_patients')  # Links to the registered patient
-    Doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='antenatal_doctors', default=1)  # Links to the assigned doctor
-    
-    health_unit = models.CharField(max_length=255, blank=True, null=True )  # Health facility name
-    reg_no = models.CharField(max_length=100, blank=True, null=True, unique=True)  # Unique registration number
-    name = models.CharField(max_length=255)  # Patient's full name
-    nin = models.CharField(max_length=20, unique=True, null=True, blank=True)  # National ID Number
-    phone_no = models.CharField(max_length=15, null=True)  
-    age = models.IntegerField(blank=True, null=True)  
-    village = models.CharField(max_length=255)  
-    parish = models.CharField(max_length=255)  
-    sub_county = models.CharField(max_length=255)  
-    district = models.CharField(max_length=255)  
-    occupation = models.CharField(max_length=255)  
-    religion = models.CharField(max_length=100, null=True, blank=True)  
-    education_level = models.CharField(max_length=100, null=True, blank=True)  
-    tribe = models.CharField(max_length=100, null=True, blank=True)  
-    marital_status = models.CharField(
-        max_length=20, choices=[('Single', 'Single'), ('Married', 'Married')]
-    )
-
-    next_of_kin_name = models.CharField(max_length=255,blank=True, null=True)  
-    next_of_kin_phone = models.CharField(max_length=15, blank=True, null=True)  
-    next_of_kin_relationship = models.CharField(max_length=100, blank=True, null=True)  
-    next_of_kin_address = models.TextField(blank=True, null=True)  
-
-    gravida = models.IntegerField(blank=True, null=True)  # Number of pregnancies
-    para = models.IntegerField(blank=True, null=True)  # Number of deliveries after 28 weeks
-    abortions = models.IntegerField(blank=True, null=True)  # Number of pregnancy losses before 28 weeks
-
-    presenting_complaints = models.TextField(null=True, blank=True)  
+thisis the template and from wat i see it missed  the following 
+health_unit, reg_no, religion, education_level, tribe, next_of_kin_phone, next_of_kin_address,gravida, para,abortions,presenting_complaints = models.TextField(null=True, blank=True)  
     first_day_of_lnmp = models.DateField(blank=True, null=True)  # Last Normal Menstrual Period
     edd = models.DateField(blank=True, null=True)  # Estimated Due Date
     weeks_of_amenorrhea = models.IntegerField(blank=True, null=True)  # Number of weeks since last period
     complications_of_pregnancy = models.TextField(null=True, blank=True)  
     hospitalization = models.BooleanField(default=False ,blank=True, null=True)  
-    hospitalization_reason = models.TextField(null=True, blank=True)
-    Doctor = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    hospitalization_reason = models.TextField(null=True, blank=True),
     next_visit = models.DateTimeField(null=True, blank=True)  # Date and time of the next visit
-  
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"Antenatal Card for {self.name} ({self.reg_no})"
-    
-    @property
-    def next_visit_info(self):
-        return f"Next Visit: {self.next_visit}, Doctor: {self.doctor.get_full_name()}, Patient: {self.user.get_full_name()}"
-        
-
-and this model
-from django.db import models
-from django.utils import timezone
-from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from django.utils.translation import gettext_lazy as _
-
-
-# ----------------------- USER MANAGER -----------------------
-class CustomUserManager(BaseUserManager):
-    def create_user(self, username, first_name, last_name, email, password=None, **extra_fields):
-        """Create and return a regular user with given details"""
-        if not username:
-            raise ValueError(_('The Username field is required'))
-        if not first_name:
-            raise ValueError(_('The First Name field is required'))
-        if not last_name:
-            raise ValueError(_('The Last Name field is required'))
-        if not email:
-            raise ValueError(_('The Email field is required'))
-
-        email = self.normalize_email(email)
-        user = self.model(
-            username=username,
-            first_name=first_name,
-            last_name=last_name,
-            email=email,
-            **extra_fields
-        )
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, username, first_name, last_name, email, password=None, **extra_fields):
-        """Create and return a superuser with all permissions"""
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_doctor', True)
-        extra_fields.setdefault('is_patient', True)
-        extra_fields.setdefault('is_hospital', True)
-
-        return self.create_user(username, first_name, last_name, email, password, **extra_fields)
-
-
-# ----------------------- USER MODEL -----------------------
-class User(AbstractBaseUser, PermissionsMixin):
-    """
-    Central user model shared across doctors, patients, and hospitals.
-    """
-    username = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.EmailField(unique=True)
-
-    # Common Details
-    date_of_birth = models.DateField(null=True, blank=True)
-    nin = models.CharField(max_length=20, unique=True, null=True, blank=True)
-    marital_status = models.CharField(
-        max_length=20,
-        choices=[('Single', 'Single'), ('Married', 'Married')],
-        null=True, blank=True
-    )
-    contact = models.CharField(max_length=15, null=True, blank=True)
-    health_insurance_details = models.TextField(null=True, blank=True)
-    government_scheme_eligibility = models.TextField(null=True, blank=True)
-
-    # Role-based Flags
-    is_doctor = models.BooleanField(default=False)
-    is_patient = models.BooleanField(default=False)
-    is_hospital = models.BooleanField(default=False)
-
-    # System Fields
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    created_at = models.DateTimeField(default=timezone.now)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    objects = CustomUserManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
-
-    def get_full_name(self):
-        """Returns the full name of the user."""
-        return f"{self.first_name} {self.last_name}".strip()
-
-    def get_short_name(self):
-        """Returns the first name of the user."""
-        return self.first_name
-
-    def __str__(self):
-        return self.username
-
-class PasswordResetCode(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    code = models.CharField(max_length=7)
-    expires_at = models.DateTimeField()
-
-    def is_expired(self):
-        return timezone.now() > self.expires_at
-
-    
-# ----------------------- LOCATION MODEL -----------------------
-class Location(models.Model):
-    """
-    Stores location details for users (patients, doctors, hospitals).
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="location")
-    village = models.CharField(max_length=255, null=True, blank=True)
-    parish = models.CharField(max_length=255, null=True, blank=True)
-    sub_county = models.CharField(max_length=255, null=True, blank=True)
-    district = models.CharField(max_length=255, null=True, blank=True)
-    address = models.TextField(null=True, blank=True)  # Generic address field
-
-    def __str__(self):
-        return f"Location for {self.user.username}"
-
-
-# ----------------------- PATIENT MODEL -----------------------
-class Patient(models.Model):
-    """
-    Stores patient-specific details.
-    """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="patient_profile")
-    age = models.IntegerField(null=True, blank=True)
-    home_address = models.TextField(null=True, blank=True)
-    number_of_children = models.IntegerField(null=True, blank=True)
-    date_of_last_period = models.DateField(null=True, blank=True)
-    occupation = models.CharField(max_length=255, null=True, blank=True)
-
-    # Pregnancy & Medical History
-    gestational_age = models.IntegerField(null=True, blank=True)  # Weeks of pregnancy
-    expected_due_date = models.DateField(null=True, blank=True)
-    type_of_pregnancy = models.CharField(max_length=20, choices=[('Single', 'Single'), ('Twins', 'Twins'), ('Multiples', 'Multiples')], null=True, blank=True)
-    previous_pregnancies = models.IntegerField(null=True, blank=True)
-    delivery_history = models.TextField(null=True, blank=True)
-    high_risk_factors = models.TextField(null=True, blank=True)
-    fetal_health = models.TextField(null=True, blank=True)
-
-    # Medical History
-    pre_existing_conditions = models.TextField(null=True, blank=True)
-    previous_surgeries = models.TextField(null=True, blank=True)
-    current_medications = models.TextField(null=True, blank=True)
-    allergies = models.TextField(null=True, blank=True)
-    blood_type = models.CharField(max_length=5, null=True, blank=True)
-    family_medical_history = models.TextField(null=True, blank=True)
-
-    # Lifestyle
-    diet_preferences = models.TextField(null=True, blank=True)
-    exercise_level = models.TextField(null=True, blank=True)
-    smoking_alcohol_drug_use = models.TextField(null=True, blank=True)
-    mental_health_status = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return f"Patient Profile: {self.user.username}"
-
-so help me update that form to cater for all that thank you  
-
+ fo each instance in the  other section u add a view more button and leave it with a # for now i will provide the code for it later 
+this caters fo r  
+PreviousObstetricHistory,AntenatalProgressExamination, UltrasoundReport
+ so in the page since that is the static infor that will b eshown wherther small or big screen the cared for the different instances of those pages should appear two  on a line side by side   , actually on a big screen they can even fo upto 4 on one line if at all the person  has all thaose but on each we should have a view details clickabel tect out thw add information button at the top of the page in the righ forner  on the smae line as the emblem 
+and for the personal information try to bolden the  labels so that a person can differentiate a label form the information 
+lastly we are really aiming at the screen responsive ness that the informatio doent elongate once the  page size id narrowed especially the pantient infor it should stay information side by side even in a small screen  so that we dont have an elongated list down of fields that could coexist on a line, amd even card details  should be 2 per  line on a small screen 

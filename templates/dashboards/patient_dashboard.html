@@ -13,41 +13,50 @@
     <div class="container mx-auto">
         <!-- Welcome Message -->
         <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-            <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-4">Welcome, {{ patient.user.first_name }}!</h2>
-            <p class="text-gray-700">Here’s your personalized dashboard for managing your pregnancy journey.</p>
+            <h2 class="text-2xl sm:text-3xl font-bold text-hotpink-dark mb-4">
+                Welcome, {{ patient.user.first_name }}!
+            </h2>
+            <p class="text-gray-700">
+                Here’s your personalized dashboard for managing your pregnancy journey.
+            </p>
         </div>
 
         <!-- Antenatal Card Section -->
         <div id="antenatal-card" class="bg-white p-6 rounded-lg shadow-lg mb-6">
             <h3 class="text-xl font-semibold text-hotpink-dark mb-4">Antenatal Card</h3>
             {% if antenatal_card %}
+                <!-- Layout changes for different screen sizes -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Basic Information -->
+                    <!-- Always Visible Attributes (First 4) -->
                     <div>
                         <p class="text-gray-700"><strong>Health Unit:</strong> {{ antenatal_card.health_unit }}</p>
                         <p class="text-gray-700"><strong>Registration Number:</strong> {{ antenatal_card.reg_no }}</p>
                         <p class="text-gray-700"><strong>Name:</strong> {{ antenatal_card.name }}</p>
-                        <p class="text-gray-700"><strong>Phone Number:</strong> {{ antenatal_card.phone_no }}</p>
-                        <p class="text-gray-700"><strong>Age:</strong> {{ antenatal_card.age }}</p>
-                    </div>
-                    <!-- Medical Information -->
-                    <div>
                         <p class="text-gray-700"><strong>Gravida:</strong> {{ antenatal_card.gravida }}</p>
+                    </div>
+
+                    <!-- Hidden on Small Screens -->
+                    <div class="hidden sm:block">
                         <p class="text-gray-700"><strong>Para:</strong> {{ antenatal_card.para }}</p>
                         <p class="text-gray-700"><strong>Abortions:</strong> {{ antenatal_card.abortions }}</p>
                         <p class="text-gray-700"><strong>EDD:</strong> {{ antenatal_card.edd|date:"Y-m-d" }}</p>
                         <p class="text-gray-700"><strong>Weeks of Amenorrhea:</strong> {{ antenatal_card.weeks_of_amenorrhea }}</p>
                     </div>
-                    <!-- Next of Kin Information -->
-                    <div>
+
+                    <div class="hidden sm:block">
                         <p class="text-gray-700"><strong>Next of Kin:</strong> {{ antenatal_card.next_of_kin_name }}</p>
                         <p class="text-gray-700"><strong>Relationship:</strong> {{ antenatal_card.next_of_kin_relationship }}</p>
                         <p class="text-gray-700"><strong>Phone:</strong> {{ antenatal_card.next_of_kin_phone }}</p>
                         <p class="text-gray-700"><strong>Address:</strong> {{ antenatal_card.next_of_kin_address }}</p>
                     </div>
                 </div>
+
+                <!-- View More Button (Redirects to Antenatal Card Details Page) -->
                 <div class="mt-4">
-                    <a href="{% url 'antenatal_card_details' antenatal_card.id %}" class="text-hotpink hover:text-hotpink-light">View Full Details</a>
+                    <a href="{% url 'antenatal_card_details' antenatal_card.id %}" 
+                        class="text-hotpink hover:text-hotpink-light font-semibold">
+                        View Full Details
+                    </a>
                 </div>
             {% else %}
                 <p class="text-gray-700">No antenatal card found. Please contact your healthcare provider.</p>
@@ -66,22 +75,21 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const calendarEl = document.getElementById('calendar');
-        const nextVisitDate = "{{ antenatal_card.next_visit|date:'Y-m-d' }}";  // Get the next_visit date from the context
+        const nextVisitDate = "{{ antenatal_card.next_visit|date:'Y-m-d' }}";
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             events: [
                 {
-                    title: 'Appointment Date',  // Event title
-                    start: nextVisitDate,       // Event start date
-                    backgroundColor: '#FF69B4', // Pink background color
-                    borderColor: '#FF69B4',    // Pink border color
-                    textColor: '#FFFFFF',      // White text color
+                    title: 'Appointment Date',
+                    start: nextVisitDate,
+                    backgroundColor: '#FF69B4',
+                    borderColor: '#FF69B4',
+                    textColor: '#FFFFFF',
                 }
             ],
             eventDidMount: function(info) {
-                // Add a custom tooltip
-                const tooltip = new bootstrap.Tooltip(info.el, {
+                new bootstrap.Tooltip(info.el, {
                     title: info.event.title,
                     placement: 'top',
                     trigger: 'hover',

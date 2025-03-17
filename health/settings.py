@@ -25,23 +25,23 @@ DEPLOYED_URL = os.getenv('DEPLOYED_URL', '')
 DEPLOYED_URL_PROD = os.getenv('DEPLOYED_URL_PROD', '')
 
 # Define the list of trusted origins
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://ticketyo-c2uw.onrender.com',  # ✅ Render-hosted domain
-#     'http://192.168.1.69:8000',  # ✅ Local development URL
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://momcare.pythonanywhere.com',  # ✅ Render-hosted domain
+    'https://momcare.pythonanywhere.com',  # ✅ Local development URL
+]
 
-# # Add the DEPLOYED_URL if it's not empty and not already in the list
-# if DEPLOYED_URL and DEPLOYED_URL not in CSRF_TRUSTED_ORIGINS:
-#     CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL)
+# Add the DEPLOYED_URL if it's not empty and not already in the list
+if DEPLOYED_URL and DEPLOYED_URL not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL)
 
-# if DEPLOYED_URL_PROD and DEPLOYED_URL_PROD not in CSRF_TRUSTED_ORIGINS:
-#     CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL_PROD)
+if DEPLOYED_URL_PROD and DEPLOYED_URL_PROD not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(DEPLOYED_URL_PROD)
 
-# # Only add the URL if it is non-empty
-# if DEPLOYED_URL:
-#     CSRF_TRUSTED_ORIGINS = [DEPLOYED_URL]
-# else:
-#     CSRF_TRUSTED_ORIGINS = []
+# Only add the URL if it is non-empty
+if DEPLOYED_URL:
+    CSRF_TRUSTED_ORIGINS = [DEPLOYED_URL]
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -106,11 +106,22 @@ WSGI_APPLICATION = 'health.wsgi.application'
 # }
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT', '3306'),
     }
 }
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 # Password validation

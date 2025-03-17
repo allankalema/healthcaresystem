@@ -168,5 +168,5 @@ class Emergency(models.Model):
         return f"Emergency for {self.antenatal_card.name} reported on {self.reported_at.strftime('%Y-%m-%d %H:%M')}"
 
 
-# docker build -t allankalema/momcare .
-# docker push allankalema/momcare
+# docker build -t allankalema/momcare:v1.0 .
+# docker push allankalema/momcare:v1.0

@@ -14,52 +14,62 @@
 
 <main class="mt-16 sm:mt-20 min-h-screen p-4 sm:p-6 bg-gray-100">
     <div class="container mx-auto">
+        
         <!-- Welcome Message -->
-        <div class="bg-white p-6 rounded-lg mb-6 ">
-            <h2 class="text-2xl sm:text-3xl font-bold text-green-700 mb-4">Welcome, Dr. {{ doctor.user.first_name }}!</h2>
-            <p class="text-gray-700">Here’s your personalized dashboard for managing your patients and emergencies.</p>
+        <div class="bg-white p-6 rounded-lg mb-6">
+            <h2 class="text-2xl sm:text-3xl font-bold text-green-700 mb-4 text-center">
+                Welcome, Dr. {{ doctor.user.first_name }}!
+            </h2>
+            <p class="text-gray-700 text-center">
+                Here’s your personalized dashboard for managing your patients and emergencies.
+            </p>
         </div>
 
         <!-- Quick Actions -->
-        <div class="container mx-auto">
-            <!-- Quick Actions -->
-            <div class="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-6">
-                <!-- Add New Patient Button -->
-                <a href="{% url 'advanced_patient_search' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200">
-                    <i class="bi bi-person-plus text-lg sm:text-xl mr-2"></i>
-                    <span class="text-xs sm:text-sm font-semibold">Add New Patient</span>
-                </a>
-                <!-- My Patients Button -->
-                <a href="{% url 'doctor_patients' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200">
-                    <i class="bi bi-people text-lg sm:text-xl mr-2"></i>
-                    <span class="text-xs sm:text-sm font-semibold">My Patients</span>
-                </a>
-                <!-- Prescribe Button -->
-                <a href="{% url 'prescribe_medication' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200">
-                    <i class="bi bi-prescription2 text-lg sm:text-xl mr-2"></i>
-                    <span class="text-xs sm:text-sm font-semibold">Prescribe</span>
-                </a>
-                <!-- Notification Button -->
-                <a href="{% url 'send_notification' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200">
-                    <i class="bi bi-bell-fill text-lg sm:text-xl mr-2"></i>
-                    <span class="text-xs sm:text-sm font-semibold">Notification</span>
-                </a>
-                <!-- Emergency Button with Badge -->
-                <a href="{% url 'emergency_list' %}" class="text-green-700 p-2 flex items-center justify-center hover:bg-green-100 transition duration-300 rounded-lg border border-green-200 relative">
-                    <i class="bi bi-exclamation-triangle text-lg sm:text-xl mr-2"></i>
-                    <span class="text-xs sm:text-sm font-semibold">Emergencies</span>
-                    
-                </a>
-            </div>
-    
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6 text-center">
+            <!-- Add New Patient Button -->
+            <a href="{% url 'advanced_patient_search' %}"
+                class="flex flex-col items-center p-3 bg-white border border-green-200 rounded-lg shadow hover:bg-green-100 transition duration-300">
+                <i class="bi bi-person-plus text-2xl text-green-700"></i>
+                <span class="text-sm font-semibold mt-1">Add Patient</span>
+            </a>
+
+            <!-- My Patients Button -->
+            <a href="{% url 'doctor_patients' %}"
+                class="flex flex-col items-center p-3 bg-white border border-green-200 rounded-lg shadow hover:bg-green-100 transition duration-300">
+                <i class="bi bi-people text-2xl text-green-700"></i>
+                <span class="text-sm font-semibold mt-1">My Patients</span>
+            </a>
+
+            <!-- Prescribe Button -->
+            <a href="{% url 'prescribe_medication' %}"
+                class="flex flex-col items-center p-3 bg-white border border-green-200 rounded-lg shadow hover:bg-green-100 transition duration-300">
+                <i class="bi bi-prescription2 text-2xl text-green-700"></i>
+                <span class="text-sm font-semibold mt-1">Prescribe</span>
+            </a>
+
+            <!-- Notification Button -->
+            <a href="{% url 'send_notification' %}"
+                class="flex flex-col items-center p-3 bg-white border border-green-200 rounded-lg shadow hover:bg-green-100 transition duration-300">
+                <i class="bi bi-bell-fill text-2xl text-green-700"></i>
+                <span class="text-sm font-semibold mt-1">Notification</span>
+            </a>
+
+            <!-- Emergency Button -->
+            <a href="{% url 'emergency_list' %}"
+                class="flex flex-col items-center p-3 bg-white border border-green-200 rounded-lg shadow hover:bg-green-100 transition duration-300 relative">
+                <i class="bi bi-exclamation-triangle text-2xl text-red-600"></i>
+                <span class="text-sm font-semibold mt-1">Emergencies</span>
+            </a>
+        </div>
 
         <!-- Emergencies Section -->
-        <div class="bg-white p-6 rounded-lg mb-6 ">
+        <div class="bg-white p-6 rounded-lg mb-6">
             <h3 class="text-xl font-semibold text-green-700 mb-4">Emergencies</h3>
             {% if emergencies %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {% for emergency in emergencies|slice:":4" %}  <!-- Limit to 4 emergencies -->
-                        <div class="p-4 border border-gray-200 rounded-lg">
+                    {% for emergency in emergencies|slice:":4" %}
+                        <div class="p-4 border border-gray-200 rounded-lg shadow">
                             <p class="text-gray-700"><strong>Patient:</strong> {{ emergency.antenatal_card.user.get_full_name }}</p>
                             <p class="text-gray-700"><strong>Type:</strong> {{ emergency.emergency_type }}</p>
                             <p class="text-gray-700"><strong>Description:</strong> {{ emergency.description }}</p>
@@ -73,24 +83,24 @@
         </div>
 
         <!-- Calendar Section -->
-        <div class="bg-white p-6 rounded-lg ">
+        <div class="bg-white p-6 rounded-lg">
             <h3 class="text-xl font-semibold text-green-700 mb-4">Patient Appointments</h3>
             <div id="calendar"></div>
         </div>
+
     </div>
 </main>
 
 <!-- FullCalendar Initialization Script -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const calendarEl = document.getElementById('calendar');
         const calendarEvents = {{ calendar_events|safe }};  // Pass calendar events from the context
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
-            events: calendarEvents,  // Use the events passed from the view
-            eventDidMount: function(info) {
-                // Add a custom tooltip
+            events: calendarEvents,
+            eventDidMount: function (info) {
                 const tooltip = new bootstrap.Tooltip(info.el, {
                     title: info.event.title,
                     placement: 'top',
